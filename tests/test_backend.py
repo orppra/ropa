@@ -10,7 +10,7 @@ backend.set_filename('/tmp/a.out')
 backend.activate()
 
 # print('\n--- instruction: mov eax ---\n')
-res = backend.process_query('instruction', 'pop ???; pop ???; ret')
+res = backend.process_query('instruction', 'pop ???; pop ???; ret', '0a')
 # print(res)
 
 # res = backend.process_query('jmp-reg', '')

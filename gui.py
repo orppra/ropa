@@ -45,7 +45,6 @@ def open_arch_dialog():
         row += 1
     dialog.show()
     if dialog.exec_():
-        print(arch_table.selectedItems)
         if arch_table.selectedItems() is not None:
             arch = str(arch_table.selectedItems()[0].text())
         else:
@@ -79,25 +78,30 @@ def main():
 
     backend = Backend(w)
 
-    resultsList = w.findChild(qg.QListView, 'gadgetsList')
-    resultsList.setDragEnabled(True)
+    gadgets_list = w.findChild(qg.QListView, 'gadgetsList')
+    gadgets_list.setDragEnabled(True)
 
-    def showInResultsList(gadgets):
+    def show_in_gadgets_list(gadgets):
         print(list(gadgets))
-        resultsList.reset()
-        model = qg.QStandardItemModel(resultsList)
+        gadgets_list.reset()
+        model = qg.QStandardItemModel(gadgets_list)
         for address, code in gadgets:
-            item = qg.QStandardItem(address, code)
+            item = qg.QStandardItem(address + '\n' + code)
+            item.setEditable(False)
             model.appendRow(item)
+        gadgets_list.setModel(model)
+        gadgets_list.setDragEnabled(True)
+        gadgets_list.viewport().setAcceptDrops(True)
+        gadgets_list.setDropIndicatorShown(True)
 
     filterInput = w.findChild(qg.QLineEdit, 'searchBar')
 
-    def filterFunction():
+    def filter_function():
         gadgets = backend.process_query('instruction', filterInput.text)
-        showInResultsList(gadgets)
+        show_in_gadgets_list(gadgets)
 
-    filterButton = w.findChild(qg.QPushButton, 'searchButton')
-    filterButton.clicked.connect(filterFunction)
+    filter_button = w.findChild(qg.QPushButton, 'searchButton')
+    filter_button.clicked.connect(filter_function)
 
     def startNewProject():
         filepath, arch = open_file_dialog()
@@ -109,6 +113,8 @@ def main():
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
     bind_menu_button(w, 'actionOpen', lambda x: x, 'Ctrl+O')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
+
+    show_in_gadgets_list((('1234', 'high five!'),))
 
     w.show()
     quit()
