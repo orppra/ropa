@@ -49,9 +49,13 @@ def open_arch_dialog():
     arch_table.setColumnCount(1)
     arch_table.setRowCount(len(architectures))
     arch_table.horizontalHeader().setResizeMode(0, qg.QHeaderView.Stretch)
+    have_selected = False
     for archi in architectures:
         item = qg.QTableWidgetItem(archi)
         item.setFlags(qc.Qt.ItemIsSelectable | qc.Qt.ItemIsEnabled)
+        if not have_selected:
+            item.setSelected(True)
+            have_selected = True
         arch_table.setItem(row, 1, item)
         row += 1
     dialog.show()
@@ -106,6 +110,7 @@ def main():
             item.setEditable(False)
             # item.setDragDropMode('InternalMove')
             model.appendRow(item)
+
         gadgets_list.setModel(model)
         gadgets_list.setDragEnabled(True)
         gadgets_list.viewport().setAcceptDrops(True)
@@ -127,12 +132,22 @@ def main():
         show_in_gadgets_list(gadgets)
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
-    filter_button.clicked.connect(filter_function)
-    filter_input.returnPressed.connect(filter_function)
-    semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
-    semantics_button.clicked.connect(semantics_function)
-    ppr_button = w.findChild(qg.QPushButton, 'pprButton')
-    ppr_button.clicked.connect(ppr_function)
+
+    def filter():
+        searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
+        if searchType == 2:
+            filter_function()
+        elif searchType == 3:
+            ppr_function()
+        elif searchType == 4:
+            semantics_function()
+
+    filter_button.clicked.connect(filter)
+    filter_input.returnPressed.connect(filter)
+    # semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
+    # semantics_button.clicked.connect(semantics_function)
+    # ppr_button = w.findChild(qg.QPushButton, 'pprButton')
+    # ppr_button.clicked.connect(ppr_function)
 
     def startNewProject():
         filepath, arch = new_file_dialog()
