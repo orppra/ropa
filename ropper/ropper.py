@@ -2,16 +2,27 @@ import ropper
 from ropper import RopperService
 
 search_by = {
+	'generalSearch': search,
 	'byInstruction': search_instruction,
-	'byOpcode': search_opcode,
-	'findJmpRet': search_jmpret,
+	#'byOpcode': search_opcode,
+	'findJmpReg': search_jmpreg,
 	'findPopPopRet': search_poppopret,
 }
+
+# poppopret: pop ???; pop ???; ret
+# jmpreg: jmp ???
 
 def get_filename():
 	pass
 
 def get_architecture():
+	pass
+
+def get_searchcommand():
+	pass
+
+def get_ropchain():
+	# returns a list of list of tuples
 	pass
 
 def add_file(service):
@@ -31,7 +42,11 @@ def get_instance():
 	rs = RopperService(options)
 	return rs
 
-def get_jmpreg
+def search_jmpreg():
+	pass
+
+def search_poppopret():
+	pass
 
 def close_file(service):
 	service.removeFile(get_filename())
