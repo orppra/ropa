@@ -9,6 +9,10 @@ import struct
 
 class Backend:
 
+    def __init__(self, app):
+        self.app = app
+        self.filename = None
+
     #######################################
     # IO COMMUNICATION
     #######################################
@@ -24,11 +28,17 @@ class Backend:
     def get_searchcommand(self):
         pass
 
-    def get_filterInput(self):
-        pass
+    def set_filterInput(self):
+        return self.app.filterInput.text()
 
     def get_ropchain(self):
         # returns a list of list of tuples
+        pass
+
+    def update_ropchain(self):
+        pass
+
+    def update_savedblocks(self):
         pass
 
     #######################################
