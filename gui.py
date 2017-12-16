@@ -30,6 +30,7 @@ def new_file_dialog():
         return filenames[0], arch
     raise Exception('Failed to open dialog')
 
+
 def open_file_dialog():
     dialog = qg.QFileDialog()
     dialog.setWindowTitle('Open File')
@@ -131,6 +132,13 @@ def main():
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
 
+    graphics_view = w.findChild(qg.QListView, 'graphicsView')
+    graphics_model = qg.QStandardItemModel(graphics_view)
+    graphics_view.setDragEnabled(True)
+    graphics_view.setAcceptDrops(True)
+    graphics_view.setDropIndicatorShown(True)
+    graphics_view.setModel(graphics_model)
+
     def filter():
         searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
         if searchType == -2:
@@ -142,10 +150,26 @@ def main():
 
     filter_button.clicked.connect(filter)
     filter_input.returnPressed.connect(filter)
+
+    block_list = w.findChild(qg.QListView, 'blockList')
+    model = qg.QStandardItemModel(block_list)
+    block_list.setDragEnabled(True)
+    block_list.setAcceptDrops(True)
+    block_list.setDropIndicatorShown(True)
+    block_list.setModel(model)
+
+    # DragEnterEvent, DragMoveEvent, DragLeaveEvent, DropEvent
+    # block_list.drag
     # semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
     # semantics_button.clicked.connect(semantics_function)
     # ppr_button = w.findChild(qg.QPushButton, 'pprButton')
     # ppr_button.clicked.connect(ppr_function)
+
+    # def drop(e):
+    #     indices = gadgets_list.selectedIndexes()
+    #     print (gadgets_list.selectedIndexes())
+
+    # block_list.dropEvent(event)
 
     def startNewProject():
         filepath, arch = new_file_dialog()
@@ -170,7 +194,7 @@ def main():
     bind_menu_button(w, 'actionSave', saveProject, 'Ctrl+S')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
-    # show_in_gadgets_list((('1234', 'high five!'),))
+    show_in_gadgets_list(({'address': '1234', 'instructions': 'high five!'},))
 
     badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
 

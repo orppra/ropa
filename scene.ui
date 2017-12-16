@@ -50,7 +50,7 @@
              </font>
             </property>
             <property name="text">
-             <string></string>
+             <string>000a0d</string>
             </property>
            </widget>
           </item>
@@ -67,7 +67,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListView" name="listView_3"/>
+         <widget class="QListView" name="blockList"/>
         </item>
        </layout>
       </item>
@@ -191,6 +191,9 @@
          <widget class="QListView" name="gadgetsList">
           <property name="alternatingRowColors">
            <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::MultiSelection</enum>
           </property>
          </widget>
         </item>
