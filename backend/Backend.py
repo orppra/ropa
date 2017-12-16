@@ -1,5 +1,4 @@
-from ropper import RopperService
-
+from Ropper.ropper import RopperService
 import json
 import struct
 
@@ -63,8 +62,9 @@ class Backend:
 
     def search_semantic(self, filter):
         # ropper2 --file <afile> --semantic "<any constraint>"
+        self.service.analyseGadgets(self.service.getFileFor(self.filename))
         gadgets = self.service.semanticSearch(
-            search=filter)
+            search=[filter])
         return gadgets
 
     def search_instruction(self, filter):
