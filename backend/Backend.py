@@ -31,26 +31,6 @@ class Backend:
         self.service.loadGadgetsFor()
 
     #######################################
-    # IO COMMUNICATION
-    #######################################
-
-    def get_searchcommand(self):
-        pass
-
-    def set_filterInput(self):
-        return self.app.filterInput.text()
-
-    def get_ropchain(self):
-        # returns a list of list of tuples
-        pass
-
-    def update_ropchain(self):
-        pass
-
-    def update_savedblocks(self):
-        pass
-
-    #######################################
     # ROPPER INIT FUNCTIONS
     #######################################
 
@@ -85,13 +65,13 @@ class Backend:
         # ropper2 --file <afile> --semantic "<any constraint>"
         gadgets = self.service.semanticSearch(
             search=filter)
-        return gadgets        
+        return gadgets
 
     def search_instruction(self, filter):
         gadgets = self.service.search(
             search=filter,
             name=self.filename)
-        
+
         ret = []
         for gadget in gadgets:
             block = {'address': hex(gadget[1].address)[:-1],
@@ -113,7 +93,7 @@ class Backend:
     def search_poppopret(self):
         gadgets = self.service.searchPopPopRet(
             name=self.filename)
-        
+
         ret = []
         for gadget in gadgets[self.filename]:
             block = {'address': hex(gadget.address)[:-1],
