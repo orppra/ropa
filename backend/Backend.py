@@ -102,8 +102,6 @@ class Backend:
             for line in gadget.lines:
                 block['instructions'].append(line[1])
 
-            block['instructions'] = [' '.join(block['instructions'])]
-
             ret.append(block)
 
         return ret

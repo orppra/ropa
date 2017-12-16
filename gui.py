@@ -88,7 +88,8 @@ def main():
     w.setWindowTitle(app_name)
 
     backend = Backend(w)
-
+    chain_list = w.findChild(qg.QListView, 'graphicsView')
+    chain_list.setDragEnabled(True)
     gadgets_list = w.findChild(qg.QListView, 'gadgetsList')
     gadgets_list.setDragEnabled(True)
 
