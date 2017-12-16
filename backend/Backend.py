@@ -58,14 +58,14 @@ class Backend:
         return rs
 
     def add_file(self):
-        filename = self.get_filename()
+        filename = self.filename
         if filename is None:
             return 'Error: no file found'
         self.service.addFile(filename)
         return 'Success'
 
     def close_file(self):
-        self.service.removeFile(self.get_filename())
+        self.service.removeFile(self.filename)
 
     #######################################
     # ROPPER SEARCH FUNCTIONS

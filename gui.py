@@ -18,7 +18,7 @@ def quit():
     sys.exit(app.exec_())
 
 
-def open_file_dialog(backend):
+def open_file_dialog():
     dialog = qg.QFileDialog()
     dialog.setWindowTitle('Open File')
     dialog.setFileMode(qg.QFileDialog.AnyFile)
@@ -43,8 +43,9 @@ def open_arch_dialog(window):
         row += 1
     dialog.show()
     if dialog.exec_():
+        print(arch_table.selectedItems)
         if arch_table.selectedItems() is not None:
-            arch = arch_table.selectedItems[0]
+            arch = arch_table.selectedItems()[0]
         else:
             arch = 'x86'
         return arch
@@ -76,10 +77,16 @@ def main():
 
     backend = Backend(w)
 
-    # get list
+    resultsList = w.findChild(qg.QListView, 'listView')
+    resultsList.setDragEnabled(True)
+
     def showInResultsList(gadgets):
         print(gadgets)
-        pass
+        resultsList.reset()
+        model = qg.QStandardItemModel(resultsList)
+        for address, code in gadgets:
+            item = qg.QStandardItem(address, code)
+            model.appendRow(item)
 
     filterInput = w.findChild(qg.QLineEdit, 'searchBar')
 
@@ -91,10 +98,14 @@ def main():
     filterButton.clicked.connect(filterFunction)
 
     def startNewProject():
-        filepath, arch = open_file_dialog(backend)
+        arch, filepath = open_file_dialog()
+        backend.set_arch(arch)
+        backend.set_filename(filepath)
+        backend.activate()
 
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
+
     w.show()
     quit()
 
