@@ -93,7 +93,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="listView"/>
+         <widget class="QListView" name="gadgetsList"/>
         </item>
        </layout>
       </item>
@@ -147,17 +147,12 @@
   </widget>
   <action name="actionNew">
    <property name="text">
-    <string>New...</string>
+    <string>New Project...</string>
    </property>
   </action>
   <action name="actionOpen">
    <property name="text">
-    <string>Open...</string>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
+    <string>Open Project...</string>
    </property>
   </action>
   <action name="actionQuit">

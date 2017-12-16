@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt4 import QtGui as qg, QtCore as qc, uic
 from backend.Backend import Backend
 from backend.constants import architectures
@@ -25,13 +26,14 @@ def open_file_dialog(backend):
     filenames = qc.QStringList()
     if dialog.exec_():
         filenames = dialog.selectedFiles()
-        arch = open_arch_dialog(dialog)
-        return arch, filenames[0]
+        arch = open_arch_dialog()
+        return filenames[0], arch
     raise Exception('Failed to open dialog')
 
 
-def open_arch_dialog(window):
+def open_arch_dialog():
     dialog = uic.loadUi('arch_dialog.ui')
+    dialog.setWindowTitle('Select Architecture')
     arch_table = dialog.findChild(qg.QTableWidget, 'arch_table')
     row = -1  # idk why
     arch_table.setColumnCount(1)
@@ -44,7 +46,7 @@ def open_arch_dialog(window):
     dialog.show()
     if dialog.exec_():
         if arch_table.selectedItems() is not None:
-            arch = arch_table.selectedItems[0]
+            arch = arch_table.selectedItems()[0]
         else:
             arch = 'x86'
         return arch
@@ -92,8 +94,10 @@ def main():
 
     def startNewProject():
         filepath, arch = open_file_dialog(backend)
+        w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
 
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
+    bind_menu_button(w, 'actionOpen', lambda x: x, 'Ctrl+O')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
     w.show()
     quit()
