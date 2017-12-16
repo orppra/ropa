@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1740</width>
-    <height>1425</height>
+    <width>696</width>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,9 +22,40 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,4,3">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,4,3">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>BadBytes:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="badbytesInput">
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>000a0d</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
@@ -43,6 +74,13 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
+         </layout>
+        </item>
+        <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>ROP Chain</string>
@@ -58,7 +96,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
@@ -80,10 +118,21 @@
           <item>
            <widget class="QPushButton" name="searchButton">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>64</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
             </property>
             <property name="text">
              <string>Search</string>
@@ -93,6 +142,73 @@
          </layout>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string> Others:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pprButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+              <weight>50</weight>
+              <italic>false</italic>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;pop-pop-ret&lt;/p&gt;&lt;p&gt;No need to fill in the space above&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>PopPopRet</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="semanticsButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter an expression above, based on these rules:&lt;/p&gt;&lt;p&gt;reg == reg - assign register to another&lt;/p&gt;&lt;p&gt;reg == number - assign number to register&lt;/p&gt;&lt;p&gt;reg == [reg] - assign memory to register&lt;/p&gt;&lt;p&gt;reg += number/reg/[reg]&lt;/p&gt;&lt;p&gt;reg -= number/reg/[reg]&lt;/p&gt;&lt;p&gt;reg *= number/reg/[reg]&lt;/p&gt;&lt;p&gt;reg /= number/reg/[reg]&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Semantics</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>       
          <widget class="QListView" name="gadgetsList">
           <property name="alternatingRowColors">
            <bool>true</bool>
@@ -122,8 +238,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1740</width>
-     <height>42</height>
+     <width>696</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">
@@ -143,6 +259,7 @@
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
+    <addaction name="actionSave"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -162,6 +279,11 @@
   <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
    </property>
   </action>
  </widget>

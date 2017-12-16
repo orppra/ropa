@@ -98,15 +98,27 @@ def main():
         gadgets_list.viewport().setAcceptDrops(True)
         gadgets_list.setDropIndicatorShown(True)
 
-    filterInput = w.findChild(qg.QLineEdit, 'searchBar')
+    filter_input = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filter_function():
-        gadgets = backend.process_query('instruction', str(filterInput.text()), '')
-        print(gadgets)
+        gadgets = backend.process_query('instruction', str(filterInput.text()))
+        show_in_gadgets_list(gadgets)
+
+    def semantics_function():
+        gadgets = backend.process_query('semantic', str(filterInput.text()))
+        show_in_gadgets_list(gadgets)
+
+    def ppr_function():
+        gadgets = backend.process_query('pop-pop-ret', '')
         show_in_gadgets_list(gadgets)
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
     filter_button.clicked.connect(filter_function)
+    filter_input.returnPressed.connect(filter_function)
+    semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
+    semantics_button.clicked.connect(semantics_function)
+    ppr_button = w.findChild(qg.QPushButton, 'pprButton')
+    ppr_button.clicked.connect(ppr_function)
 
     def startNewProject():
         filepath, arch = open_file_dialog()
@@ -120,6 +132,13 @@ def main():
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
     # show_in_gadgets_list((('1234', 'high five!'),))
+
+    badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
+
+    def updateBadBytes():
+        backend.update_badbytes(badbytesInput.text)
+
+    badbytesInput.textChanged.connect(updateBadBytes)
 
     w.show()
     quit()

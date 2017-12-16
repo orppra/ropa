@@ -54,9 +54,12 @@ class Backend:
     # ROPPER INIT FUNCTIONS
     #######################################
 
+    def update_badbytes(self, badbytes):
+        self.service.options.badbytes = badbytes
+
     def make_service_instance(self):
         options = {'color': False,
-                   'badbytes': '',
+                   'badbytes': '000a0d',
                    'all': False,
                    'inst_count': 6,
                    'type': 'all',
@@ -124,10 +127,8 @@ class Backend:
 
         return ret
 
-    def process_query(self, command, ipt, badbytes):
+    def process_query(self, command, ipt):
         gadgets = None
-
-        self.service.options.badbytes = badbytes
 
         if command == 'semantic':
             # semantic search
