@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui as qg, QtCore as qc, uic
-from backend import Backend
+from backend.Backend import Backend
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = qg.QApplication(sys.argv)
@@ -67,7 +67,7 @@ def main():
         backend.set_filename(filepath)
 
     newProjectButton = w.findChild(qg.QAction, 'actionNew')
-    newProjectButton.clicked.connect()
+    newProjectButton.triggered.connect(startNewProject)
 
     w.show()
     sys.exit(app.exec_())
