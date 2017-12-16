@@ -54,6 +54,9 @@ class Backend:
     # ROPPER INIT FUNCTIONS
     #######################################
 
+    def update_badbytes(self, badbytes):
+        self.service.options.badbytes = badbytes
+
     def make_service_instance(self):
         options = {'color': False,
                    'badbytes': '000a0d',

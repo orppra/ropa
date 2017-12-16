@@ -129,9 +129,11 @@ def main():
 
     show_in_gadgets_list((('1234', 'high five!'),))
 
-    def updateBadBytes():
-        pass
     badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
+
+    def updateBadBytes():
+        backend.update_badbytes(badbytesInput.text)
+
     badbytesInput.textChanged.connect(updateBadBytes)
 
     w.show()
