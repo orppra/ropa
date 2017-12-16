@@ -91,7 +91,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="graphicsView"/>
+         <widget class="QListView" name="graphicsView"/>
         </item>
        </layout>
       </item>
