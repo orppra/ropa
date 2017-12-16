@@ -101,11 +101,11 @@ def main():
     filter_input = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filter_function():
-        gadgets = backend.process_query('instruction', str(filterInput.text()))
+        gadgets = backend.process_query('instruction', str(filter_input.text()))
         show_in_gadgets_list(gadgets)
 
     def semantics_function():
-        gadgets = backend.process_query('semantic', str(filterInput.text()))
+        gadgets = backend.process_query('semantic', str(filter_input.text()))
         show_in_gadgets_list(gadgets)
 
     def ppr_function():
