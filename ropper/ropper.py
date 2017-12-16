@@ -1,6 +1,8 @@
 import ropper
 from ropper import RopperService
 
+import json
+
 search_by = {
 	'generalSearch': search,
 	'byInstruction': search_instruction,
@@ -15,15 +17,19 @@ search_by = {
 def get_filename():
 	pass
 
+
 def get_architecture():
 	pass
+
 
 def get_searchcommand():
 	pass
 
+
 def get_ropchain():
 	# returns a list of list of tuples
 	pass
+
 
 def add_file(service):
 	filename = get_filename()
@@ -31,6 +37,7 @@ def add_file(service):
 		return 'Error: no file found'
 	service.addFile(filename)
 	return 'Success'
+
 
 def get_instance():
 	options = {'color': False,
@@ -42,21 +49,39 @@ def get_instance():
 	rs = RopperService(options)
 	return rs
 
+
 def search_jmpreg():
 	pass
+
 
 def search_poppopret():
 	pass
 
+
 def close_file(service):
 	service.removeFile(get_filename())
 
-def 
 
+def export_binary(file, chain):
+    pass
+
+
+def export_python_struct(file, chain):
+    pass
+
+
+def export_python_pwntools(file, chain):
+    pass
+
+
+def save_project(file, chain, user_blocks):
+    with open(file, 'w') as outfile:
+        json.dump({'chain': chain, 'user_blocks': user_blocks}, outfile)
 
 
 def test():
-	pass
+    pass
+
 
 if __name__ == '__main__':
-	test()
+    test()
