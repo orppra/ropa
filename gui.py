@@ -49,9 +49,9 @@ def open_file(filename):
 
 
 def bind_menu_button(window, button_name, func, shortcut_str=None):
-    button = window.findChild(qg.QAction, 'actionQuit')
+    button = window.findChild(qg.QAction, button_name)
     if shortcut_str:
-        button.setShortcut(qg.QKeySequence(shortcut_str))
+        button.setShortcut(shortcut_str)
     button.triggered.connect(func)
 
 
@@ -67,6 +67,7 @@ def main():
 
     # get list
     def showInResultsList(gadgets):
+        print(gadgets)
         pass
 
     filterInput = w.findChild(qg.QLineEdit, 'searchBar')
