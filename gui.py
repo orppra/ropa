@@ -100,8 +100,20 @@ def main():
         gadgets = backend.process_query('instruction', filterInput.text)
         show_in_gadgets_list(gadgets)
 
+    def semantics_function():
+        gadgets = backend.process_query('semantic', filterInput.text)
+        show_in_gadgets_list(gadgets)
+
+    def ppr_function():
+        gadgets = backend.process_query('pop-pop-ret', '')
+        show_in_gadgets_list(gadgets)
+
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
     filter_button.clicked.connect(filter_function)
+    semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
+    semantics_button.clicked.connect(semantics_function)
+    ppr_button = w.findChild(qg.QPushButton, 'pprButton')
+    ppr_button.clicked.connect(ppr_function)
 
     def startNewProject():
         filepath, arch = open_file_dialog()
@@ -115,6 +127,11 @@ def main():
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
     show_in_gadgets_list((('1234', 'high five!'),))
+
+    def updateBadBytes():
+        pass
+    badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
+    badbytesInput.textChanged.connect(updateBadBytes)
 
     w.show()
     quit()
