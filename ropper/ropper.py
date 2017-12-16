@@ -51,7 +51,7 @@ def search_poppopret():
 def close_file(service):
 	service.removeFile(get_filename())
 
-
+def 
 
 
 
