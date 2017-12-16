@@ -22,13 +22,13 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,0,3">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,4,3">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>User-defined blocks</string>
+           <string>User-defined Blocks</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -45,7 +45,7 @@
         <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Main</string>
+           <string>ROP Chain</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -62,7 +62,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>List of gaygets</string>
+           <string>Gadgets</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -100,9 +100,6 @@
      </layout>
     </item>
    </layout>
-   <zorder>horizontalLayoutWidget_2</zorder>
-   <zorder>listView</zorder>
-   <zorder>gridLayoutWidget</zorder>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -137,7 +134,7 @@
    </widget>
    <widget class="QMenu" name="menuFIle">
     <property name="title">
-     <string>FIle</string>
+     <string>File</string>
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>

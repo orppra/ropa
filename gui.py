@@ -13,9 +13,11 @@ def main():
     app = QtGui.QApplication(sys.argv)
     app_name = 'VsymX'
 
+    app.findChild('')
+
     w = App()
     w.resize(1080, 720)
-    w.move(300, 300)
+    w.move(300, 300)te
     w.setWindowTitle(app_name)
     w.show()
     sys.exit(app.exec_())
