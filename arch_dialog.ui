@@ -31,6 +31,9 @@
         <bool>false</bool>
        </attribute>
        <column/>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
       </widget>
      </item>
      <item>

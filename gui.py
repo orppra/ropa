@@ -15,7 +15,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
 
 def quit():
-    app.quit()
+    sys.exit(app.exec_())
 
 
 def open_file_dialog(backend):
@@ -59,12 +59,15 @@ def open_file(filename):
     return result
 
 
+def bind_menu_button(window, button_name, func, shortcut_str=None):
+    button = window.findChild(qg.QAction, button_name)
+    if shortcut_str:
+        button.setShortcut(shortcut_str)
+    button.triggered.connect(func)
+
+
 def main():
     app_name = 'VsymX'
-
-    # TODO: bind this thing correctly
-    # exit = app.findChild(qg.QAction, 'actionExit')
-    # exit.clicked.connect(quit)
 
     w = App()
     w.resize(1080, 720)
@@ -78,24 +81,22 @@ def main():
         print(gadgets)
         pass
 
-    w.filterInput = w.findChild(qg.QLineEdit, 'searchBar')
+    filterInput = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filterFunction():
-        gadgets = backend.process_query('instruction', w.filterInput.text)
+        gadgets = backend.process_query('instruction', filterInput.text)
         showInResultsList(gadgets)
 
-    w.filterButton = w.findChild(qg.QPushButton, 'searchButton')
-    w.filterButton.clicked.connect(filterFunction)
+    filterButton = w.findChild(qg.QPushButton, 'searchButton')
+    filterButton.clicked.connect(filterFunction)
 
     def startNewProject():
         filepath, arch = open_file_dialog(backend)
-    newProjectButton = w.findChild(qg.QAction, 'actionNew')
-    newProjectButton.triggered.connect(startNewProject)
-    saveProjectButton = w.findChild(qg.QAction, 'actionSave')
-    saveProjectButton.setShortcut('Ctrl+Q')
 
+    bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
+    bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
     w.show()
-    sys.exit(app.exec_())
+    quit()
 
 
 if __name__ == '__main__':
