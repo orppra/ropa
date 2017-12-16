@@ -2,15 +2,15 @@
 
 ### The Idea
 
-GUI for [Symbolic Execution](https://en.wikipedia.org/wiki/Symbolic_execution) tools, to help beginners.  
+GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains easily.  
 
 ### Features
 
-Supports the following files:
-- c/c++
-- python
-- binary
-- java
+- Gadget searching with ropper
+- Easy gadget selection
+- Group multiple gadgets
+- Export as binary file or python scripts (struct/pwntools)
+- Project saving
 
-Based on the following technologies:
-- To be filled in
+### Setup
+`source setup`
