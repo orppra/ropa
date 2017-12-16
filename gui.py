@@ -17,13 +17,27 @@ def quit():
     app.quit()
 
 
-def open_file_dialog():
+def open_file_dialog(backend):
     dialog = qg.QFileDialog()
+    dialog.setWindowTitle('Open File')
     dialog.setFileMode(qg.QFileDialog.AnyFile)
     filenames = qc.QStringList()
     if dialog.exec_():
         filenames = dialog.selectedFiles()
-        return filenames[0]
+        arch = open_arch_dialog()
+        return arch, filenames[0]
+    raise Exception('Failed to open dialog/')
+
+
+def open_arch_dialog():
+    dialog = qg.QDialog()
+    dialog.ui = uic.loadUi('arch_dialog.ui')
+    dialog.ui.show()
+    arch_table = dialog.ui.findChild(qg.QTableWidget, 'arch_table')
+    # if arch_table.selectedItems():
+    #    arch = arch_table.selectedItems()[0]
+    arch = None
+    return arch
 
 
 def open_file(filename):
@@ -63,10 +77,7 @@ def main():
     w.filterButton.clicked.connect(filterFunction)
 
     def startNewProject():
-        filepath = open_file_dialog()
-        print(filepath)
-        backend.set_filename(filepath)
-
+        filepath, arch = open_file_dialog(backend)
     newProjectButton = w.findChild(qg.QAction, 'actionNew')
     newProjectButton.triggered.connect(startNewProject)
     saveProjectButton = w.findChild(qg.QAction, 'actionSave')
