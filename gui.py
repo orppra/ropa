@@ -1,8 +1,9 @@
 import sys
-from PyQt4 import QtCore, QtGui, uic
+from PyQt4 import QtGui, uic
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = QtGui.QApplication(sys.argv)
+
 
 class App(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -10,8 +11,10 @@ class App(QtGui.QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
+
 def quit():
     app.quit()
+
 
 def main():
     app_name = 'VsymX'
@@ -27,9 +30,10 @@ def main():
     w.show()
     sys.exit(app.exec_())
 
-    #setProperty('', value)
-    #findChild(child_type, child_name)
-    #searchBar, searchButton
-    
-if __name__=='__main__':
-	main()
+    # setProperty('', value)
+    # findChild(child_type, child_name)
+    # searchBar, searchButton
+
+
+if __name__ == '__main__':
+    main()
