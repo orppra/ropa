@@ -23,8 +23,7 @@ def open_file_dialog():
     filenames = qc.QStringList()
     if dialog.exec_():
         filenames = dialog.selectedFiles()
-        for filename in filenames:
-            open_file(filename)
+        return filenames[0]
 
 
 def open_file(filename):
@@ -58,16 +57,20 @@ def main():
     def filterFunction():
         gadgets = backend.process_query('instruction', w.filterInput.text)
         showInResultsList(gadgets)
+
     w.filterButton = w.findChild(qg.QPushButton, 'searchButton')
     w.filterButton.clicked.connect(filterFunction)
 
-    w.show()
-    open_file_dialog()
-    sys.exit(app.exec_())
+    def startNewProject():
+        filepath = open_file_dialog()
+        print(filepath)
+        backend.set_filename(filepath)
 
-    # setProperty('', value)
-    # findChild(child_type, child_name)
-    # searchBar, searchButton
+    newProjectButton = w.findChild(qg.QAction, 'actionNew')
+    newProjectButton.clicked.connect()
+
+    w.show()
+    sys.exit(app.exec_())
 
 
 if __name__ == '__main__':
