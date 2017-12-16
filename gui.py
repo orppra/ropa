@@ -50,6 +50,7 @@ def main():
 
     # get list
     def showInResultsList(gadgets):
+        print(gadgets)
         pass
 
     w.filterInput = w.findChild(qg.QLineEdit, 'searchBar')
@@ -68,6 +69,8 @@ def main():
 
     newProjectButton = w.findChild(qg.QAction, 'actionNew')
     newProjectButton.triggered.connect(startNewProject)
+    saveProjectButton = w.findChild(qg.QAction, 'actionSave')
+    saveProjectButton.setShortcut('Ctrl+Q')
 
     w.show()
     sys.exit(app.exec_())

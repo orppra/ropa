@@ -20,6 +20,7 @@ class Backend:
 
     def set_filename(self, filename):
         self.filename = filename
+        self.add_file()
         pass
 
     def set_arch(self, arch):
@@ -79,18 +80,18 @@ class Backend:
     def search_instruction(self, filter):
         gadgets = self.service.search(
             search=filter,
-            name=self.get_filename())
+            name=self.filename)
         return gadgets
 
     def search_jmpreg(self, location, offset):
         gadgets = self.service.searchJmpReg(
-            name=self.get_filename(),
+            name=self.filename,
             regs=[location, offset])
         return gadgets
 
     def search_poppopret(self):
         gadgets = self.service.searchPopPopRet(
-            name=self.get_filename())
+            name=self.filename)
         return gadgets
 
     def process_query(self, command, ipt):

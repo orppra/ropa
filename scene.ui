@@ -155,6 +155,11 @@
     <string>Open...</string>
    </property>
   </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
