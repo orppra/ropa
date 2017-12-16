@@ -11,13 +11,14 @@ class Backend:
     def __init__(self, app):
         self.app = app
         self.service = self.make_service_instance()
+        self.chain = []
+        self.user_blocks = []
 
     def get_filename(self):
         return self.filename
 
     def set_filename(self, filename):
         self.filename = filename
-        self.arch = 'x86'
         self.add_file()
 
     def get_arch(self):
@@ -38,7 +39,7 @@ class Backend:
 
     def make_service_instance(self):
         options = {'color': False,
-                   'badbytes': '000a0d',
+                   'badbytes': '',
                    'all': False,
                    'inst_count': 6,
                    'type': 'all',
@@ -188,9 +189,26 @@ class Backend:
     # PROJECT TOOLS
     #######################################
 
-    def save_project(self, file, chain, user_blocks):
+    def open_project(self, file):
+        save_data = None
+        with open(file, 'r') as infile:
+            save_data = json.load(infile)
+
+        self.set_filename(save_data['filename'])
+        self.set_arch(save_data['arch'])
+        self.activate()
+        self.chain = save_data['chain']
+        self.user_blocks = save_data['user_blocks']
+
+    def save_project(self, file):
         with open(file, 'w') as outfile:
-            json.dump({'chain': chain, 'user_blocks': user_blocks}, outfile)
+            save_data = {
+                'chain': self.chain,
+                'user_blocks': self.user_blocks,
+                'filename': self.filename,
+                'arch': self.arch
+            }
+            json.dump(save_data, outfile)
             outfile.close()
 
 
