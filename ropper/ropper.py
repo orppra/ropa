@@ -13,19 +13,19 @@ class Backend:
     # IO COMMUNICATION
     #######################################
 
-    def get_filename(self):
+    def set_filename(self):
         pass
 
-    def get_architecture(self):
+    def set_architecture(self):
         pass
 
-    def get_searchcommand(self):
+    def set_searchcommand(self):
         pass
 
-    def get_filterInput(self):
+    def set_filterInput(self):
         pass
 
-    def get_ropchain(self):
+    def set_ropchain(self):
         # returns a list of list of tuples
         pass
 
