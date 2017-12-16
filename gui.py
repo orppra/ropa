@@ -41,6 +41,7 @@ def open_arch_dialog():
     arch_table.horizontalHeader().setResizeMode(0, qg.QHeaderView.Stretch)
     for archi in architectures:
         item = qg.QTableWidgetItem(archi)
+        item.setFlags(qc.Qt.ItemIsSelectable | qc.Qt.ItemIsEnabled)
         arch_table.setItem(row, 1, item)
         row += 1
     dialog.show()
@@ -92,6 +93,7 @@ def main():
             cell += '\n'.join(gadget['instructions']) + '\n'
             item = qg.QStandardItem(cell)
             item.setEditable(False)
+            #item.setDragDropMode('InternalMove')
             model.appendRow(item)
         gadgets_list.setModel(model)
         gadgets_list.setDragEnabled(True)
