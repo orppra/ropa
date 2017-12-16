@@ -12,5 +12,5 @@ GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) ch
 - Export as binary file or python scripts (struct/pwntools)
 - Project saving
 
-### Setup
+### Installation
 `source setup`
