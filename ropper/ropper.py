@@ -9,6 +9,10 @@ import struct
 
 class Backend:
 
+    def __init__(self, scene):
+        self.scene = scene
+        self.filename = None
+
     #######################################
     # IO COMMUNICATION
     #######################################
@@ -27,6 +31,12 @@ class Backend:
 
     def get_ropchain(self):
         # returns a list of list of tuples
+        pass
+
+    def update_ropchain(self):
+        pass
+
+    def update_savedblocks(self):
         pass
 
     #######################################
