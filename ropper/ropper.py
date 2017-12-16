@@ -1,16 +1,13 @@
-import ropper
 from ropper import RopperService
 
-search_by = {
-    'generalSearch': search,
-    'byInstruction': search_instruction,
-    #'byOpcode': search_opcode,
-    'findJmpReg': search_jmpreg,
-    'findPopPopRet': search_poppopret,
-}
+import json
 
 # poppopret: pop ???; pop ???; ret
 # jmpreg: jmp ???
+
+#######################################
+# IO COMMUNICATION
+#######################################
 
 
 def get_filename():
@@ -30,12 +27,21 @@ def get_ropchain():
     pass
 
 
+#######################################
+# ROPPER INIT FUNCTIONS
+#######################################
+
+
 def add_file(service):
     filename = get_filename()
     if filename is None:
         return 'Error: no file found'
     service.addFile(filename)
     return 'Success'
+
+
+def close_file(service):
+    service.removeFile(get_filename())
 
 
 def get_instance():
@@ -47,6 +53,11 @@ def get_instance():
                'detailed': False}
     rs = RopperService(options)
     return rs
+
+
+#######################################
+# ROPPER SEARCH FUNCTIONS
+#######################################
 
 
 def search():
@@ -65,8 +76,40 @@ def search_poppopret():
     pass
 
 
-def close_file(service):
-    service.removeFile(get_filename())
+search_by = {
+    'generalSearch': search,
+    'byInstruction': search_instruction,
+    # 'byOpcode': search_opcode,
+    'findJmpReg': search_jmpreg,
+    'findPopPopRet': search_poppopret,
+}
+
+
+#######################################
+# EXPORTATION TOOLS
+#######################################
+
+
+def export_binary(file, chain):
+    pass
+
+
+def export_python_struct(file, chain):
+    pass
+
+
+def export_python_pwntools(file, chain):
+    pass
+
+
+#######################################
+# PROJECT TOOLS
+#######################################
+
+
+def save_project(file, chain, user_blocks):
+    with open(file, 'w') as outfile:
+        json.dump({'chain': chain, 'user_blocks': user_blocks}, outfile)
 
 
 def test():
