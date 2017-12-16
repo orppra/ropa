@@ -23,6 +23,10 @@ def get_searchcommand():
     pass
 
 
+def get_filterInput():
+    pass
+
+
 def get_ropchain():
     # returns a list of list of tuples
     pass
@@ -31,6 +35,17 @@ def get_ropchain():
 #######################################
 # ROPPER INIT FUNCTIONS
 #######################################
+
+
+def make_instance():
+    options = {'color': False,
+               'badbytes': '',
+               'all': False,
+               'inst_count': 6,
+               'type': 'all',
+               'detailed': False}
+    rs = RopperService(options)
+    return rs
 
 
 def add_file(service):
@@ -45,45 +60,61 @@ def close_file(service):
     service.removeFile(get_filename())
 
 
-def get_instance():
-    options = {'color': False,
-               'badbytes': '',
-               'all': False,
-               'inst_count': 6,
-               'type': 'all',
-               'detailed': False}
-    rs = RopperService(options)
-    return rs
-
-
 #######################################
 # ROPPER SEARCH FUNCTIONS
 #######################################
 
 
-def search():
+def search(service, filter):
+    # ropper2 --file <afile> --semantic "<any constraint>"
     pass
 
 
-def search_instruction():
-    pass
+def search_instruction(service, filter):
+    gadgets = service.search(
+        search=filter,
+        name=get_filename())
+    return gadgets
 
 
-def search_jmpreg():
-    pass
+def search_jmpreg(service, location, offset):
+    gadgets = service.searchJmpReg(
+        name=get_filename(),
+        regs=[location, offset])
+    return gadgets
 
 
-def search_poppopret():
-    pass
+def search_poppopret(service):
+    gadgets = service.searchPopPopRet(
+        name=get_filename())
+    return gadgets
 
 
-search_by = {
-    'generalSearch': search,
-    'byInstruction': search_instruction,
-    # 'byOpcode': search_opcode,
-    'findJmpReg': search_jmpreg,
-    'findPopPopRet': search_poppopret,
-}
+def process_query():
+    command = get_searchcommand()
+    service = None
+    gadgets = None
+    ipt = get_filterInput()
+
+    if command == 'search':
+        # semantic search
+        pass
+    if command == 'instruction':
+        gadgets = search_instruction(service, ipt)
+    if command == 'jmp-reg':
+        gadgets = search_jmpreg(
+            service,
+            ipt.split(',')[0],
+            ipt.split(',')[1])
+    if command == 'pop-pop-ret':
+        gadgets = search_poppopret(service)
+
+    # process gadgets
+    print(gadgets)
+    ret = []
+    for elem in gadgets:
+        print(elem)
+    return ret
 
 
 #######################################
