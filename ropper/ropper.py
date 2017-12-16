@@ -96,9 +96,11 @@ def export_binary(file, chain, bit):
         for block in chain:
             for gadget in chain:
                 if bit == 32:
-                    outfile.write(struct.pack('<I', int(gadget['address'], 16)))
+                    outfile.write(struct.pack('<I',
+                                  int(gadget['address'], 16)))
                 else:
-                    outfile.write(struct.pack('<Q', int(gadget['address'], 16)))
+                    outfile.write(struct.pack('<Q',
+                                  int(gadget['address'], 16)))
         outfile.close()
 
 
@@ -108,9 +110,11 @@ def export_python_struct(file, chain, bit):
         for block in chain:
             for gadget in chain:
                 if bit == 32:
-                    outfile.write('p += struct.pack("<I", {})  # {}'.format(gadget['address'], gadget['bytes']))
+                    outfile.write('p += struct.pack("<I", {})  # {}'
+                                  .format(gadget['address'], gadget['bytes']))
                 else:
-                    outfile.write('p += struct.pack("<Q", {})  # {}'.format(gadget['address'], gadget['bytes']))
+                    outfile.write('p += struct.pack("<Q", {})  # {}'
+                                  .format(gadget['address'], gadget['bytes']))
         outfile.close()
 
 
@@ -120,9 +124,11 @@ def export_python_pwntools(file, chain, bit):
         for block in chain:
             for gadget in chain:
                 if bit == 32:
-                    outfile.write('p += p32({})  # {}'.format(gadget['address'], gadget['bytes']))
+                    outfile.write('p += p32({})  # {}'
+                                  .format(gadget['address'], gadget['bytes']))
                 else:
-                    outfile.write('p += p64({})  # {}'.format(gadget['address'], gadget['bytes']))
+                    outfile.write('p += p64({})  # {}'
+                                  .format(gadget['address'], gadget['bytes']))
         outfile.close()
 
 
