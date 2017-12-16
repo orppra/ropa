@@ -1,5 +1,6 @@
 import sys
 from PyQt4 import QtGui as qg, QtCore as qc, uic
+from ropper import Backend
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = qg.QApplication(sys.argv)
@@ -45,6 +46,21 @@ def main():
     w.resize(1080, 720)
     w.move(300, 300)
     w.setWindowTitle(app_name)
+
+    backend = Backend(w)
+
+    # get list
+    def showInResultsList(gadgets):
+        pass
+
+    w.filterInput = w.findChild(qg.QLineEdit, 'searchBar')
+
+    def filterFunction():
+        gadgets = backend.process_query('instruction', w.filterInput.text)
+        showInResultsList(gadgets)
+    w.filterButton = w.findChild(qg.QPushButton, 'searchButton')
+    w.filterButton.clicked.connect(filterFunction)
+
     w.show()
     open_file_dialog()
     sys.exit(app.exec_())

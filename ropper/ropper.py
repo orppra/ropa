@@ -9,31 +9,44 @@ import struct
 
 class Backend:
 
+    def __init__(self, app):
+        self.app = app
+        self.filename = None
+        self.service = self.make_service_instance()
+
     #######################################
     # IO COMMUNICATION
     #######################################
 
-    def set_filename(self):
+    def set_filename(self, filename):
+        self.filename = filename
         pass
 
-    def set_architecture(self):
+    def set_arch(self, arch):
+        self.arch = arch
         pass
 
-    def set_searchcommand(self):
+    def get_searchcommand(self):
         pass
 
     def set_filterInput(self):
+        return self.app.filterInput.text()
+
+    def get_ropchain(self):
+        # returns a list of list of tuples
         pass
 
-    def set_ropchain(self):
-        # returns a list of list of tuples
+    def update_ropchain(self):
+        pass
+
+    def update_savedblocks(self):
         pass
 
     #######################################
     # ROPPER INIT FUNCTIONS
     #######################################
 
-    def make_instance(self):
+    def make_service_instance(self):
         options = {'color': False,
                    'badbytes': '',
                    'all': False,
@@ -43,64 +56,60 @@ class Backend:
         rs = RopperService(options)
         return rs
 
-    def add_file(self, service):
+    def add_file(self):
         filename = self.get_filename()
         if filename is None:
             return 'Error: no file found'
-        service.addFile(filename)
+        self.service.addFile(filename)
         return 'Success'
 
-    def close_file(self, service):
-        service.removeFile(self.get_filename())
+    def close_file(self):
+        self.service.removeFile(self.get_filename())
 
     #######################################
     # ROPPER SEARCH FUNCTIONS
     #######################################
 
-    def search(self, service, filter):
+    def search(self, filter):
         # ropper2 --file <afile> --semantic "<any constraint>"
-        gadgets = service.semanticSearch(
+        gadgets = self.service.semanticSearch(
             search=filter)
         return gadgets
 
-    def search_instruction(self, service, filter):
-        gadgets = service.search(
+    def search_instruction(self, filter):
+        gadgets = self.service.search(
             search=filter,
             name=self.get_filename())
         return gadgets
 
-    def search_jmpreg(self, service, location, offset):
-        gadgets = service.searchJmpReg(
+    def search_jmpreg(self, location, offset):
+        gadgets = self.service.searchJmpReg(
             name=self.get_filename(),
             regs=[location, offset])
         return gadgets
 
-    def search_poppopret(self, service):
-        gadgets = service.searchPopPopRet(
+    def search_poppopret(self):
+        gadgets = self.service.searchPopPopRet(
             name=self.get_filename())
         return gadgets
 
-    def process_query(self):
-        command = self.get_searchcommand()
-        service = None
+    def process_query(self, command, ipt):
         gadgets = None
-        ipt = self.get_filterInput()
 
         if command == 'search':
             # semantic search
-            gadgets = self.search(service, ipt)
+            gadgets = self.search(ipt)
 
         if command == 'instruction':
-            gadgets = self.search_instruction(service, ipt)
+            gadgets = self.search_instruction(ipt)
 
         if command == 'jmp-reg':
             gadgets = self.search_jmpreg(
-                service,
                 ipt.split(',')[0],
                 ipt.split(',')[1])
 
         if command == 'pop-pop-ret':
-            gadgets = self.search_poppopret(service)
+            gadgets = self.search_poppopret()
 
         # process gadgets
         print(gadgets)
@@ -113,11 +122,16 @@ class Backend:
     # EXPORTATION TOOLS
     #######################################
 
-    def export_binary(self, file, chain, bit):
+    def num_bits(self, arch):
+        if arch.endswith('64'):
+            return 64
+        return 32
+
+    def export_binary(self, file, chain, arch):
         with open(file, 'w') as outfile:
             for block in chain:
                 for gadget in chain:
-                    if bit == 32:
+                    if self.num_bits(arch) == 32:
                         outfile.write(struct.pack('<I',
                                       int(gadget['address'], 16)))
                     else:
@@ -125,12 +139,12 @@ class Backend:
                                       int(gadget['address'], 16)))
             outfile.close()
 
-    def export_python_struct(self, file, chain, bit):
+    def export_python_struct(self, file, chain, arch):
         with open(file, 'w') as outfile:
             outfile.write('p = ""')
             for block in chain:
                 for gadget in chain:
-                    if bit == 32:
+                    if self.num_bits(arch) == 32:
                         outfile.write(
                             'p += struct.pack("<I", {})  # {}'
                             .format(gadget['address'], gadget['bytes']))
@@ -140,12 +154,12 @@ class Backend:
                             .format(gadget['address'], gadget['bytes']))
             outfile.close()
 
-    def export_python_pwntools(self, file, chain, bit):
+    def export_python_pwntools(self, file, chain, arch):
         with open(file, 'w') as outfile:
             outfile.write('p = ""')
             for block in chain:
                 for gadget in chain:
-                    if bit == 32:
+                    if self.num_bits(arch) == 32:
                         outfile.write(
                             'p += p32({})  # {}'
                             .format(gadget['address'], gadget['bytes']))
