@@ -63,20 +63,33 @@ def close_file(service):
 
 
 def export_binary(file, chain):
-    pass
+    with open(file, 'w') as outfile:
+        for block in chain:
+            for gadget in chain:
+                outfile.write(gadget['address'])
+        outfile.close()
 
 
 def export_python_struct(file, chain):
-    pass
+    with open(file, 'w') as outfile:
+        for block in chain:
+            for gadget in chain:
+                outfile.write('')
+        outfile.close()
 
 
 def export_python_pwntools(file, chain):
-    pass
+    with open(file, 'w') as outfile:
+        for block in chain:
+            for gadget in chain:
+                outfile.write(gadget['address'])
+        outfile.close()
 
 
 def save_project(file, chain, user_blocks):
     with open(file, 'w') as outfile:
         json.dump({'chain': chain, 'user_blocks': user_blocks}, outfile)
+        outfile.close()
 
 
 def test():
