@@ -1,6 +1,7 @@
 from ropper import RopperService
 
 import json
+import struct
 
 # poppopret: pop ???; pop ???; ret
 # jmpreg: jmp ???
@@ -121,27 +122,38 @@ def process_query():
 #######################################
 
 
-def export_binary(file, chain):
+def export_binary(file, chain, bit):
     with open(file, 'w') as outfile:
         for block in chain:
             for gadget in chain:
-                outfile.write(gadget['address'])
+                if bit == 32:
+                    outfile.write(struct.pack('<I', int(gadget['address'], 16)))
+                else:
+                    outfile.write(struct.pack('<Q', int(gadget['address'], 16)))
         outfile.close()
 
 
-def export_python_struct(file, chain):
+def export_python_struct(file, chain, bit):
     with open(file, 'w') as outfile:
+        outfile.write('p = ""')
         for block in chain:
             for gadget in chain:
-                outfile.write('')
+                if bit == 32:
+                    outfile.write('p += struct.pack("<I", {})  # {}'.format(gadget['address'], gadget['bytes']))
+                else:
+                    outfile.write('p += struct.pack("<Q", {})  # {}'.format(gadget['address'], gadget['bytes']))
         outfile.close()
 
 
-def export_python_pwntools(file, chain):
+def export_python_pwntools(file, chain, bit):
     with open(file, 'w') as outfile:
+        outfile.write('p = ""')
         for block in chain:
             for gadget in chain:
-                outfile.write(gadget['address'])
+                if bit == 32:
+                    outfile.write('p += p32({})  # {}'.format(gadget['address'], gadget['bytes']))
+                else:
+                    outfile.write('p += p64({})  # {}'.format(gadget['address'], gadget['bytes']))
         outfile.close()
 
 
