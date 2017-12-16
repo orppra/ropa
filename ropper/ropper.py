@@ -12,6 +12,7 @@ class Backend:
     def __init__(self, app):
         self.app = app
         self.filename = None
+        self.service = self.make_service_instance()
 
     #######################################
     # IO COMMUNICATION
@@ -43,7 +44,7 @@ class Backend:
     # ROPPER INIT FUNCTIONS
     #######################################
 
-    def make_instance(self):
+    def make_service_instance(self):
         options = {'color': False,
                    'badbytes': '',
                    'all': False,
@@ -53,64 +54,60 @@ class Backend:
         rs = RopperService(options)
         return rs
 
-    def add_file(self, service):
+    def add_file(self):
         filename = self.get_filename()
         if filename is None:
             return 'Error: no file found'
-        service.addFile(filename)
+        self.service.addFile(filename)
         return 'Success'
 
-    def close_file(self, service):
-        service.removeFile(self.get_filename())
+    def close_file(self):
+        self.service.removeFile(self.get_filename())
 
     #######################################
     # ROPPER SEARCH FUNCTIONS
     #######################################
 
-    def search(self, service, filter):
+    def search(self, filter):
         # ropper2 --file <afile> --semantic "<any constraint>"
-        gadgets = service.semanticSearch(
+        gadgets = self.service.semanticSearch(
             search=filter)
         return gadgets
 
-    def search_instruction(self, service, filter):
-        gadgets = service.search(
+    def search_instruction(self, filter):
+        gadgets = self.service.search(
             search=filter,
             name=self.get_filename())
         return gadgets
 
-    def search_jmpreg(self, service, location, offset):
-        gadgets = service.searchJmpReg(
+    def search_jmpreg(self, location, offset):
+        gadgets = self.service.searchJmpReg(
             name=self.get_filename(),
             regs=[location, offset])
         return gadgets
 
-    def search_poppopret(self, service):
-        gadgets = service.searchPopPopRet(
+    def search_poppopret(self):
+        gadgets = self.service.searchPopPopRet(
             name=self.get_filename())
         return gadgets
 
-    def process_query(self):
-        command = self.get_searchcommand()
-        service = None
+    def process_query(self, command, ipt):
         gadgets = None
-        ipt = self.get_filterInput()
 
         if command == 'search':
             # semantic search
-            gadgets = self.search(service, ipt)
+            gadgets = self.search(ipt)
 
         if command == 'instruction':
-            gadgets = self.search_instruction(service, ipt)
+            gadgets = self.search_instruction(ipt)
 
         if command == 'jmp-reg':
             gadgets = self.search_jmpreg(
-                service,
                 ipt.split(',')[0],
                 ipt.split(',')[1])
 
         if command == 'pop-pop-ret':
-            gadgets = self.search_poppopret(service)
+            gadgets = self.search_poppopret()
 
         # process gadgets
         print(gadgets)

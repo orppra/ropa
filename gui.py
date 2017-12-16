@@ -16,8 +16,6 @@ class App(QtGui.QMainWindow, Ui_MainWindow):
 def quit():
     app.quit()
 
-def pickFile():
-    pass
 
 def main():
     app_name = 'VsymX'
@@ -32,9 +30,18 @@ def main():
     w.setWindowTitle(app_name)
 
     backend = Backend(w)
+
+    # get list
+    def showInResultsList(gadgets):
+        pass
+
     w.filterInput = w.findChild(QtGui.QLineEdit, 'searchBar')
+
+    def filterFunction():
+        gadgets = backend.process_query('instruction', w.filterInput.text)
+        showInResultsList(gadgets)
     w.filterButton = w.findChild(QtGui.QPushButton, 'searchButton')
-    w.filterButton.clicked.connect(pickFile)
+    w.filterButton.clicked.connect(filterFunction)
 
     w.show()
     sys.exit(app.exec_())
