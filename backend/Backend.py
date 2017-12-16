@@ -24,6 +24,9 @@ class Backend:
     def get_arch(self):
         return self.arch
 
+    def set_arch(self, arch):
+        self.arch = arch
+
     def activate(self):
         self.service.loadGadgetsFor()
 
