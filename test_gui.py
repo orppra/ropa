@@ -3,7 +3,7 @@ from PyQt4 import QtCore, QtGui, uic
 
 class Scene(QtGui.QWidget):
 	def __init__(self):
-    	uic.loadUi('MyWidget.ui', self)
+    	uic.loadUi('scene.ui', self)
     sys.exit(app.exec_())
 
 def main():
