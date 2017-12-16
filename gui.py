@@ -19,6 +19,17 @@ def quit():
     sys.exit(app.exec_())
 
 
+def new_file_dialog():
+    dialog = qg.QFileDialog()
+    dialog.setWindowTitle('Choose binary')
+    dialog.setFileMode(qg.QFileDialog.AnyFile)
+    filenames = qc.QStringList()
+    if dialog.exec_():
+        filenames = dialog.selectedFiles()
+        arch = open_arch_dialog()
+        return filenames[0], arch
+    raise Exception('Failed to open dialog')
+
 def open_file_dialog():
     dialog = qg.QFileDialog()
     dialog.setWindowTitle('Open File')
@@ -26,8 +37,7 @@ def open_file_dialog():
     filenames = qc.QStringList()
     if dialog.exec_():
         filenames = dialog.selectedFiles()
-        arch = open_arch_dialog()
-        return filenames[0], arch
+        return filenames[0]
     raise Exception('Failed to open dialog')
 
 
@@ -93,7 +103,7 @@ def main():
             cell += '\n'.join(gadget['instructions']) + '\n'
             item = qg.QStandardItem(cell)
             item.setEditable(False)
-            #item.setDragDropMode('InternalMove')
+            # item.setDragDropMode('InternalMove')
             model.appendRow(item)
         gadgets_list.setModel(model)
         gadgets_list.setDragEnabled(True)
@@ -103,7 +113,8 @@ def main():
     filter_input = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filter_function():
-        gadgets = backend.process_query('instruction', str(filter_input.text()))
+        gadgets = backend.process_query('instruction',
+                                        str(filter_input.text()))
         show_in_gadgets_list(gadgets)
 
     def semantics_function():
@@ -123,14 +134,25 @@ def main():
     ppr_button.clicked.connect(ppr_function)
 
     def startNewProject():
-        filepath, arch = open_file_dialog()
+        filepath, arch = new_file_dialog()
         w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
         backend.set_arch(arch)
         backend.set_filename(filepath)
         backend.activate()
 
+    def openProject():
+        filepath = open_file_dialog()
+        backend.open_project(filepath)
+        w.setWindowTitle(app_name + ' - ' +
+                         os.path.basename(str(backend.get_filename())))
+
+    def saveProject():
+        filepath = open_file_dialog()
+        backend.save_project(filepath)
+
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
-    bind_menu_button(w, 'actionOpen', lambda x: x, 'Ctrl+O')
+    bind_menu_button(w, 'actionOpen', openProject, 'Ctrl+O')
+    bind_menu_button(w, 'actionSave', saveProject, 'Ctrl+S')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
     # show_in_gadgets_list((('1234', 'high five!'),))
