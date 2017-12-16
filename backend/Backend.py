@@ -11,20 +11,24 @@ class Backend:
 
     def __init__(self, app):
         self.app = app
-        self.filename = None
         self.service = self.make_service_instance()
+
+    def get_filename(self):
+        return self.filename
+
+    def set_filename(self, filename):
+        self.filename = filename
+
+    def set_arch(self, arch):
+        self.arch = arch
+
+    def activate(self):
+        self.add_file()
+        self.service.loadGadgetsFor()
 
     #######################################
     # IO COMMUNICATION
     #######################################
-
-    def set_filename(self, filename):
-        self.filename = filename
-        pass
-
-    def set_arch(self, arch):
-        self.arch = arch
-        pass
 
     def get_searchcommand(self):
         pass
@@ -70,7 +74,7 @@ class Backend:
     # ROPPER SEARCH FUNCTIONS
     #######################################
 
-    def search(self, filter):
+    def search_semantic(self, filter):
         # ropper2 --file <afile> --semantic "<any constraint>"
         gadgets = self.service.semanticSearch(
             search=filter)
@@ -96,9 +100,9 @@ class Backend:
     def process_query(self, command, ipt):
         gadgets = None
 
-        if command == 'search':
+        if command == 'semantic':
             # semantic search
-            gadgets = self.search(ipt)
+            gadgets = self.search_semantic(ipt)
 
         if command == 'instruction':
             gadgets = self.search_instruction(ipt)
@@ -112,10 +116,14 @@ class Backend:
             gadgets = self.search_poppopret()
 
         # process gadgets
-        print(gadgets)
         ret = []
-        for elem in gadgets:
-            print(elem)
+        for gadget in gadgets:
+            block = {'address': hex(gadget[1].address)[:-1],
+                     'instructions': []}
+            for line in gadget[1].lines:
+                block['instructions'].append(line[1])
+
+            ret.append(block)
         return ret
 
     #######################################
@@ -127,11 +135,11 @@ class Backend:
             return 64
         return 32
 
-    def export_binary(self, file, chain, arch):
+    def export_binary(self, file, chain):
         with open(file, 'w') as outfile:
             for block in chain:
-                for gadget in chain:
-                    if self.num_bits(arch) == 32:
+                for gadget in block:
+                    if self.num_bits(self.arch) == 32:
                         outfile.write(struct.pack('<I',
                                       int(gadget['address'], 16)))
                     else:
@@ -139,34 +147,42 @@ class Backend:
                                       int(gadget['address'], 16)))
             outfile.close()
 
-    def export_python_struct(self, file, chain, arch):
+    def export_python_struct(self, file, chain):
         with open(file, 'w') as outfile:
-            outfile.write('p = ""')
+            outfile.write('p = ""\n')
             for block in chain:
-                for gadget in chain:
-                    if self.num_bits(arch) == 32:
-                        outfile.write(
-                            'p += struct.pack("<I", {})  # {}'
-                            .format(gadget['address'], gadget['bytes']))
+                for gadget in block:
+                    if self.num_bits(self.arch) == 32:
+                        outfile.write('p += struct.pack("<I", {})'
+                                      .format(gadget['address']))
                     else:
-                        outfile.write(
-                            'p += struct.pack("<Q", {})  # {}'
-                            .format(gadget['address'], gadget['bytes']))
+                        outfile.write('p += struct.pack("<Q", {})'
+                                      .format(gadget['address']))
+
+                    outfile.write('  # ')
+                    for instruction in gadget['instructions']:
+                        outfile.write('{}; '.format(instruction))
+
+                    outfile.write('\n')
             outfile.close()
 
-    def export_python_pwntools(self, file, chain, arch):
+    def export_python_pwntools(self, file, chain):
         with open(file, 'w') as outfile:
-            outfile.write('p = ""')
+            outfile.write('p = ""\n')
             for block in chain:
-                for gadget in chain:
-                    if self.num_bits(arch) == 32:
-                        outfile.write(
-                            'p += p32({})  # {}'
-                            .format(gadget['address'], gadget['bytes']))
+                for gadget in block:
+                    if self.num_bits(self.arch) == 32:
+                        outfile.write('p += p32({})'
+                                      .format(gadget['address']))
                     else:
-                        outfile.write(
-                            'p += p64({})  # {}'
-                            .format(gadget['address'], gadget['bytes']))
+                        outfile.write('p += p64({})'
+                                      .format(gadget['address']))
+
+                    outfile.write('  # ')
+                    for instruction in gadget['instructions']:
+                        outfile.write('{}; '.format(instruction))
+
+                    outfile.write('\n')
             outfile.close()
 
     #######################################
