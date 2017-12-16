@@ -47,7 +47,7 @@ def open_arch_dialog():
     if dialog.exec_():
         print(arch_table.selectedItems)
         if arch_table.selectedItems() is not None:
-            arch = arch_table.selectedItems()[0]
+            arch = str(arch_table.selectedItems()[0].text())
         else:
             arch = 'x86'
         return arch
@@ -73,17 +73,17 @@ def main():
     app_name = 'VsymX'
 
     w = App()
-    w.resize(1080, 720)
+    w.resize(1200, 720)
     w.move(300, 300)
     w.setWindowTitle(app_name)
 
     backend = Backend(w)
 
-    resultsList = w.findChild(qg.QListView, 'listView')
+    resultsList = w.findChild(qg.QListView, 'gadgetsList')
     resultsList.setDragEnabled(True)
 
     def showInResultsList(gadgets):
-        print(gadgets)
+        print(list(gadgets))
         resultsList.reset()
         model = qg.QStandardItemModel(resultsList)
         for address, code in gadgets:
@@ -100,11 +100,11 @@ def main():
     filterButton.clicked.connect(filterFunction)
 
     def startNewProject():
-        arch, filepath = open_file_dialog()
+        filepath, arch = open_file_dialog()
+        w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
         backend.set_arch(arch)
         backend.set_filename(filepath)
         backend.activate()
-        w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
 
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
     bind_menu_button(w, 'actionOpen', lambda x: x, 'Ctrl+O')
