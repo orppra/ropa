@@ -3,6 +3,11 @@ import os
 from PyQt4 import QtGui as qg, QtCore as qc, uic
 from backend.Backend import Backend
 from backend.constants import architectures
+try:
+    _fromUtf8 = qc.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = qg.QApplication(sys.argv)
@@ -29,6 +34,7 @@ def new_file_dialog():
         arch = open_arch_dialog()
         return filenames[0], arch
     raise Exception('Failed to open dialog')
+
 
 def open_file_dialog():
     dialog = qg.QFileDialog()
@@ -99,6 +105,8 @@ def main():
 
     def show_in_gadgets_list(gadgets):
         gadgets_list.reset()
+        font = qg.QFont()
+        font.setFamily(_fromUtf8('Courier new'))
         model = qg.QStandardItemModel(gadgets_list)
         for gadget in gadgets:
             cell = gadget['address'] + ':\n'
@@ -106,6 +114,7 @@ def main():
             cell += '\n'.join(gadget['instructions']) + '\n'
             item = qg.QStandardItem(cell)
             item.setEditable(False)
+            item.setFont(font)
             # item.setDragDropMode('InternalMove')
             model.appendRow(item)
 
