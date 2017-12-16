@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui as qg, QtCore as qc, uic
-from ropper import Backend
+from backend import Backend
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = qg.QApplication(sys.argv)
