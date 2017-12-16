@@ -18,10 +18,11 @@ class Backend:
 
     def set_filename(self, filename):
         self.filename = filename
+        self.arch = 'x86'
         self.add_file()
 
-    def set_arch(self, arch):
-        self.arch = arch
+    def get_arch(self):
+        return self.arch
 
     def activate(self):
         self.service.loadGadgetsFor()
@@ -78,24 +79,47 @@ class Backend:
         # ropper2 --file <afile> --semantic "<any constraint>"
         gadgets = self.service.semanticSearch(
             search=filter)
-        return gadgets
+        return gadgets        
 
     def search_instruction(self, filter):
         gadgets = self.service.search(
             search=filter,
             name=self.filename)
-        return gadgets
+        
+        ret = []
+        for gadget in gadgets:
+            block = {'address': hex(gadget[1].address)[:-1],
+                     'instructions': []}
+            for line in gadget[1].lines:
+                block['instructions'].append(line[1])
+
+            ret.append(block)
+
+        return ret
 
     def search_jmpreg(self, location, offset):
         gadgets = self.service.searchJmpReg(
             name=self.filename,
             regs=[location, offset])
+
         return gadgets
 
     def search_poppopret(self):
         gadgets = self.service.searchPopPopRet(
             name=self.filename)
-        return gadgets
+        
+        ret = []
+        for gadget in gadgets[self.filename]:
+            block = {'address': hex(gadget.address)[:-1],
+                     'instructions': []}
+            for line in gadget.lines:
+                block['instructions'].append(line[1])
+
+            block['instructions'] = [' '.join(block['instructions'])]
+
+            ret.append(block)
+
+        return ret
 
     def process_query(self, command, ipt):
         gadgets = None
@@ -115,16 +139,7 @@ class Backend:
         if command == 'pop-pop-ret':
             gadgets = self.search_poppopret()
 
-        # process gadgets
-        ret = []
-        for gadget in gadgets:
-            block = {'address': hex(gadget[1].address)[:-1],
-                     'instructions': []}
-            for line in gadget[1].lines:
-                block['instructions'].append(line[1])
-
-            ret.append(block)
-        return ret
+        return gadgets
 
     #######################################
     # EXPORTATION TOOLS
@@ -139,7 +154,7 @@ class Backend:
         with open(file, 'w') as outfile:
             for block in chain:
                 for gadget in block:
-                    if self.num_bits(self.arch) == 32:
+                    if self.num_bits(self.get_arch()) == 32:
                         outfile.write(struct.pack('<I',
                                       int(gadget['address'], 16)))
                     else:
@@ -152,7 +167,7 @@ class Backend:
             outfile.write('p = ""\n')
             for block in chain:
                 for gadget in block:
-                    if self.num_bits(self.arch) == 32:
+                    if self.num_bits(self.get_arch()) == 32:
                         outfile.write('p += struct.pack("<I", {})'
                                       .format(gadget['address']))
                     else:
@@ -171,7 +186,7 @@ class Backend:
             outfile.write('p = ""\n')
             for block in chain:
                 for gadget in block:
-                    if self.num_bits(self.arch) == 32:
+                    if self.num_bits(self.get_arch()) == 32:
                         outfile.write('p += p32({})'
                                       .format(gadget['address']))
                     else:
