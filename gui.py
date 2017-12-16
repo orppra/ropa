@@ -136,7 +136,7 @@ def main():
     badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
 
     def updateBadBytes():
-        backend.update_badbytes(badbytesInput.text)
+        backend.update_badbytes(str(badbytesInput.text()))
 
     badbytesInput.textChanged.connect(updateBadBytes)
 
