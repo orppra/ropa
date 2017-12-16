@@ -6,6 +6,5 @@ architectures = [
     'MIPS',
     'MIPS64',
     'PPC',
-    'PPC64',
-    'x86'
+    'PPC64'
 ]
