@@ -1,6 +1,7 @@
 import sys
 from PyQt4 import QtGui as qg, QtCore as qc, uic
 from backend.Backend import Backend
+from backend.constants import architectures
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = qg.QApplication(sys.argv)
@@ -24,20 +25,30 @@ def open_file_dialog(backend):
     filenames = qc.QStringList()
     if dialog.exec_():
         filenames = dialog.selectedFiles()
-        arch = open_arch_dialog()
+        arch = open_arch_dialog(dialog)
         return arch, filenames[0]
-    raise Exception('Failed to open dialog/')
+    raise Exception('Failed to open dialog')
 
 
-def open_arch_dialog():
-    dialog = qg.QDialog()
-    dialog.ui = uic.loadUi('arch_dialog.ui')
-    dialog.ui.show()
-    arch_table = dialog.ui.findChild(qg.QTableWidget, 'arch_table')
-    # if arch_table.selectedItems():
-    #    arch = arch_table.selectedItems()[0]
-    arch = None
-    return arch
+def open_arch_dialog(window):
+    dialog = uic.loadUi('arch_dialog.ui')
+    arch_table = dialog.findChild(qg.QTableWidget, 'arch_table')
+    row = -1  # idk why
+    arch_table.setColumnCount(1)
+    arch_table.setRowCount(len(architectures))
+    arch_table.horizontalHeader().setResizeMode(0, qg.QHeaderView.Stretch)
+    for archi in architectures:
+        item = qg.QTableWidgetItem(archi)
+        arch_table.setItem(row, 1, item)
+        row += 1
+    dialog.show()
+    if dialog.exec_():
+        if arch_table.selectedItems() is not None:
+            arch = arch_table.selectedItems[0]
+        else:
+            arch = 'x86'
+        return arch
+    return Exception('Failed to open dialog')
 
 
 def open_file(filename):
