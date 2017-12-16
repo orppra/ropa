@@ -121,8 +121,10 @@ class Backend:
 
         return ret
 
-    def process_query(self, command, ipt):
+    def process_query(self, command, ipt, badbytes):
         gadgets = None
+
+        self.service.options.badbytes = badbytes
 
         if command == 'semantic':
             # semantic search
