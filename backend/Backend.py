@@ -56,7 +56,7 @@ class Backend:
 
     def make_service_instance(self):
         options = {'color': False,
-                   'badbytes': '',
+                   'badbytes': '000a0d',
                    'all': False,
                    'inst_count': 6,
                    'type': 'all',

@@ -94,14 +94,14 @@ def main():
         gadgets_list.viewport().setAcceptDrops(True)
         gadgets_list.setDropIndicatorShown(True)
 
-    filterInput = w.findChild(qg.QLineEdit, 'searchBar')
+    filter_input = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filter_function():
-        gadgets = backend.process_query('instruction', filterInput.text)
+        gadgets = backend.process_query('instruction', filter_input.text)
         show_in_gadgets_list(gadgets)
 
     def semantics_function():
-        gadgets = backend.process_query('semantic', filterInput.text)
+        gadgets = backend.process_query('semantic', filter_input.text)
         show_in_gadgets_list(gadgets)
 
     def ppr_function():
@@ -110,6 +110,7 @@ def main():
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
     filter_button.clicked.connect(filter_function)
+    filter_input.returnPressed.connect(filter_function)
     semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
     semantics_button.clicked.connect(semantics_function)
     ppr_button = w.findChild(qg.QPushButton, 'pprButton')
