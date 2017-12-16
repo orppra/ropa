@@ -93,7 +93,11 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="gadgetsList"/>
+         <widget class="QListView" name="gadgetsList">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -119,7 +123,7 @@
      <x>0</x>
      <y>0</y>
      <width>1740</width>
-     <height>25</height>
+     <height>42</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">

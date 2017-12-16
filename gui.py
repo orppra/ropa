@@ -85,8 +85,12 @@ def main():
         print(list(gadgets))
         gadgets_list.reset()
         model = qg.QStandardItemModel(gadgets_list)
-        for address, code in gadgets:
-            item = qg.QStandardItem(address + '\n' + code)
+        for gadget in gadgets:
+            print(gadget)
+            cell = gadget['address'] + ':\n'
+            cell += '-' * 2 * len(str(gadget['address'])) + '\n'
+            cell += '\n'.join(gadget['instructions']) + '\n'
+            item = qg.QStandardItem(cell)
             item.setEditable(False)
             model.appendRow(item)
         gadgets_list.setModel(model)
@@ -97,7 +101,8 @@ def main():
     filterInput = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filter_function():
-        gadgets = backend.process_query('instruction', filterInput.text)
+        gadgets = backend.process_query('instruction', str(filterInput.text()), '')
+        print(gadgets)
         show_in_gadgets_list(gadgets)
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
@@ -114,7 +119,7 @@ def main():
     bind_menu_button(w, 'actionOpen', lambda x: x, 'Ctrl+O')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
-    show_in_gadgets_list((('1234', 'high five!'),))
+    # show_in_gadgets_list((('1234', 'high five!'),))
 
     w.show()
     quit()
