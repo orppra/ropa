@@ -9,8 +9,8 @@ import struct
 
 class Backend:
 
-    def __init__(self, scene):
-        self.scene = scene
+    def __init__(self, app):
+        self.app = app
         self.filename = None
 
     #######################################
@@ -27,7 +27,7 @@ class Backend:
         pass
 
     def set_filterInput(self):
-        pass
+        return self.app.filterInput.text()
 
     def set_ropchain(self):
         # returns a list of list of tuples
