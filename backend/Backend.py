@@ -192,7 +192,7 @@ class Backend:
     def open_project(self, file):
         save_data = None
         with open(file, 'r') as infile:
-            save_data = json.loads(infile)
+            save_data = json.load(infile)
 
         self.set_filename(save_data['filename'])
         self.set_arch(save_data['arch'])

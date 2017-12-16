@@ -98,11 +98,9 @@ def main():
     gadgets_list.setDragEnabled(True)
 
     def show_in_gadgets_list(gadgets):
-        print(list(gadgets))
         gadgets_list.reset()
         model = qg.QStandardItemModel(gadgets_list)
         for gadget in gadgets:
-            print(gadget)
             cell = gadget['address'] + ':\n'
             cell += '-' * 2 * len(str(gadget['address'])) + '\n'
             cell += '\n'.join(gadget['instructions']) + '\n'
@@ -135,11 +133,11 @@ def main():
 
     def filter():
         searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
-        if searchType == 2:
+        if searchType == -2:
             filter_function()
-        elif searchType == 3:
+        elif searchType == -3:
             ppr_function()
-        elif searchType == 4:
+        elif searchType == -4:
             semantics_function()
 
     filter_button.clicked.connect(filter)
@@ -153,18 +151,19 @@ def main():
         filepath, arch = new_file_dialog()
         w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
         backend.set_arch(arch)
-        backend.set_filename(filepath)
+        backend.set_filename(str(filepath))
         backend.activate()
 
     def openProject():
         filepath = open_file_dialog()
-        backend.open_project(filepath)
+        print("Opened " + str(filepath))
+        backend.open_project(str(filepath))
         w.setWindowTitle(app_name + ' - ' +
                          os.path.basename(str(backend.get_filename())))
 
     def saveProject():
         filepath = open_file_dialog()
-        backend.save_project(filepath)
+        backend.save_project(str(filepath))
 
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
     bind_menu_button(w, 'actionOpen', openProject, 'Ctrl+O')
