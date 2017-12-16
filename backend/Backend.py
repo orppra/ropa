@@ -18,12 +18,12 @@ class Backend:
 
     def set_filename(self, filename):
         self.filename = filename
+        self.add_file()
 
     def set_arch(self, arch):
         self.arch = arch
 
     def activate(self):
-        self.add_file()
         self.service.loadGadgetsFor()
 
     #######################################
@@ -61,14 +61,14 @@ class Backend:
         return rs
 
     def add_file(self):
-        filename = self.get_filename()
+        filename = self.filename
         if filename is None:
             return 'Error: no file found'
         self.service.addFile(filename)
         return 'Success'
 
     def close_file(self):
-        self.service.removeFile(self.get_filename())
+        self.service.removeFile(self.filename)
 
     #######################################
     # ROPPER SEARCH FUNCTIONS
@@ -83,18 +83,18 @@ class Backend:
     def search_instruction(self, filter):
         gadgets = self.service.search(
             search=filter,
-            name=self.get_filename())
+            name=self.filename)
         return gadgets
 
     def search_jmpreg(self, location, offset):
         gadgets = self.service.searchJmpReg(
-            name=self.get_filename(),
+            name=self.filename,
             regs=[location, offset])
         return gadgets
 
     def search_poppopret(self):
         gadgets = self.service.searchPopPopRet(
-            name=self.get_filename())
+            name=self.filename)
         return gadgets
 
     def process_query(self, command, ipt):

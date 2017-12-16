@@ -1,6 +1,8 @@
 import sys
+import os
 from PyQt4 import QtGui as qg, QtCore as qc, uic
 from backend.Backend import Backend
+from backend.constants import architectures
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
 app = qg.QApplication(sys.argv)
@@ -14,16 +16,42 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
 
 def quit():
-    app.quit()
+    sys.exit(app.exec_())
 
 
 def open_file_dialog():
     dialog = qg.QFileDialog()
+    dialog.setWindowTitle('Open File')
     dialog.setFileMode(qg.QFileDialog.AnyFile)
     filenames = qc.QStringList()
     if dialog.exec_():
         filenames = dialog.selectedFiles()
-        return filenames[0]
+        arch = open_arch_dialog()
+        return filenames[0], arch
+    raise Exception('Failed to open dialog')
+
+
+def open_arch_dialog():
+    dialog = uic.loadUi('arch_dialog.ui')
+    dialog.setWindowTitle('Select Architecture')
+    arch_table = dialog.findChild(qg.QTableWidget, 'arch_table')
+    row = -1  # idk why
+    arch_table.setColumnCount(1)
+    arch_table.setRowCount(len(architectures))
+    arch_table.horizontalHeader().setResizeMode(0, qg.QHeaderView.Stretch)
+    for archi in architectures:
+        item = qg.QTableWidgetItem(archi)
+        arch_table.setItem(row, 1, item)
+        row += 1
+    dialog.show()
+    if dialog.exec_():
+        print(arch_table.selectedItems)
+        if arch_table.selectedItems() is not None:
+            arch = arch_table.selectedItems()[0]
+        else:
+            arch = 'x86'
+        return arch
+    return Exception('Failed to open dialog')
 
 
 def open_file(filename):
@@ -34,12 +62,15 @@ def open_file(filename):
     return result
 
 
+def bind_menu_button(window, button_name, func, shortcut_str=None):
+    button = window.findChild(qg.QAction, button_name)
+    if shortcut_str:
+        button.setShortcut(shortcut_str)
+    button.triggered.connect(func)
+
+
 def main():
     app_name = 'VsymX'
-
-    # TODO: bind this thing correctly
-    # exit = app.findChild(qg.QAction, 'actionExit')
-    # exit.clicked.connect(quit)
 
     w = App()
     w.resize(1080, 720)
@@ -48,29 +79,39 @@ def main():
 
     backend = Backend(w)
 
-    # get list
-    def showInResultsList(gadgets):
-        pass
+    resultsList = w.findChild(qg.QListView, 'listView')
+    resultsList.setDragEnabled(True)
 
-    w.filterInput = w.findChild(qg.QLineEdit, 'searchBar')
+    def showInResultsList(gadgets):
+        print(gadgets)
+        resultsList.reset()
+        model = qg.QStandardItemModel(resultsList)
+        for address, code in gadgets:
+            item = qg.QStandardItem(address, code)
+            model.appendRow(item)
+
+    filterInput = w.findChild(qg.QLineEdit, 'searchBar')
 
     def filterFunction():
-        gadgets = backend.process_query('instruction', w.filterInput.text)
+        gadgets = backend.process_query('instruction', filterInput.text)
         showInResultsList(gadgets)
 
-    w.filterButton = w.findChild(qg.QPushButton, 'searchButton')
-    w.filterButton.clicked.connect(filterFunction)
+    filterButton = w.findChild(qg.QPushButton, 'searchButton')
+    filterButton.clicked.connect(filterFunction)
 
     def startNewProject():
-        filepath = open_file_dialog()
-        print(filepath)
+        arch, filepath = open_file_dialog()
+        backend.set_arch(arch)
         backend.set_filename(filepath)
+        backend.activate()
+        w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
 
-    newProjectButton = w.findChild(qg.QAction, 'actionNew')
-    newProjectButton.triggered.connect(startNewProject)
+    bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
+    bind_menu_button(w, 'actionOpen', lambda x: x, 'Ctrl+O')
+    bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
     w.show()
-    sys.exit(app.exec_())
+    quit()
 
 
 if __name__ == '__main__':
