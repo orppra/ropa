@@ -1,4 +1,4 @@
-# mr-smith
+# VsymX
 
 ### The Idea
 
