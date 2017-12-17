@@ -98,27 +98,29 @@ def main():
     w.setWindowTitle(app_name)
 
     backend = Backend(w)
-    chain_list = w.findChild(qg.QListView, 'graphicsView')
+    chain_list = w.findChild(qg.QListWidget, 'graphicsView')
     chain_list.setDragEnabled(True)
-    gadgets_list = w.findChild(qg.QListView, 'gadgetsList')
+    gadgets_list = w.findChild(qg.QListWidget, 'gadgetsList')
     gadgets_list.setDragEnabled(True)
 
     def show_in_gadgets_list(gadgets):
         gadgets_list.reset()
         font = qg.QFont()
         font.setFamily(_fromUtf8('Courier new'))
-        model = qg.QStandardItemModel(gadgets_list)
+        # model = qg.QStandardItemModel(gadgets_list)
         for gadget in gadgets:
             cell = gadget['address'] + ':\n'
             cell += '-' * 2 * len(str(gadget['address'])) + '\n'
             cell += '\n'.join(gadget['instructions']) + '\n'
-            item = qg.QStandardItem(cell)
-            item.setEditable(False)
+            # item = qg.QStandardItem(cell)
+            item = qg.QListWidgetItem(qc.QString(cell), gadgets_list)
+            #item.setEditable(False)
             item.setFont(font)
             # item.setDragDropMode('InternalMove')
-            model.appendRow(item)
+            # model.appendRow(item)
+            gadgets_list.insertItem(gadgets_list.count(), item)
 
-        gadgets_list.setModel(model)
+        # gadgets_list.setModel(model)
         gadgets_list.setDragEnabled(True)
         gadgets_list.viewport().setAcceptDrops(True)
         gadgets_list.setDropIndicatorShown(True)
@@ -140,12 +142,12 @@ def main():
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
 
-    graphics_view = w.findChild(qg.QListView, 'graphicsView')
-    graphics_model = qg.QStandardItemModel(graphics_view)
+    graphics_view = w.findChild(qg.QListWidget, 'graphicsView')
+    # graphics_model = qg.QStandardItemModel(graphics_view)
     graphics_view.setDragEnabled(True)
     graphics_view.setAcceptDrops(True)
     graphics_view.setDropIndicatorShown(True)
-    graphics_view.setModel(graphics_model)
+    # graphics_view.setModel(graphics_model)
 
     def filter():
         searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
@@ -159,12 +161,12 @@ def main():
     filter_button.clicked.connect(filter)
     filter_input.returnPressed.connect(filter)
 
-    block_list = w.findChild(qg.QListView, 'blockList')
-    model = qg.QStandardItemModel(block_list)
+    block_list = w.findChild(qg.QListWidget, 'blockList')
+    # model = qg.QStandardItemModel(block_list)
     block_list.setDragEnabled(True)
     block_list.setAcceptDrops(True)
     block_list.setDropIndicatorShown(True)
-    block_list.setModel(model)
+    # block_list.setModel(model)
 
     # DragEnterEvent, DragMoveEvent, DragLeaveEvent, DropEvent
     # block_list.drag
