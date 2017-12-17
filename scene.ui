@@ -59,7 +59,7 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>User-defined Blocks</string>
+           <string>Favourites</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -67,7 +67,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="blockList"/>
+         <widget class="QListView" name="blockList"/>
         </item>
        </layout>
       </item>
@@ -81,7 +81,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="chainLabel">
           <property name="text">
            <string>ROP Chain</string>
           </property>
@@ -91,11 +91,15 @@
          </widget>
         </item>
         <item>
+<<<<<<< HEAD
          <widget class="QListWidget" name="graphicsView">
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
          </widget>
+=======
+         <widget class="QListView" name="graphicsView"/>
+>>>>>>> e34cc2fabc9f2f34346f44339e1d6426a920ad89
         </item>
        </layout>
       </item>
@@ -192,12 +196,12 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="gadgetsList">
+         <widget class="QListView" name="gadgetsList">
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
           <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
+           <enum>QAbstractItemView::MultiSelection</enum>
           </property>
          </widget>
         </item>
