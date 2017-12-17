@@ -119,17 +119,24 @@ class Backend:
         if command == 'semantic':
             # semantic search
             gadgets = self.search_semantic(ipt)
+            for i in range(len(gadgets)):
+                gadgets[i]['info'] = ipt
 
         if command == 'instruction':
             gadgets = self.search_instruction(ipt)
+            for i in range(len(gadgets)):
+                gadgets[i]['info'] = ipt
 
         if command == 'jmp-reg':
             gadgets = self.search_jmpreg(
                 ipt.split(',')[0],
                 ipt.split(',')[1])
+            # not supported right now
 
         if command == 'pop-pop-ret':
             gadgets = self.search_poppopret()
+            for i in range(len(gadgets)):
+                gadgets[i]['info'] = 'pop-pop-ret'
 
         return gadgets
 

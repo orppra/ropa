@@ -109,13 +109,13 @@ def main():
         font.setFamily(_fromUtf8('Courier new'))
         # model = qg.QStandardItemModel(gadgets_list)
         for gadget in gadgets:
-            cell = gadget['address'] + ':\n'
-            cell += '-' * 2 * len(str(gadget['address'])) + '\n'
+            cell = gadget['address'] + '\n'
+            # cell += '-' * 2 * len(str(gadget['address'])) + '\n'
             cell += '\n'.join(gadget['instructions']) + '\n'
             # item = qg.QStandardItem(cell)
             item = qg.QListWidgetItem(qc.QString(cell), gadgets_list)
-            #item.setEditable(False)
             item.setFont(font)
+            # item.setStatusTip(qc.QString(gadget['info']))
             # item.setDragDropMode('InternalMove')
             # model.appendRow(item)
             gadgets_list.insertItem(gadgets_list.count(), item)
@@ -141,13 +141,31 @@ def main():
         show_in_gadgets_list(gadgets)
 
     filter_button = w.findChild(qg.QPushButton, 'searchButton')
-
     graphics_view = w.findChild(qg.QListWidget, 'graphicsView')
     # graphics_model = qg.QStandardItemModel(graphics_view)
     graphics_view.setDragEnabled(True)
     graphics_view.setAcceptDrops(True)
     graphics_view.setDropIndicatorShown(True)
     # graphics_view.setModel(graphics_model)
+
+    def getDescriptionString():
+        searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
+        if searchType == -2:
+            return str(filter_input.text())
+        elif searchType == -3:
+            return 'pop-pop-ret'
+        elif searchType == -4:
+            return str(filter_input.text())
+
+    def showTitleInCentre():
+        return
+        print('Added')
+        item = graphics_view.item(graphics_view.count() - 1)
+        toShow = '<b>' + getDescriptionString() + '</b>\n' + str(item.text())
+        print(toShow)
+        item.setText(toShow)
+
+    graphics_view.model().rowsInserted.connect(showTitleInCentre)
 
     def filter():
         searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
@@ -230,7 +248,6 @@ def main():
             graphics_view.insertItem(index + 1, item)
             graphics_view.setCurrentRow(index + 1)
         if e.key() == qc.Qt.Key_Delete:
-            # delete
             graphics_view.takeItem(graphics_view.selectedIndexes()[0].row())
 
     graphics_view.keyPressEvent = keyPressEvent
