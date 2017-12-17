@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>929</width>
+    <width>993</width>
     <height>672</height>
    </rect>
   </property>
@@ -93,7 +93,7 @@
         <item>
          <widget class="QListWidget" name="graphicsView">
           <property name="alternatingRowColors">
-            <bool>true</bool>
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -224,8 +224,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>929</width>
-     <height>25</height>
+     <width>993</width>
+     <height>42</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">
@@ -242,10 +242,19 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuExport_as">
+     <property name="title">
+      <string>Export as</string>
+     </property>
+     <addaction name="actionBinary"/>
+     <addaction name="actionStruct"/>
+     <addaction name="actionPwntools"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
+    <addaction name="menuExport_as"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -270,6 +279,21 @@
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionBinary">
+   <property name="text">
+    <string>Raw binary</string>
+   </property>
+  </action>
+  <action name="actionStruct">
+   <property name="text">
+    <string>Python (struct)</string>
+   </property>
+  </action>
+  <action name="actionPwntools">
+   <property name="text">
+    <string>Python (pwntools)</string>
    </property>
   </action>
  </widget>

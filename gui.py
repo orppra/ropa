@@ -199,10 +199,63 @@ def main():
         filepath = open_file_dialog()
         backend.save_project(str(filepath))
 
+    def exportBinary():
+        filepath = open_file_dialog()
+        chain = []
+        for index in range(graphics_view.count()):
+            block = str(graphics_view.item(index).text())
+            print(str(block))
+            block = block.split('\n')
+            address = block[0]
+            block = block[2:]
+            instructions = []
+            for b in block:
+                instructions.append(block)
+            chain.append([{'address': address, 'instructions': instructions}])
+
+        backend.export_binary(filepath, chain)
+
+    def exportStruct():
+        filepath = open_file_dialog()
+        chain = []
+        for index in range(graphics_view.count()):
+            block = str(graphics_view.item(index).text())
+            print(str(block))
+            block = block.split('\n')
+            address = block[0]
+            block = block[2:]
+            instructions = []
+            for b in block:
+                instructions.append(block)
+            chain.append([{'address': address, 'instructions': instructions}])
+
+        backend.export_python_struct(filepath, chain)
+
+    def exportPwntools():
+        filepath = open_file_dialog()
+        chain = []
+        for index in range(graphics_view.count()):
+            block = str(graphics_view.item(index).text())
+            block = block.split('\n')
+            address = block[0]
+            block = block[2:]
+            instructions = []
+            for b in block:
+                print(b)
+                instructions.append(b)
+            print(instructions)
+            chain.append([{'address': address, 'instructions': instructions}])
+
+        backend.export_python_pwntools(filepath, chain)
+
+
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
     bind_menu_button(w, 'actionOpen', openProject, 'Ctrl+O')
     bind_menu_button(w, 'actionSave', saveProject, 'Ctrl+S')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
+    bind_menu_button(w, 'actionBinary', exportBinary, '')
+    bind_menu_button(w, 'actionStruct', exportStruct, '')
+    bind_menu_button(w, 'actionPwntools', exportPwntools, '')
 
     # show_in_gadgets_list(({'address': '1234',
     #                        'instructions': 'high five!'},))
