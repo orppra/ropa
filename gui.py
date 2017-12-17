@@ -104,7 +104,7 @@ def main():
     gadgets_list.setDragEnabled(True)
 
     def show_in_gadgets_list(gadgets):
-        gadgets_list.reset()
+        gadgets_list.clear()
         font = qg.QFont()
         font.setFamily(_fromUtf8('Courier new'))
         # model = qg.QStandardItemModel(gadgets_list)
@@ -244,7 +244,7 @@ def main():
             block = block[2:]
             instructions = []
             for b in block:
-                instructions.append(block)
+                instructions.append(b)
             chain.append([{'address': address, 'instructions': instructions}])
 
         backend.export_python_struct(filepath, chain)
