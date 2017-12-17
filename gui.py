@@ -232,25 +232,42 @@ def main():
 
     badbytesInput.textChanged.connect(updateBadBytes)
 
-    def keyPressEvent(e):
-        if e.key() == qc.Qt.Key_Up:
-            index = graphics_view.currentRow()
-            if index == 0:
-                return
-            item = graphics_view.takeItem(index)
-            graphics_view.insertItem(index - 1, item)
-            graphics_view.setCurrentRow(index - 1)
-        if e.key() == qc.Qt.Key_Down:
-            index = graphics_view.currentRow()
-            if index == graphics_view.count() - 1:
-                return
-            item = graphics_view.takeItem(index)
-            graphics_view.insertItem(index + 1, item)
-            graphics_view.setCurrentRow(index + 1)
-        if e.key() == qc.Qt.Key_Delete:
-            graphics_view.takeItem(graphics_view.selectedIndexes()[0].row())
+    class KeyPressController:
 
-    graphics_view.keyPressEvent = keyPressEvent
+        def __init__(self):
+            self.control = False
+
+        def keyPressEvent(self, e):
+            if e.key() == qc.Qt.Key_Control:
+                self.control = True
+            if e.key() == qc.Qt.Key_Up:
+                index = graphics_view.currentRow()
+                if index == 0:
+                    return
+                if self.control:
+                    item = graphics_view.takeItem(index)
+                    graphics_view.insertItem(index - 1, item)
+                graphics_view.setCurrentRow(index - 1)
+            if e.key() == qc.Qt.Key_Down:
+                index = graphics_view.currentRow()
+                if index == graphics_view.count() - 1:
+                    return
+                if self.control:
+                    item = graphics_view.takeItem(index)
+                    graphics_view.insertItem(index + 1, item)
+                graphics_view.setCurrentRow(index + 1)
+            if e.key() == qc.Qt.Key_Delete:
+                # delete
+                graphics_view.takeItem(graphics_view
+                                       .selectedIndexes()[0].row())
+
+        def keyReleaseEvent(self, e):
+            if e.key() == qc.Qt.Key_Control:
+                self.control = False
+
+    controller = KeyPressController()
+    graphics_view.keyPressEvent = controller.keyPressEvent
+    graphics_view.keyReleaseEvent = controller.keyReleaseEvent
 
     w.show()
     quit()
