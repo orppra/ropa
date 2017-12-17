@@ -2,7 +2,7 @@
 
 ### The Idea
 
-GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains easily.  
+GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains as easily as possible.  
 
 ### Features
 
@@ -13,4 +13,8 @@ GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) ch
 - Project saving
 
 ### Installation
-`source setup`
+#### Ropper
+We use the Ropper API for our gadget searching. Installation instructions can be found [here](https://github.com/sashs/Ropper)
+
+### Run
+`python gui.py`
