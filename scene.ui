@@ -91,7 +91,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QListView" name="graphicsView"/>
+         <widget class="QListView" name="graphicsView">
+          <property name="alternatingRowColors">
+            <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -193,7 +197,7 @@
            <bool>true</bool>
           </property>
           <property name="selectionMode">
-           <enum>QAbstractItemView::MultiSelection</enum>
+           <enum>QAbstractItemView::SingleSelection</enum>
           </property>
          </widget>
         </item>

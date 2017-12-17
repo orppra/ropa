@@ -66,7 +66,14 @@ class Backend:
         self.service.analyseGadgets(self.service.getFileFor(self.filename))
         gadgets = self.service.semanticSearch(
             search=[filter])
-        return gadgets
+        print(gadgets)
+        ret = []
+        for gadget in gadgets:
+            block = {'address': hex(gadget[1].address)[:-1],
+                     'instructions': []}
+            for line in gadget[1].lines:
+                block['instructions'].append(line[1])
+        return ret
 
     def search_instruction(self, filter):
         gadgets = self.service.search(

@@ -202,7 +202,8 @@ def main():
     bind_menu_button(w, 'actionSave', saveProject, 'Ctrl+S')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
 
-    show_in_gadgets_list(({'address': '1234', 'instructions': 'high five!'},))
+    # show_in_gadgets_list(({'address': '1234',
+    #                        'instructions': 'high five!'},))
 
     badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
 
@@ -210,6 +211,19 @@ def main():
         backend.update_badbytes(str(badbytesInput.text()))
 
     badbytesInput.textChanged.connect(updateBadBytes)
+
+    def keyPressEvent(e):
+        if e.key() == qc.Qt.Key_Up:
+            print('Up')
+            if len(graphics_view.selectedIndexes()):
+                return
+            index = graphics_view.selectedIndexe()[0]
+
+        if e.key() == qc.Qt.Key_Down:
+            print('Down')
+            if len(graphics_view.selectedIndexes()):
+                return
+            index = graphics_view.selectedIndexes()[0]
 
     w.show()
     quit()
