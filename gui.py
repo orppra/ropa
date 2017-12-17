@@ -216,16 +216,24 @@ def main():
 
     def keyPressEvent(e):
         if e.key() == qc.Qt.Key_Up:
-            print('Up')
-            if len(graphics_view.selectedIndexes()):
+            index = graphics_view.currentRow()
+            if index == 0:
                 return
-            index = graphics_view.selectedIndexe()[0]
-
+            item = graphics_view.takeItem(index)
+            graphics_view.insertItem(index - 1, item)
+            graphics_view.setCurrentRow(index - 1)
         if e.key() == qc.Qt.Key_Down:
-            print('Down')
-            if len(graphics_view.selectedIndexes()):
+            index = graphics_view.currentRow()
+            if index == graphics_view.count() - 1:
                 return
-            index = graphics_view.selectedIndexes()[0]
+            item = graphics_view.takeItem(index)
+            graphics_view.insertItem(index + 1, item)
+            graphics_view.setCurrentRow(index + 1)
+        if e.key() == qc.Qt.Key_Delete:
+            # delete
+            graphics_view.takeItem(graphics_view.selectedIndexes()[0].row())
+
+    graphics_view.keyPressEvent = keyPressEvent
 
     w.show()
     quit()

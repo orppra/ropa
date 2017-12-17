@@ -1,4 +1,4 @@
-from Ropper.ropper import RopperService
+from ropper import RopperService
 import json
 import struct
 
