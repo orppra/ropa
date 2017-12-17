@@ -91,15 +91,11 @@
          </widget>
         </item>
         <item>
-<<<<<<< HEAD
          <widget class="QListWidget" name="graphicsView">
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
          </widget>
-=======
-         <widget class="QListView" name="graphicsView"/>
->>>>>>> e34cc2fabc9f2f34346f44339e1d6426a920ad89
         </item>
        </layout>
       </item>
