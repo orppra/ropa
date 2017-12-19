@@ -1,9 +1,15 @@
 import sys
-import os
+
 from PyQt4 import QtGui as qg, QtCore as qc, uic
 
 from ropa.backend import Backend
-from file_dialog_controller import *
+from ropa.gui import UI_PATH
+
+from list_key_controller import ListKeyController
+from filter_input_controller import FilterInputController
+from badbytes_input_controller import BadbytesInputController
+from menu_item_controller import MenuItemController
+from export_controller import ExportController
 
 try:
     _fromUtf8 = qc.QString.fromUtf8
@@ -12,267 +18,158 @@ except AttributeError:
         return s
 
 Ui_MainWindow, QtBaseClass = uic.loadUiType(UI_PATH + '/scene.ui')
-app = qg.QApplication(sys.argv)
 
 
 class App(qg.QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, app_name):
+        self.app_name = app_name
+
+        self.backend = Backend(self)
+
+        self.app = qg.QApplication(sys.argv)
         qg.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
+        self._load_list_widgets()
+        self._load_textinputs()
+        self._load_buttons()
+        self._bind_menu_buttons()
 
-def quit():
-    sys.exit(app.exec_())
+    def get_backend(self):
+        return self.backend
+
+    def get_app_name(self):
+        return self.app_name
+
+    def quit(self):
+        sys.exit(self.app.exec_())
+
+    def _load_list_widgets(self):
+        self.gadgets_list_widget = self.findChild(qg.QListWidget,
+                                                  'gadgetsList')
+        self.gadgets_list_widget.setDragEnabled(True)
+
+        self.chain_list_widget = self.findChild(qg.QListWidget, 'chainList')
+        self.chain_list_widget.setDragEnabled(True)
+        self.chain_list_widget.setAcceptDrops(True)
+        self.chain_list_widget.setDropIndicatorShown(True)
+
+        controller = ListKeyController(self.chain_list_widget)
+        self.chain_list_widget.keyPressEvent = controller.key_press_event
+        self.chain_list_widget.keyReleaseEvent = controller.key_release_event
+        # graphics_model = qg.QStandardItemModel(graphics_view)
+        # graphics_view.setModel(graphics_model)
+
+        self.block_list_widget = self.findChild(qg.QListWidget, 'blockList')
+        self.block_list_widget.setDragEnabled(True)
+        self.block_list_widget.setAcceptDrops(True)
+        self.block_list_widget.setDropIndicatorShown(True)
+        # model = qg.QStandardItemModel(block_list)
+        # block_list.setModel(model)
+
+    def _load_buttons(self):
+        self.search_instructions_button = self.findChild(qg.QPushButton,
+                                                         'searchInstructions')
+        self.search_poppopret_button = self.findChild(qg.QPushButton,
+                                                      'searchPopPopRet')
+        self.search_semantics_button = self.findChild(qg.QPushButton,
+                                                      'searchSemantics')
+
+        controller = FilterInputController(self.backend, self.filter_input,
+                                           self.gadgets_list_widget)
+
+        self._bind_button_clicked(self.search_instructions_button,
+                                  controller.filter_function)
+        self._bind_button_clicked(self.search_poppopret_button,
+                                  controller.ppr_function)
+        self._bind_button_clicked(self.search_semantics_button,
+                                  controller.semantics_function)
+
+    def _load_textinputs(self):
+        self.filter_input = self.findChild(qg.QLineEdit, 'searchBar')
+
+        self.badbytes_input = self.findChild(qg.QLineEdit, 'badbytesInput')
+
+        fcontroller = FilterInputController(self.backend, self.filter_input,
+                                            self.gadgets_list_widget)
+        bcontroller = BadbytesInputController(self.backend,
+                                              self.badbytes_input)
+
+        self._bind_input_return(self.filter_input, fcontroller.filter_function)
+        self._bind_input_changed(self.badbytes_input,
+                                 bcontroller.update_badbytes)
+
+    def _bind_button_clicked(self, button, func):
+        button.clicked.connect(lambda: func())
+
+    def _bind_input_return(self, input_box, func):
+        input_box.returnPressed.connect(lambda: func())
+
+    def _bind_input_changed(self, input_box, func):
+        input_box.textChanged.connect(lambda: func())
+
+    def _bind_menu_button(self, window, button_name, func, shortcut_str=None):
+        button = window.findChild(qg.QAction, button_name)
+        if shortcut_str:
+            button.setShortcut(shortcut_str)
+        button.triggered.connect(lambda: func())
+
+    def _bind_menu_buttons(self):
+        mcontroller = MenuItemController(self)
+
+        self._bind_menu_button(self, 'actionNew',
+                               mcontroller.start_new_project, 'Ctrl+N')
+        self._bind_menu_button(self, 'actionOpen',
+                               mcontroller.open_project, 'Ctrl+O')
+        self._bind_menu_button(self, 'actionSave',
+                               mcontroller.save_project, 'Ctrl+S')
+
+        self._bind_menu_button(self, 'actionQuit', quit, 'Ctrl+Q')
+
+        econtroller = ExportController(self.backend, self.chain_list_widget)
+
+        self._bind_menu_button(self, 'actionBinary',
+                               econtroller.export_binary)
+        self._bind_menu_button(self, 'actionStruct',
+                               econtroller.export_python_struct)
+        self._bind_menu_button(self, 'actionPwntools',
+                               econtroller.export_python_pwntools)
 
 
-def open_file(filename):
-    result = ''
-    with open(filename, 'r') as file:
-        for line in file:
-            result += line
-    return result
+"""
+def get_description_string():
+    searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
+    if searchType == -2:
+        return str(filter_input.text())
+    elif searchType == -3:
+        return 'pop-pop-ret'
+    elif searchType == -4:
+        return str(filter_input.text())
 
+def show_title_in_centre():
+    return
+    print('Added')
+    item = graphics_view.item(graphics_view.count() - 1)
+    toShow = '<b>' + get_description_string() + '</b>\n' + str(item.text())
+    print(toShow)
+    item.setText(toShow)
 
-def bind_menu_button(window, button_name, func, shortcut_str=None):
-    button = window.findChild(qg.QAction, button_name)
-    if shortcut_str:
-        button.setShortcut(shortcut_str)
-    button.triggered.connect(func)
+graphics_view.model().rowsInserted.connect(showTitleInCentre)
+"""
 
+# DragEnterEvent, DragMoveEvent, DragLeaveEvent, DropEvent
+# block_list.drag
+# semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
+# semantics_button.clicked.connect(semantics_function)
+# ppr_button = w.findChild(qg.QPushButton, 'pprButton')
+# ppr_button.clicked.connect(ppr_function)
 
-def main():
-    app_name = 'ropa'
+# def drop(e):
+#     indices = gadgets_list.selectedIndexes()
+#     print (gadgets_list.selectedIndexes())
 
-    w = App()
-    w.resize(1200, 720)
-    w.move(300, 300)
-    w.setWindowTitle(app_name)
+# block_list.dropEvent(event)
 
-    backend = Backend(w)
-    chain_list = w.findChild(qg.QListWidget, 'graphicsView')
-    chain_list.setDragEnabled(True)
-    gadgets_list = w.findChild(qg.QListWidget, 'gadgetsList')
-    gadgets_list.setDragEnabled(True)
-
-    def show_in_gadgets_list(gadgets):
-        gadgets_list.clear()
-        font = qg.QFont()
-        font.setFamily(_fromUtf8('Courier new'))
-        # model = qg.QStandardItemModel(gadgets_list)
-        for gadget in gadgets:
-            cell = gadget['address'] + '\n'
-            # cell += '-' * 2 * len(str(gadget['address'])) + '\n'
-            cell += '\n'.join(gadget['instructions']) + '\n'
-            # item = qg.QStandardItem(cell)
-            item = qg.QListWidgetItem(qc.QString(cell), gadgets_list)
-            item.setFont(font)
-            # item.setStatusTip(qc.QString(gadget['info']))
-            # item.setDragDropMode('InternalMove')
-            # model.appendRow(item)
-            gadgets_list.insertItem(gadgets_list.count(), item)
-
-        # gadgets_list.setModel(model)
-        gadgets_list.setDragEnabled(True)
-        gadgets_list.viewport().setAcceptDrops(True)
-        gadgets_list.setDropIndicatorShown(True)
-
-    filter_input = w.findChild(qg.QLineEdit, 'searchBar')
-
-    def filter_function():
-        gadgets = backend.process_query('instruction',
-                                        str(filter_input.text()))
-        show_in_gadgets_list(gadgets)
-
-    def semantics_function():
-        gadgets = backend.process_query('semantic', str(filter_input.text()))
-        show_in_gadgets_list(gadgets)
-
-    def ppr_function():
-        gadgets = backend.process_query('pop-pop-ret', '')
-        show_in_gadgets_list(gadgets)
-
-    search_instructions_button = w.findChild(qg.QPushButton,
-                                             'searchInstructions')
-    search_poppopret_button = w.findChild(qg.QPushButton,
-                                          'searchPopPopRet')
-    search_semantics_button = w.findChild(qg.QPushButton,
-                                          'searchSemantics')
-
-    graphics_view = w.findChild(qg.QListWidget, 'graphicsView')
-    # graphics_model = qg.QStandardItemModel(graphics_view)
-    graphics_view.setDragEnabled(True)
-    graphics_view.setAcceptDrops(True)
-    graphics_view.setDropIndicatorShown(True)
-    # graphics_view.setModel(graphics_model)
-
-    """
-    def get_description_string():
-        searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
-        if searchType == -2:
-            return str(filter_input.text())
-        elif searchType == -3:
-            return 'pop-pop-ret'
-        elif searchType == -4:
-            return str(filter_input.text())
-
-    def show_title_in_centre():
-        return
-        print('Added')
-        item = graphics_view.item(graphics_view.count() - 1)
-        toShow = '<b>' + get_description_string() + '</b>\n' + str(item.text())
-        print(toShow)
-        item.setText(toShow)
-
-    graphics_view.model().rowsInserted.connect(showTitleInCentre)
-    """
-
-    search_instructions_button.clicked.connect(filter_function)
-    search_poppopret_button.clicked.connect(ppr_function)
-    search_semantics_button.clicked.connect(semantics_function)
-    filter_input.returnPressed.connect(filter_function)
-
-    block_list = w.findChild(qg.QListWidget, 'blockList')
-    # model = qg.QStandardItemModel(block_list)
-    block_list.setDragEnabled(True)
-    block_list.setAcceptDrops(True)
-    block_list.setDropIndicatorShown(True)
-    # block_list.setModel(model)
-
-    # DragEnterEvent, DragMoveEvent, DragLeaveEvent, DropEvent
-    # block_list.drag
-    # semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
-    # semantics_button.clicked.connect(semantics_function)
-    # ppr_button = w.findChild(qg.QPushButton, 'pprButton')
-    # ppr_button.clicked.connect(ppr_function)
-
-    # def drop(e):
-    #     indices = gadgets_list.selectedIndexes()
-    #     print (gadgets_list.selectedIndexes())
-
-    # block_list.dropEvent(event)
-
-    def start_new_project():
-        filepath, arch = new_file_dialog()
-        w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
-        backend.set_arch(arch)
-        backend.set_filename(str(filepath))
-        backend.activate()
-
-    def open_project():
-        filepath = open_file_dialog()
-        print("Opened " + str(filepath))
-        backend.open_project(str(filepath))
-        w.setWindowTitle(app_name + ' - ' +
-                         os.path.basename(str(backend.get_filename())))
-
-    def save_project():
-        filepath = open_file_dialog()
-        backend.save_project(str(filepath))
-
-    def export_binary():
-        filepath = open_file_dialog()
-        chain = []
-        for index in range(graphics_view.count()):
-            block = str(graphics_view.item(index).text())
-            print(str(block))
-            block = block.split('\n')
-            address = block[0]
-            block = block[2:]
-            instructions = []
-            for b in block:
-                instructions.append(block)
-            chain.append([{'address': address, 'instructions': instructions}])
-
-        backend.export_binary(filepath, chain)
-
-    def export_python_struct():
-        filepath = open_file_dialog()
-        chain = []
-        for index in range(graphics_view.count()):
-            block = str(graphics_view.item(index).text())
-            print(str(block))
-            block = block.split('\n')
-            address = block[0]
-            block = block[2:]
-            instructions = []
-            for b in block:
-                instructions.append(b)
-            chain.append([{'address': address, 'instructions': instructions}])
-
-        backend.export_python_struct(filepath, chain)
-
-    def export_python_pwntools():
-        filepath = open_file_dialog()
-        chain = []
-        for index in range(graphics_view.count()):
-            block = str(graphics_view.item(index).text())
-            block = block.split('\n')
-            address = block[0]
-            block = block[2:]
-            instructions = []
-            for b in block:
-                print(b)
-                instructions.append(b)
-            print(instructions)
-            chain.append([{'address': address, 'instructions': instructions}])
-
-        backend.export_python_pwntools(filepath, chain)
-
-    bind_menu_button(w, 'actionNew', start_new_project, 'Ctrl+N')
-    bind_menu_button(w, 'actionOpen', open_project, 'Ctrl+O')
-    bind_menu_button(w, 'actionSave', save_project, 'Ctrl+S')
-    bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
-    bind_menu_button(w, 'actionBinary', export_binary, '')
-    bind_menu_button(w, 'actionStruct', export_python_struct, '')
-    bind_menu_button(w, 'actionPwntools', export_python_pwntools, '')
-
-    # show_in_gadgets_list(({'address': '1234',
-    #                        'instructions': 'high five!'},))
-
-    badbytes_input = w.findChild(qg.QLineEdit, 'badbytesInput')
-
-    def update_badbytes():
-        backend.update_badbytes(str(badbytes_input.text()))
-
-    badbytes_input.textChanged.connect(update_badbytes)
-
-    class KeyPressController:
-
-        def __init__(self):
-            self.control = False
-
-        def key_press_event(self, e):
-            if e.key() == qc.Qt.Key_Control:
-                self.control = True
-            if e.key() == qc.Qt.Key_Up:
-                index = graphics_view.currentRow()
-                if index == 0:
-                    return
-                if self.control:
-                    item = graphics_view.takeItem(index)
-                    graphics_view.insertItem(index - 1, item)
-                graphics_view.setCurrentRow(index - 1)
-            if e.key() == qc.Qt.Key_Down:
-                index = graphics_view.currentRow()
-                if index == graphics_view.count() - 1:
-                    return
-                if self.control:
-                    item = graphics_view.takeItem(index)
-                    graphics_view.insertItem(index + 1, item)
-                graphics_view.setCurrentRow(index + 1)
-            if e.key() == qc.Qt.Key_Delete:
-                # delete
-                graphics_view.takeItem(graphics_view
-                                       .selectedIndexes()[0].row())
-
-        def key_release_event(self, e):
-            if e.key() == qc.Qt.Key_Control:
-                self.control = False
-
-    controller = KeyPressController()
-    graphics_view.keyPressEvent = controller.key_press_event
-    graphics_view.keyReleaseEvent = controller.key_release_event
-
-    w.show()
-    quit()
+# show_in_gadgets_list(({'address': '1234',
+#                        'instructions': 'high five!'},))
