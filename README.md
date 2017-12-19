@@ -48,6 +48,3 @@ sudo yum install PyQt4
 
 ## Usage
 `python gui.py`
-
-## License
-[MIT](LICENSE)
