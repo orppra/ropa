@@ -140,7 +140,13 @@ def main():
         gadgets = backend.process_query('pop-pop-ret', '')
         show_in_gadgets_list(gadgets)
 
-    filter_button = w.findChild(qg.QPushButton, 'searchButton')
+    search_instructions_button = w.findChild(qg.QPushButton,
+                                             'searchInstructions')
+    search_poppopret_button = w.findChild(qg.QPushButton,
+                                          'searchPopPopRet')
+    search_semantics_button = w.findChild(qg.QPushButton,
+                                          'searchSemantics')
+
     graphics_view = w.findChild(qg.QListWidget, 'graphicsView')
     # graphics_model = qg.QStandardItemModel(graphics_view)
     graphics_view.setDragEnabled(True)
@@ -148,7 +154,8 @@ def main():
     graphics_view.setDropIndicatorShown(True)
     # graphics_view.setModel(graphics_model)
 
-    def getDescriptionString():
+    """
+    def get_description_string():
         searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
         if searchType == -2:
             return str(filter_input.text())
@@ -157,27 +164,21 @@ def main():
         elif searchType == -4:
             return str(filter_input.text())
 
-    def showTitleInCentre():
+    def show_title_in_centre():
         return
         print('Added')
         item = graphics_view.item(graphics_view.count() - 1)
-        toShow = '<b>' + getDescriptionString() + '</b>\n' + str(item.text())
+        toShow = '<b>' + get_description_string() + '</b>\n' + str(item.text())
         print(toShow)
         item.setText(toShow)
 
     graphics_view.model().rowsInserted.connect(showTitleInCentre)
+    """
 
-    def filter():
-        searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
-        if searchType == -2:
-            filter_function()
-        elif searchType == -3:
-            ppr_function()
-        elif searchType == -4:
-            semantics_function()
-
-    filter_button.clicked.connect(filter)
-    filter_input.returnPressed.connect(filter)
+    search_instructions_button.clicked.connect(filter_function)
+    search_poppopret_button.clicked.connect(ppr_function)
+    search_semantics_button.clicked.connect(semantics_function)
+    filter_input.returnPressed.connect(filter_function)
 
     block_list = w.findChild(qg.QListWidget, 'blockList')
     # model = qg.QStandardItemModel(block_list)
