@@ -1,4 +1,6 @@
 # ropa
+![screenshot](https://github.com/orppra/ropa/raw/master/screenshots/ropa_screenshot.png)
+
 [![Build Status](https://travis-ci.org/orppra/ropa.svg?branch=master)](https://travis-ci.org/orppra/ropa)
 
 ropa is a GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains as easily as possible, based on [Ropper](https://github.com/sashs/Ropper).
