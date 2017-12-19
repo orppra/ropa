@@ -9,7 +9,7 @@ cache:
   directories:
     - $TRAVIS_BUILD_DIR/cache
 
-before_install:
-    - travis/build_dependencies.sh
-script:
-    - travis/prep_tests.sh static
+jobs:
+  include:
+    - stage: static
+      script: travis/prep_tests.sh static
