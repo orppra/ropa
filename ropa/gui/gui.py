@@ -42,7 +42,7 @@ def bind_menu_button(window, button_name, func, shortcut_str=None):
 
 
 def main():
-    app_name = 'VsymX'
+    app_name = 'ropa'
 
     w = App()
     w.resize(1200, 720)
