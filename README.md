@@ -3,6 +3,14 @@ ropa is a GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_progr
 
 ropa provides a cleaner interface when using ropper as compared to the command line.
 
+## Table of Contents
+
+- [Features](#features)
+- [Install](#install)
+- [Usage](#usage)
+	- [Generator](#generator)
+- [License](#license)
+
 ## Features
 
 - Gadget searching with ropper
@@ -38,5 +46,8 @@ sudo apt install python-qt4
 sudo yum install PyQt4
 ```
 
-## Run
+## Usage
 `python gui.py`
+
+## License
+[MIT](LICENSE)
