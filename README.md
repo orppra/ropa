@@ -49,4 +49,4 @@ sudo yum install PyQt4
 ```
 
 ## Usage
-`python gui.py`
+`python ropa.py`
