@@ -1,8 +1,3 @@
-pip install capstone
-pip install filebytes
-pip install keystone-engine
-pip install ropper
-pip install pyvex
 git clone https://github.com/Z3Prover/z3
 cd z3
 python scripts/mk_make.py --python

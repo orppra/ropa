@@ -1,0 +1,5 @@
+capstone==3.0.4
+filebytes==0.9.13
+keystone-engine
+ropper==1.11.2
+pyvex

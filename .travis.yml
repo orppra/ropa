@@ -1,0 +1,15 @@
+sudo: required
+dist: trusty
+
+services: [docker]
+
+language: bash
+
+cache:
+  directories:
+    - $TRAVIS_BUILD_DIR/cache
+
+before_install:
+    - travis/build_dependencies.sh
+script:
+    - ./runtests.sh static
