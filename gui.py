@@ -266,7 +266,6 @@ def main():
 
         backend.export_python_pwntools(filepath, chain)
 
-
     bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
     bind_menu_button(w, 'actionOpen', openProject, 'Ctrl+O')
     bind_menu_button(w, 'actionSave', saveProject, 'Ctrl+S')
