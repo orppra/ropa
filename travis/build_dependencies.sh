@@ -1,1 +1,1 @@
-./install_z3.sh
+travis/install_z3.sh
