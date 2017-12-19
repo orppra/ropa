@@ -9,7 +9,7 @@ except AttributeError:
     def _fromUtf8(s):
         return s
 
-Ui_MainWindow, QtBaseClass = uic.loadUiType('scene.ui')
+Ui_MainWindow, QtBaseClass = uic.loadUiType('ui/scene.ui')
 app = qg.QApplication(sys.argv)
 
 
@@ -48,7 +48,7 @@ def open_file_dialog():
 
 
 def open_arch_dialog():
-    dialog = uic.loadUi('arch_dialog.ui')
+    dialog = uic.loadUi('ui/arch_dialog.ui')
     dialog.setWindowTitle('Select Architecture')
     arch_table = dialog.findChild(qg.QTableWidget, 'arch_table')
     row = -1  # idk why
