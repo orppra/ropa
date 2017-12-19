@@ -1,15 +1,19 @@
 import sys
 import os
 from PyQt4 import QtGui as qg, QtCore as qc, uic
-from backend.Backend import Backend
-from backend.constants import architectures
+
+from ropa.backend import Backend
+from ropa.backend import architectures
 try:
     _fromUtf8 = qc.QString.fromUtf8
 except AttributeError:
     def _fromUtf8(s):
         return s
 
-Ui_MainWindow, QtBaseClass = uic.loadUiType('ui/scene.ui')
+
+UI_PATH = 'ropa/ui'
+
+Ui_MainWindow, QtBaseClass = uic.loadUiType(UI_PATH + '/scene.ui')
 app = qg.QApplication(sys.argv)
 
 
@@ -48,7 +52,7 @@ def open_file_dialog():
 
 
 def open_arch_dialog():
-    dialog = uic.loadUi('ui/arch_dialog.ui')
+    dialog = uic.loadUi(UI_PATH + '/arch_dialog.ui')
     dialog.setWindowTitle('Select Architecture')
     arch_table = dialog.findChild(qg.QTableWidget, 'arch_table')
     row = -1  # idk why
@@ -324,7 +328,3 @@ def main():
 
     w.show()
     quit()
-
-
-if __name__ == '__main__':
-    main()
