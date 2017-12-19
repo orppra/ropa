@@ -12,8 +12,6 @@ ropa provides a cleaner interface when using ropper as compared to the command l
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
-	- [Generator](#generator)
-- [License](#license)
 
 ## Features
 
