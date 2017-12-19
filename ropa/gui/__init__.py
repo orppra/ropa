@@ -1,3 +1,3 @@
 UI_PATH = 'ropa/ui'
 
-from gui import main  # noqa
+from gui import App  # noqa

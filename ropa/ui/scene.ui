@@ -91,7 +91,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="graphicsView">
+         <widget class="QListWidget" name="chainList">
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
