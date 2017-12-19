@@ -199,25 +199,25 @@ def main():
 
     # block_list.dropEvent(event)
 
-    def startNewProject():
+    def start_new_project():
         filepath, arch = new_file_dialog()
         w.setWindowTitle(app_name + ' - ' + os.path.basename(str(filepath)))
         backend.set_arch(arch)
         backend.set_filename(str(filepath))
         backend.activate()
 
-    def openProject():
+    def open_project():
         filepath = open_file_dialog()
         print("Opened " + str(filepath))
         backend.open_project(str(filepath))
         w.setWindowTitle(app_name + ' - ' +
                          os.path.basename(str(backend.get_filename())))
 
-    def saveProject():
+    def save_project():
         filepath = open_file_dialog()
         backend.save_project(str(filepath))
 
-    def exportBinary():
+    def export_binary():
         filepath = open_file_dialog()
         chain = []
         for index in range(graphics_view.count()):
@@ -233,7 +233,7 @@ def main():
 
         backend.export_binary(filepath, chain)
 
-    def exportStruct():
+    def export_python_struct():
         filepath = open_file_dialog()
         chain = []
         for index in range(graphics_view.count()):
@@ -249,7 +249,7 @@ def main():
 
         backend.export_python_struct(filepath, chain)
 
-    def exportPwntools():
+    def export_python_pwntools():
         filepath = open_file_dialog()
         chain = []
         for index in range(graphics_view.count()):
@@ -266,30 +266,30 @@ def main():
 
         backend.export_python_pwntools(filepath, chain)
 
-    bind_menu_button(w, 'actionNew', startNewProject, 'Ctrl+N')
-    bind_menu_button(w, 'actionOpen', openProject, 'Ctrl+O')
-    bind_menu_button(w, 'actionSave', saveProject, 'Ctrl+S')
+    bind_menu_button(w, 'actionNew', start_new_project, 'Ctrl+N')
+    bind_menu_button(w, 'actionOpen', open_project, 'Ctrl+O')
+    bind_menu_button(w, 'actionSave', save_project, 'Ctrl+S')
     bind_menu_button(w, 'actionQuit', quit, 'Ctrl+Q')
-    bind_menu_button(w, 'actionBinary', exportBinary, '')
-    bind_menu_button(w, 'actionStruct', exportStruct, '')
-    bind_menu_button(w, 'actionPwntools', exportPwntools, '')
+    bind_menu_button(w, 'actionBinary', export_binary, '')
+    bind_menu_button(w, 'actionStruct', export_python_struct, '')
+    bind_menu_button(w, 'actionPwntools', export_python_pwntools, '')
 
     # show_in_gadgets_list(({'address': '1234',
     #                        'instructions': 'high five!'},))
 
-    badbytesInput = w.findChild(qg.QLineEdit, 'badbytesInput')
+    badbytes_input = w.findChild(qg.QLineEdit, 'badbytesInput')
 
-    def updateBadBytes():
-        backend.update_badbytes(str(badbytesInput.text()))
+    def update_badbytes():
+        backend.update_badbytes(str(badbytes_input.text()))
 
-    badbytesInput.textChanged.connect(updateBadBytes)
+    badbytes_input.textChanged.connect(update_badbytes)
 
     class KeyPressController:
 
         def __init__(self):
             self.control = False
 
-        def keyPressEvent(self, e):
+        def key_press_event(self, e):
             if e.key() == qc.Qt.Key_Control:
                 self.control = True
             if e.key() == qc.Qt.Key_Up:
@@ -313,13 +313,13 @@ def main():
                 graphics_view.takeItem(graphics_view
                                        .selectedIndexes()[0].row())
 
-        def keyReleaseEvent(self, e):
+        def key_release_event(self, e):
             if e.key() == qc.Qt.Key_Control:
                 self.control = False
 
     controller = KeyPressController()
-    graphics_view.keyPressEvent = controller.keyPressEvent
-    graphics_view.keyReleaseEvent = controller.keyReleaseEvent
+    graphics_view.keyPressEvent = controller.key_press_event
+    graphics_view.keyReleaseEvent = controller.key_release_event
 
     w.show()
     quit()
