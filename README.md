@@ -23,11 +23,11 @@ We use the [Ropper API](https://github.com/sashs/Ropper) for our gadget searchin
 
 ```
 # ropper
-pip install Ropper
+$ pip install Ropper
 
 # pyqt4
-sudo apt install python-qt4
-sudo yum install PyQt4
+$ sudo apt install python-qt4
+$ sudo yum install PyQt4
 ```
 
 ## Usage
