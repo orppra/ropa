@@ -3,52 +3,33 @@
 
 [![Build Status](https://travis-ci.org/orppra/ropa.svg?branch=master)](https://travis-ci.org/orppra/ropa)
 
-ropa is a GUI to craft [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains as easily as possible, based on [Ropper](https://github.com/sashs/Ropper).
+ropa is a [Ropper-based](https://github.com/sashs/Ropper) GUI that streamlines crafting [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains. It provides a cleaner, more user-friendly interface when using Ropper as compared to the command line. It can provide a smoother workflow for crafting the rop chain in the GUI, then exporting the final chain in the desired format. For those used to using CLI, this tool may serve as a cleaner interface to filter out the relevant gadgets.
 
-ropa provides a cleaner interface when using ropper as compared to the command line.
-
-## Table of Contents
-
-- [Features](#features)
-- [Install](#install)
-- [Usage](#usage)
-
-## Features
-
+Features include:
 - Gadget searching with ropper
 - Easy gadget selection
 - Group multiple gadgets
 - Export rop chain as binary file or python scripts (struct/pwntools/custom)
 - Project saving
 
-### New to ROP
-ropa can provide a smoother workflow for crafting the rop chain in the GUI, then exporting the final chain in the desired format.
-
-### Experienced
-For people that are already used to using CLI, CLI may be your thing, and this is just dumb and tedious. However, you can also use this as a cleaner terminal to filter out the relevant gadgets.
+## Table of Contents
+- [Install](#install)
+- [Usage](#usage)
 
 ## Install
-### Ropper
-We use the Ropper API for our gadget searching. Installation instructions can be found [here](https://github.com/sashs/Ropper). Or, just do
+We use the [Ropper API](https://github.com/sashs/Ropper) for our gadget searching. The GUI runs on top of PyQt4.
 
 ```
+# ropper
 pip install Ropper
-```
 
-### PyQt4
-The GUI runs on top of PyQt4. To install, just do
-
-#### Apt
-```
+# pyqt4
 sudo apt install python-qt4
-```
-
-#### Yum
-```
 sudo yum install PyQt4
 ```
 
 ## Usage
+Run the following command to start ropa:
 ```
 python ropa.py
 ```
