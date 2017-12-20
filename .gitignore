@@ -1,3 +1,6 @@
 z3
 */*/*.pyc
 */*.pyc
+build
+dist
+ropa.egg-info

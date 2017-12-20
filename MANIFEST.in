@@ -1,0 +1,2 @@
+include ropa/ui/*.ui
+include scripts/ropa

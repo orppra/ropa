@@ -21,12 +21,12 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(UI_PATH + '/scene.ui')
 
 
 class App(qg.QMainWindow, Ui_MainWindow):
-    def __init__(self, app_name):
+    def __init__(self, app_name, args):
         self.app_name = app_name
 
         self.backend = Backend(self)
 
-        self.app = qg.QApplication(sys.argv)
+        self.app = qg.QApplication(args)
         qg.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
