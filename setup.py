@@ -21,7 +21,7 @@ setup(
     },
 
     author="Daniel Lim, Jeff Sieu, Owen Leong",
-    description='ropa is a Ropper-based GUI that streamlines'
+    description='ropa is a Ropper-based GUI that streamlines '
                 'crafting ROP chains.',
     license='GNU General Public License v3.0',
     url='https://orppra.github.io/ropa/',
