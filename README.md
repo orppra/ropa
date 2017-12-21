@@ -31,10 +31,26 @@ $ sudo apt install python-qt4
 $ sudo yum install PyQt4
 ```
 
-## Usage
-Run the following command to start ropa:
+You can install ropa from pip (currently only on python2 as ropper itself is under development in porting to python3)
 ```
-python ropa.py
+$ pip install ropa
+```
+
+Or, if you would like to build from source
+```
+$ git clone https://github.com/orppra/ropa.git
+$ python setup.py install
+```
+
+## Usage
+Once you have installed ropa
+```
+$ ropa
+```
+
+Alternatively, without installation
+```
+$ python ropa.py
 ```
 
 ## Contribute
