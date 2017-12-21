@@ -27,7 +27,7 @@ setup(
     url='https://orppra.github.io/ropa/',
     classifiers=[
         'Topic :: Security',
-        'EEnvironment :: X11 Applications :: Qt',
+        'Environment :: X11 Applications :: Qt',
         'Operating System :: OS Independent',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python',
