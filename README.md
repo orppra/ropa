@@ -17,17 +17,18 @@ Features include:
 ## Table of Contents
 - [Install](#install)
 - [Usage](#usage)
+- [Contribute](#contribute)
 
 ## Install
 We use the [Ropper API](https://github.com/sashs/Ropper) for our gadget searching. The GUI runs on top of PyQt4.
 
 ```
 # ropper
-pip install Ropper
+$ pip install Ropper
 
 # pyqt4
-sudo apt install python-qt4
-sudo yum install PyQt4
+$ sudo apt install python-qt4
+$ sudo yum install PyQt4
 ```
 
 ## Usage
@@ -35,3 +36,6 @@ Run the following command to start ropa:
 ```
 python ropa.py
 ```
+
+## Contribute
+This is still under development, so contributions are very much welcomed. Just fork this repo and pick one of the issues.
