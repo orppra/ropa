@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>993</width>
-    <height>672</height>
+    <width>1295</width>
+    <height>936</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,30 +30,6 @@
           <property name="bottomMargin">
            <number>10</number>
           </property>
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="font">
-             <font>
-              <pointsize>8</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>BadBytes:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="badbytesInput">
-            <property name="font">
-             <font>
-              <pointsize>8</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>000a0d</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>
@@ -100,9 +76,16 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
+       <layout class="QVBoxLayout" name="gadgetsPane" stretch="0,0,0,0,0,0,0">
         <item>
-         <widget class="QLabel" name="label_2">
+         <layout class="QHBoxLayout" name="gadgetsPadding_1">
+          <property name="bottomMargin">
+           <number>10</number>
+          </property>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="gadgetsTitle">
           <property name="text">
            <string>Gadgets</string>
           </property>
@@ -112,19 +95,88 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
+         <layout class="QHBoxLayout" name="gadgetsPadding_0">
+          <property name="bottomMargin">
            <number>6</number>
           </property>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="gadgetsConditions">
           <item>
-           <widget class="QLineEdit" name="searchBar"/>
+           <layout class="QVBoxLayout" name="gadgetsInputLabels">
+            <item>
+             <widget class="QLabel" name="badbytesLabel">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string> BadBytes: </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="searchLabel">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string> Filter: </string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="gadgetsInputBoxes">
+            <item>
+             <widget class="QLineEdit" name="badbytesInput">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>000a0d</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="searchBar">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <layout class="QHBoxLayout" name="gadgetsPadding_2">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="gadgetsSearch">
           <item>
            <widget class="QPushButton" name="searchInstructions">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Instructions</string>
             </property>
@@ -138,6 +190,11 @@
           </item>
           <item>
            <widget class="QPushButton" name="searchPopPopRet">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>PopPopRet</string>
             </property>
@@ -148,6 +205,11 @@
           </item>
           <item>
            <widget class="QPushButton" name="searchSemantics">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Semantics</string>
             </property>
@@ -191,8 +253,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>993</width>
-     <height>42</height>
+     <width>1295</width>
+     <height>44</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">
