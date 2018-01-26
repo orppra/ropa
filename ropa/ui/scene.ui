@@ -22,18 +22,18 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,4,3">
+     <layout class="QHBoxLayout" name="mainLayout" stretch="2,4,3">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="favoritesPane">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="favoritesPadding">
           <property name="bottomMargin">
            <number>10</number>
           </property>
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="favoritesLabel">
           <property name="text">
            <string>Favourites</string>
           </property>
@@ -43,14 +43,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="blockList"/>
+         <widget class="QListWidget" name="favoritesList"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="chainPane">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <layout class="QHBoxLayout" name="chainPadding">
           <property name="bottomMargin">
            <number>10</number>
           </property>
