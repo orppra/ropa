@@ -1,6 +1,5 @@
 z3
-*/*/*.pyc
-*/*.pyc
+*.pyc
 build
 dist
 ropa.egg-info

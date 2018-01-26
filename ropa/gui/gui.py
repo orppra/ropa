@@ -23,7 +23,7 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(UI_PATH + '/scene.ui')
 
 
 class App(qg.QMainWindow, Ui_MainWindow):
-    def __init__(self, app_name, args):
+    def __init__(self, app_name, args, new_project=None, open_project=None):
         self.app_name = app_name
 
         self.backend = Backend(self)
@@ -37,6 +37,12 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self._load_textinputs()
         self._load_buttons()
         self._bind_menu_buttons()
+
+        mcontroller = MenuItemController(self)
+        if new_project is not None:
+            mcontroller.start_new_project(new_project)
+        if open_project is not None:
+            mcontroller.open_project(open_project)
 
     def get_backend(self):
         return self.backend
@@ -64,7 +70,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
         # graphics_view.setModel(graphics_model)
 
         self.block_list_widget = self.findChild(qg.QListWidget,
-                                                'favouritesList')
+                                                'favoritesList')
         self.block_list_widget.setDragEnabled(True)
         self.block_list_widget.setAcceptDrops(True)
         self.block_list_widget.setDropIndicatorShown(True)

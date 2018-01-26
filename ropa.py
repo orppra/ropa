@@ -1,6 +1,4 @@
-import sys
-
-from ropa import start
+from ropa.__main__ import main
 
 if __name__ == '__main__':
-    start(sys.argv)
+    main()

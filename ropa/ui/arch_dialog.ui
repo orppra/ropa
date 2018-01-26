@@ -18,6 +18,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QTableWidget" name="arch_table">
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SingleSelection</enum>
+       </property>
        <property name="showGrid">
         <bool>false</bool>
        </property>
@@ -31,9 +34,6 @@
         <bool>false</bool>
        </attribute>
        <column/>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::SingleSelection</enum>
-       </property>
       </widget>
      </item>
      <item>
@@ -42,7 +42,7 @@
         <enum>Qt::Vertical</enum>
        </property>
        <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+        <set>QDialogButtonBox::Ok</set>
        </property>
       </widget>
      </item>

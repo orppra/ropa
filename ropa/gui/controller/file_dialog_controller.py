@@ -5,16 +5,20 @@ from ropa.gui import UI_PATH
 
 
 class FileDialogController:
-    def new_file_dialog(self):
+    def new_file_dialog(self, filename=None):
         dialog = qg.QFileDialog()
         dialog.setWindowTitle('Choose binary')
         dialog.setFileMode(qg.QFileDialog.AnyFile)
-        filenames = qc.QStringList()
-        if dialog.exec_():
-            filenames = dialog.selectedFiles()
-            arch = self.open_arch_dialog()
-            return filenames[0], arch
-        raise Exception('Failed to open dialog')
+
+        if filename is None:
+            if dialog.exec_():
+                filename = str(dialog.selectedFiles()[0])
+            else:
+                raise Exception('Failed to open dialog')
+
+        arch = self.open_arch_dialog()
+        print(repr(filename), arch)
+        return filename, arch
 
     def open_file_dialog(self):
         dialog = qg.QFileDialog()
