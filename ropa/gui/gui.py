@@ -5,11 +5,13 @@ from PyQt4 import QtGui as qg, QtCore as qc, uic
 from ropa.backend import Backend
 from ropa.gui import UI_PATH
 
-from list_key_controller import ListKeyController
-from filter_input_controller import FilterInputController
-from badbytes_input_controller import BadbytesInputController
-from menu_item_controller import MenuItemController
-from export_controller import ExportController
+from controller import (
+    ListKeyController,
+    FilterInputController,
+    BadbytesInputController,
+    MenuItemController,
+    ExportController
+)
 
 try:
     _fromUtf8 = qc.QString.fromUtf8
