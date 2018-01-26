@@ -22,11 +22,13 @@ Features include:
 ## Install
 We use the [Ropper API](https://github.com/sashs/Ropper) for our gadget searching. The GUI runs on top of PyQt4.
 
+### ropper
 ```
-# ropper
 $ pip install Ropper
+```
 
-# pyqt4
+### pyqt4
+```
 $ sudo apt install python-qt4
 $ sudo yum install PyQt4
 ```
