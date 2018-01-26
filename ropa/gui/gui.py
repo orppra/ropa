@@ -99,6 +99,8 @@ class App(qg.QMainWindow, Ui_MainWindow):
                                               self.badbytes_input)
 
         self._bind_input_return(self.filter_input, fcontroller.filter_function)
+        self._bind_input_return(self.badbytes_input,
+                                fcontroller.filter_function)
         self._bind_input_changed(self.badbytes_input,
                                  bcontroller.update_badbytes)
 
