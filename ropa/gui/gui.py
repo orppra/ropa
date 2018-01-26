@@ -63,7 +63,8 @@ class App(qg.QMainWindow, Ui_MainWindow):
         # graphics_model = qg.QStandardItemModel(graphics_view)
         # graphics_view.setModel(graphics_model)
 
-        self.block_list_widget = self.findChild(qg.QListWidget, 'blockList')
+        self.block_list_widget = self.findChild(qg.QListWidget,
+                                                'favouritesList')
         self.block_list_widget.setDragEnabled(True)
         self.block_list_widget.setAcceptDrops(True)
         self.block_list_widget.setDropIndicatorShown(True)
