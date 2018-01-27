@@ -1,6 +1,8 @@
 from ropper import RopperService
 import json
 import struct
+import subprocess
+import sys
 
 # poppopret: pop ???; pop ???; ret
 # jmpreg: jmp ???
@@ -149,6 +151,19 @@ class Backend:
             return 64
         return 32
 
+    def open_exported(self, filepath):
+        if sys.platform.startswith('linux'):
+            subprocess.call(["xdg-open", filepath])
+
+        # Let's ignore this for now,
+        # I don't even know how to set python qt up on windows
+        #
+        # elif sys.platform.startswith('win'):
+        #     subprocess.call([filepath])
+
+        elif sys.platform.startswith('darwin'):  # mac
+            subprocess.call(["open", filepath])
+
     def export_binary(self, file, chain):
         with open(file, 'w') as outfile:
             for block in chain:
@@ -160,6 +175,8 @@ class Backend:
                         outfile.write(struct.pack('<Q',
                                       int(gadget['address'], 16)))
             outfile.close()
+
+        self.open_exported(file)
 
     def export_python_struct(self, file, chain):
         with open(file, 'w') as outfile:
@@ -180,6 +197,8 @@ class Backend:
                     outfile.write('\n')
             outfile.close()
 
+        self.open_exported(file)
+
     def export_python_pwntools(self, file, chain):
         with open(file, 'w') as outfile:
             outfile.write('p = ""\n')
@@ -198,6 +217,8 @@ class Backend:
 
                     outfile.write('\n')
             outfile.close()
+
+        self.open_exported(file)
 
     #######################################
     # PROJECT TOOLS
