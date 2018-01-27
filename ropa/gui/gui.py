@@ -4,6 +4,7 @@ from PyQt4 import QtGui as qg, QtCore as qc, uic
 
 from ropa.backend import Backend
 from ropa.gui import UI_PATH
+from html_delegate import HTMLDelegate
 
 from controller import (
     ListKeyController,
@@ -61,11 +62,15 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.gadgets_list_widget.setDropIndicatorShown(False)
         self.gadgets_list_widget.setVerticalScrollMode(
             qg.QAbstractItemView.ScrollPerPixel)
+        self.gadgets_list_widget.setItemDelegate(
+            HTMLDelegate(self.gadgets_list_widget))
 
         self.chain_list_widget = self.findChild(qg.QListWidget, 'chainList')
         self.chain_list_widget.setDragEnabled(True)
         self.chain_list_widget.setAcceptDrops(True)
         self.chain_list_widget.setDropIndicatorShown(True)
+        self.chain_list_widget.setItemDelegate(
+            HTMLDelegate(self.gadgets_list_widget))
 
         controller = ListKeyController(self.chain_list_widget)
         self.chain_list_widget.keyPressEvent = controller.key_press_event
@@ -76,6 +81,8 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.block_list_widget.setDragEnabled(True)
         self.block_list_widget.setAcceptDrops(True)
         self.block_list_widget.setDropIndicatorShown(True)
+        self.block_list_widget.setItemDelegate(
+            HTMLDelegate(self.gadgets_list_widget))
 
     def _load_buttons(self):
         self.search_instructions_button = self.findChild(qg.QPushButton,

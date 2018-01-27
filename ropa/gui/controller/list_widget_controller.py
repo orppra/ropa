@@ -13,12 +13,13 @@ class ListWidgetController:
 
     def show_in_gadgets_list(self, gadgets):
         self.widget.clear()
-        font = qg.QFont()
-        font.setFamily(_fromUtf8('Courier new'))
-
         for gadget in gadgets:
-            cell = gadget['address'] + '\n'
-            cell += '\n'.join(gadget['instructions']) + '\n'
-            item = qg.QListWidgetItem(qc.QString(cell), self.widget)
-            item.setFont(font)
+            cell = '<pre>'
+            cell += '<b>%s</b>\n' % gadget['address']
+            for instruction in gadget['instructions']:
+                cell += '%s\n' % instruction
+            cell += '</pre>'
+            cell = qc.QString(cell)
+
+            item = qg.QListWidgetItem(cell, self.widget)
             self.widget.insertItem(self.widget.count(), item)
