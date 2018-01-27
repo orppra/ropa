@@ -1,4 +1,4 @@
-capstone==3.0.4
+capstone==3.0.5rc2
 filebytes==0.9.13
 keystone-engine
 ropper==1.11.2
