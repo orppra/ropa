@@ -29,6 +29,3 @@ class ListWidgetController:
             self.widget.insertItem(self.widget.count(), item)
 
         # gadgets_list.setModel(model)
-        self.widget.setDragEnabled(True)
-        self.widget.viewport().setAcceptDrops(True)
-        self.widget.setDropIndicatorShown(True)

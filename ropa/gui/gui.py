@@ -57,6 +57,10 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.gadgets_list_widget = self.findChild(qg.QListWidget,
                                                   'gadgetsList')
         self.gadgets_list_widget.setDragEnabled(True)
+        self.gadgets_list_widget.setAcceptDrops(False)
+        self.gadgets_list_widget.setDropIndicatorShown(False)
+        self.gadgets_list_widget.setVerticalScrollMode(
+            qg.QAbstractItemView.ScrollPerPixel)
 
         self.chain_list_widget = self.findChild(qg.QListWidget, 'chainList')
         self.chain_list_widget.setDragEnabled(True)
@@ -66,16 +70,12 @@ class App(qg.QMainWindow, Ui_MainWindow):
         controller = ListKeyController(self.chain_list_widget)
         self.chain_list_widget.keyPressEvent = controller.key_press_event
         self.chain_list_widget.keyReleaseEvent = controller.key_release_event
-        # graphics_model = qg.QStandardItemModel(graphics_view)
-        # graphics_view.setModel(graphics_model)
 
         self.block_list_widget = self.findChild(qg.QListWidget,
                                                 'favoritesList')
         self.block_list_widget.setDragEnabled(True)
         self.block_list_widget.setAcceptDrops(True)
         self.block_list_widget.setDropIndicatorShown(True)
-        # model = qg.QStandardItemModel(block_list)
-        # block_list.setModel(model)
 
     def _load_buttons(self):
         self.search_instructions_button = self.findChild(qg.QPushButton,
@@ -154,40 +154,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self._bind_menu_button(self, 'actionPwntools',
                                econtroller.export_python_pwntools)
 
-
-"""
-def get_description_string():
-    searchType = w.findChild(qg.QButtonGroup, 'searchType').checkedId()
-    if searchType == -2:
-        return str(filter_input.text())
-    elif searchType == -3:
-        return 'pop-pop-ret'
-    elif searchType == -4:
-        return str(filter_input.text())
-
-def show_title_in_centre():
-    return
-    print('Added')
-    item = graphics_view.item(graphics_view.count() - 1)
-    toShow = '<b>' + get_description_string() + '</b>\n' + str(item.text())
-    print(toShow)
-    item.setText(toShow)
-
-graphics_view.model().rowsInserted.connect(showTitleInCentre)
-"""
-
-# DragEnterEvent, DragMoveEvent, DragLeaveEvent, DropEvent
-# block_list.drag
-# semantics_button = w.findChild(qg.QPushButton, 'semanticsButton')
-# semantics_button.clicked.connect(semantics_function)
-# ppr_button = w.findChild(qg.QPushButton, 'pprButton')
-# ppr_button.clicked.connect(ppr_function)
-
-# def drop(e):
-#     indices = gadgets_list.selectedIndexes()
-#     print (gadgets_list.selectedIndexes())
-
-# block_list.dropEvent(event)
-
-# show_in_gadgets_list(({'address': '1234',
-#                        'instructions': 'high five!'},))
+    def _on_open_project(self):
+        controller = FilterInputController(self.backend, self.filter_input,
+                                           self.gadgets_list_widget)
+        controller.filter_function()

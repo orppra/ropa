@@ -18,6 +18,7 @@ class MenuItemController:
         self._get_backend().set_arch(arch)
         self._get_backend().set_filename(str(filepath))
         self._get_backend().activate()
+        self.app._on_open_project()
 
     def open_project(self, filepath=None):
         if filepath is None:
@@ -26,6 +27,7 @@ class MenuItemController:
         self._get_backend().open_project(str(filepath))
         filename = str(self._get_backend().get_filename())
         self.app.setWindowTitle(self.app.app_name + ' - ' + filename)
+        self.app._on_open_project()
 
     def save_project(self):
         filepath = self.file_dialog_controller.open_file_dialog()
