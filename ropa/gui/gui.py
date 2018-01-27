@@ -95,6 +95,13 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self._bind_button_clicked(self.search_semantics_button,
                                   controller.semantics_function)
 
+        self.search_instructions_button.setToolTip(
+            "Search for instruction gadgets")
+        self.search_poppopret_button.setToolTip(
+            "Search for gadgets containing <i>POP POP RET</i> sequences")
+        self.search_semantics_button.setToolTip(
+            "Search for gadgets using Ropper's semantic searching function")
+
     def _load_textinputs(self):
         self.filter_input = self.findChild(qg.QLineEdit, 'searchBar')
 
