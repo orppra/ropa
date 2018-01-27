@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 package_name = 'ropa'
-version = '1.1.1'
+version = '1.1.2'
 
 packages = find_packages()
 
-install_requires = ['filebytes>=0.9.12', 'capstone==3.0.4',
+install_requires = ['filebytes>=0.9.12', 'capstone==3.0.5rc2',
                     'keystone-engine', 'ropper==1.11.2', 'pyvex']
 
 setup(
