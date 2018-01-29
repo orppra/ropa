@@ -10,8 +10,11 @@ from controller import (
     ListKeyController,
     FilterInputController,
     BadbytesInputController,
-    MenuItemController,
-    ExportController
+    MenuItemController
+)
+
+from ropa.utils import (
+    ExportUtils
 )
 
 try:
@@ -152,14 +155,14 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
         self._bind_menu_button(self, 'actionQuit', quit, 'Ctrl+Q')
 
-        econtroller = ExportController(self.backend, self.chain_list_widget)
+        eUtils = ExportUtils(self.backend, self.chain_list_widget)
 
         self._bind_menu_button(self, 'actionBinary',
-                               econtroller.export_binary)
+                               eUtils.export_binary)
         self._bind_menu_button(self, 'actionStruct',
-                               econtroller.export_python_struct)
+                               eUtils.export_python_struct)
         self._bind_menu_button(self, 'actionPwntools',
-                               econtroller.export_python_pwntools)
+                               eUtils.export_python_pwntools)
 
     def _on_open_project(self):
         controller = FilterInputController(self.backend, self.filter_input,
