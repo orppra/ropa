@@ -155,14 +155,14 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
         self._bind_menu_button(self, 'actionQuit', quit, 'Ctrl+Q')
 
-        eService = ExportService(self.backend, self.chain_list_widget)
+        exporter = ExportService(self.backend, self.chain_list_widget)
 
         self._bind_menu_button(self, 'actionBinary',
-                               eService.export_binary)
+                               exporter.export_binary)
         self._bind_menu_button(self, 'actionStruct',
-                               eService.export_python_struct)
+                               exporter.export_python_struct)
         self._bind_menu_button(self, 'actionPwntools',
-                               eService.export_python_pwntools)
+                               exporter.export_python_pwntools)
 
     def _on_open_project(self):
         controller = FilterInputController(self.backend, self.filter_input,
