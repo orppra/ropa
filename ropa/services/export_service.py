@@ -5,7 +5,7 @@ import sys
 from ropa.gui.controller.file_dialog_controller import FileDialogController
 
 
-class ExportUtils:
+class ExportService:
     def __init__(self, backend, widget):
         self.backend = backend
         self.widget = widget

@@ -13,8 +13,8 @@ from controller import (
     MenuItemController
 )
 
-from ropa.utils import (
-    ExportUtils
+from ropa.services import (
+    ExportService
 )
 
 try:
@@ -155,14 +155,14 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
         self._bind_menu_button(self, 'actionQuit', quit, 'Ctrl+Q')
 
-        eUtils = ExportUtils(self.backend, self.chain_list_widget)
+        eService = ExportService(self.backend, self.chain_list_widget)
 
         self._bind_menu_button(self, 'actionBinary',
-                               eUtils.export_binary)
+                               eService.export_binary)
         self._bind_menu_button(self, 'actionStruct',
-                               eUtils.export_python_struct)
+                               eService.export_python_struct)
         self._bind_menu_button(self, 'actionPwntools',
-                               eUtils.export_python_pwntools)
+                               eService.export_python_pwntools)
 
     def _on_open_project(self):
         controller = FilterInputController(self.backend, self.filter_input,
