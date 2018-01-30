@@ -4,23 +4,8 @@ from ropa.backend import architectures
 from ropa.gui import UI_PATH
 
 
-class FileDialogController:
-    def new_file_dialog(self, filename=None):
-        dialog = qg.QFileDialog()
-        dialog.setWindowTitle('Choose binary')
-        dialog.setFileMode(qg.QFileDialog.AnyFile)
-
-        if filename is None:
-            if dialog.exec_():
-                filename = str(dialog.selectedFiles()[0])
-            else:
-                raise Exception('Failed to open dialog')
-
-        arch = self.open_arch_dialog()
-        print(repr(filename), arch)
-        return filename, arch
-
-    def open_file_dialog(self):
+class DialogController:
+    def file_dialog(self):
         dialog = qg.QFileDialog()
         dialog.setWindowTitle('Open File')
         dialog.setFileMode(qg.QFileDialog.AnyFile)
@@ -30,7 +15,7 @@ class FileDialogController:
             return filenames[0]
         raise Exception('Failed to open dialog')
 
-    def open_arch_dialog(self):
+    def arch_dialog(self):
         dialog = uic.loadUi(UI_PATH + '/arch_dialog.ui')
         dialog.setWindowTitle('Select Architecture')
         arch_table = dialog.findChild(qg.QTableWidget, 'arch_table')

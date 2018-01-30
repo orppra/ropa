@@ -1,5 +1,4 @@
 from ropper import RopperService
-import json
 
 
 class Backend:
@@ -135,32 +134,6 @@ class Backend:
                 gadgets[i]['info'] = 'pop-pop-ret'
 
         return gadgets
-
-    #######################################
-    # PROJECT TOOLS
-    #######################################
-
-    def open_project(self, file):
-        save_data = None
-        with open(file, 'r') as infile:
-            save_data = json.load(infile)
-
-        self.set_filename(save_data['filename'])
-        self.set_arch(save_data['arch'])
-        self.activate()
-        self.chain = save_data['chain']
-        self.user_blocks = save_data['user_blocks']
-
-    def save_project(self, file):
-        with open(file, 'w') as outfile:
-            save_data = {
-                'chain': self.chain,
-                'user_blocks': self.user_blocks,
-                'filename': self.filename,
-                'arch': self.arch
-            }
-            json.dump(save_data, outfile)
-            outfile.close()
 
 
 def test():
