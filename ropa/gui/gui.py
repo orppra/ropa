@@ -79,12 +79,12 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.chain_list_widget.keyPressEvent = controller.key_press_event
         self.chain_list_widget.keyReleaseEvent = controller.key_release_event
 
-        self.block_list_widget = self.findChild(qg.QListWidget,
-                                                'favoritesList')
-        self.block_list_widget.setDragEnabled(True)
-        self.block_list_widget.setAcceptDrops(True)
-        self.block_list_widget.setDropIndicatorShown(True)
-        self.block_list_widget.setItemDelegate(
+        self.favorites_list_widget = self.findChild(qg.QListWidget,
+                                                    'favoritesList')
+        self.favorites_list_widget.setDragEnabled(True)
+        self.favorites_list_widget.setAcceptDrops(True)
+        self.favorites_list_widget.setDropIndicatorShown(True)
+        self.favorites_list_widget.setItemDelegate(
             HTMLDelegate(self.gadgets_list_widget))
 
     def _load_buttons(self):

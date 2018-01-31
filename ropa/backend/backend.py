@@ -7,7 +7,7 @@ class Backend:
         self.app = app
         self.service = self.make_service_instance()
         self.chain = []
-        self.user_blocks = []
+        self.favorites = []
 
     def get_filename(self):
         return self.filename
