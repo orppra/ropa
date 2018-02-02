@@ -1,23 +1,12 @@
-from list_widget_controller import ListWidgetController
+from input_controller import InputController
 
 
-class FilterInputController:
-    def __init__(self, backend, textbox, list_widget):
-        self.backend = backend
-        self.textbox = textbox
-        self.widget = list_widget
+class FilterInputController(InputController):
+    def __init__(self, widget, backend, lwc):
+        super(FilterInputController, self).__init__(widget, backend)
+        self.lwc = lwc
+        self._bind_input_return(self.filter)
 
-    def _get_text(self):
-        return str(self.textbox.text())
-
-    def filter_function(self):
-        gadgets = self.backend.process_query('instruction', self._get_text())
-        ListWidgetController(self.widget).show_in_gadgets_list(gadgets)
-
-    def semantics_function(self):
-        gadgets = self.backend.process_query('semantic', self._get_text())
-        ListWidgetController(self.widget).show_in_gadgets_list(gadgets)
-
-    def ppr_function(self):
-        gadgets = self.backend.process_query('pop-pop-ret', '')
-        ListWidgetController(self.widget).show_in_gadgets_list(gadgets)
+    def filter(self):
+        gadgets = self.backend.process_query('instruction', self.get_text())
+        self.lwc.set_gadgets(gadgets)

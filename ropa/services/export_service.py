@@ -2,14 +2,14 @@ import struct
 import subprocess
 import sys
 
-from ropa.gui.controller.file_dialog_controller import FileDialogController
+from ropa.gui.controller import DialogController
 
 
 class ExportService:
-    def __init__(self, backend, widget):
+    def __init__(self, backend, lwc):
         self.backend = backend
-        self.widget = widget
-        self.file_dialog_controller = FileDialogController()
+        self.lwc = lwc
+        self.dialog_controller = DialogController()
 
     def num_bits(self, arch):
         if arch.endswith('64'):
@@ -30,10 +30,10 @@ class ExportService:
             subprocess.call(["open", filepath])
 
     def export_binary(self):
-        filepath = self.file_dialog_controller.open_file_dialog()
+        filepath = self.dialog_controller.file_dialog('Export')
         chain = []
-        for index in range(self.widget.count()):
-            block = str(self.widget.item(index).text())
+        for index in range(self.lwc.count()):
+            block = str(self.lwc.get_item(index).text())
             print(str(block))
             block = block.strip().split('\n')
             address = block[0]
@@ -57,10 +57,10 @@ class ExportService:
         self.open_exported(filepath)
 
     def export_python_struct(self):
-        filepath = self.file_dialog_controller.open_file_dialog()
+        filepath = self.dialog_controller.file_dialog('Export')
         chain = []
-        for index in range(self.widget.count()):
-            block = str(self.widget.item(index).text())
+        for index in range(self.lwc.count()):
+            block = str(self.lwc.get_item(index).text())
             print(str(block))
             block = block.strip().split('\n')
             address = block[0]
@@ -91,10 +91,10 @@ class ExportService:
         self.open_exported(filepath)
 
     def export_python_pwntools(self):
-        filepath = self.file_dialog_controller.open_file_dialog()
+        filepath = self.dialog_controller.file_dialog('Export')
         chain = []
-        for index in range(self.widget.count()):
-            block = str(self.widget.item(index).text())
+        for index in range(self.lwc.count()):
+            block = str(self.lwc.get_item(index).text())
             block = block.strip().split('\n')
             address = block[0]
             block = block[2:]

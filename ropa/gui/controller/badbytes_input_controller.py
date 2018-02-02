@@ -1,10 +1,16 @@
-class BadbytesInputController:
-    def __init__(self, backend, textbox):
-        self.backend = backend
-        self.textbox = textbox
+from input_controller import InputController
 
-    def _get_text(self):
-        return str(self.textbox.text())
 
-    def update_badbytes(self):
-        self.backend.update_badbytes(self._get_text())
+class BadbytesInputController(InputController):
+    def __init__(self, widget, backend, lwc, filter_button):
+        super(BadbytesInputController, self).__init__(widget, backend)
+        self.lwc = lwc
+        self.filter_button = filter_button
+        self._bind_input_changed(self.update)
+        self._bind_input_return(self.filter)
+
+    def filter(self):
+        self.filter_button.filter()
+
+    def update(self):
+        self.backend.update_badbytes(self.get_text())

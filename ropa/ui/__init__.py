@@ -1,0 +1,1 @@
+from html_delegate import HTMLDelegate  # noqa

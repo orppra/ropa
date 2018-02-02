@@ -4,12 +4,9 @@ from ropa.gui.controller import DialogController
 
 
 class ProjectService:
-    def __init__(self, app):
-        self.app = app
+    def __init__(self, backend):
+        self.backend = backend
         self.dialog_controller = DialogController()
-
-    def _get_backend(self):
-        return self.app.backend
 
     def new_file(self, filepath=None):
         if filepath is None:
@@ -17,9 +14,9 @@ class ProjectService:
 
         arch = self.dialog_controller.arch_dialog()
 
-        self._get_backend().set_arch(arch)
-        self._get_backend().set_filename(str(filepath))
-        self._get_backend().activate()
+        self.backend.set_arch(arch)
+        self.backend.set_filename(str(filepath))
+        self.backend.activate()
 
         print(repr(filepath), arch)
         return filepath, arch
@@ -32,9 +29,9 @@ class ProjectService:
         with open(filepath, 'r') as infile:
             save_data = json.load(infile)
 
-        self._get_backend().set_filename(save_data['filename'])
-        self._get_backend().set_arch(save_data['arch'])
-        self._get_backend().activate()
+        self.backend.set_filename(save_data['filename'])
+        self.backend.set_arch(save_data['arch'])
+        self.backend.activate()
 
         # doesn't work for now, need to settle on refactoring other stuff first
         # self.chain = save_data['chain']
@@ -47,8 +44,8 @@ class ProjectService:
                 # doesn't work now, settle on refactoring first
                 # 'chain': self.chain,
                 # 'favorites': self.favorites,
-                'filename': self._get_backend().get_filename(),
-                'arch': self._get_backend().get_arch()
+                'filename': self.backend.get_filename(),
+                'arch': self.backend.get_arch()
             }
             json.dump(save_data, outfile)
             outfile.close()

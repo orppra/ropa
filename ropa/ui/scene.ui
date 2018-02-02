@@ -76,18 +76,18 @@
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="gadgetsPane" stretch="0,0,0,0,0,0,0">
+       <layout class="QVBoxLayout" name="searchPane" stretch="0,0,0,0,0,0,0">
         <item>
-         <layout class="QHBoxLayout" name="gadgetsPadding_1">
+         <layout class="QHBoxLayout" name="searchPadding_1">
           <property name="bottomMargin">
            <number>10</number>
           </property>
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="gadgetsTitle">
+         <widget class="QLabel" name="searchTitle">
           <property name="text">
-           <string>Gadgets</string>
+           <string>Search</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -95,16 +95,16 @@
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="gadgetsPadding_0">
+         <layout class="QHBoxLayout" name="searchPadding_0">
           <property name="bottomMargin">
            <number>6</number>
           </property>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="gadgetsConditions">
+         <layout class="QHBoxLayout" name="searchConditions">
           <item>
-           <layout class="QVBoxLayout" name="gadgetsInputLabels">
+           <layout class="QVBoxLayout" name="searchInputLabels">
             <item>
              <widget class="QLabel" name="badbytesLabel">
               <property name="font">
@@ -132,7 +132,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="gadgetsInputBoxes">
+           <layout class="QVBoxLayout" name="searchInputBoxes">
             <item>
              <widget class="QLineEdit" name="badbytesInput">
               <property name="font">
@@ -159,7 +159,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="gadgetsPadding_2">
+         <layout class="QHBoxLayout" name="searchPadding_2">
           <property name="spacing">
            <number>6</number>
           </property>
@@ -169,7 +169,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="gadgetsSearch">
+         <layout class="QHBoxLayout" name="searchButtons">
           <item>
            <widget class="QPushButton" name="searchInstructions">
             <property name="font">
@@ -221,7 +221,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QListWidget" name="gadgetsList">
+         <widget class="QListWidget" name="searchList">
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>

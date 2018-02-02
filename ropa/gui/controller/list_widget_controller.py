@@ -7,11 +7,17 @@ except AttributeError:
         return s
 
 
-class ListWidgetController:
+class ListWidgetController(object):
     def __init__(self, widget):
         self.widget = widget
 
-    def show_in_gadgets_list(self, gadgets):
+    def count(self):
+        return self.widget.count()
+
+    def get_item(self, index):
+        return self.widget.item(index)
+
+    def set_gadgets(self, gadgets):
         self.widget.clear()
         for gadget in gadgets:
             cell = '<pre>'
