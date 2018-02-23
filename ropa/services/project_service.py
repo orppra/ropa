@@ -10,7 +10,7 @@ class ProjectService:
 
     def new_file(self, filepath=None):
         if filepath is None:
-            filepath = self.dialog_controller.file_dialog()
+            filepath = self.dialog_controller.file_dialog('New Project')
 
         arch = self.dialog_controller.arch_dialog()
 
@@ -23,7 +23,7 @@ class ProjectService:
 
     def open_file(self, filepath=None):
         if filepath is None:
-            filepath = self.dialog_controller.file_dialog()
+            filepath = self.dialog_controller.file_dialog('Open Project')
 
         save_data = None
         with open(filepath, 'r') as infile:
@@ -38,7 +38,7 @@ class ProjectService:
         # self.favorites = save_data['favorites']
 
     def save_file(self):
-        filepath = self.dialog_controller.file_dialog()
+        filepath = self.dialog_controller.file_dialog('Save Project')
         with open(filepath, 'w') as outfile:
             save_data = {
                 # doesn't work now, settle on refactoring first

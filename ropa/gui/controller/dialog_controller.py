@@ -5,9 +5,9 @@ from ropa.gui import UI_PATH
 
 
 class DialogController:
-    def file_dialog(self):
+    def file_dialog(self, title):
         dialog = qg.QFileDialog()
-        dialog.setWindowTitle('Open File')
+        dialog.setWindowTitle(title)
         dialog.setFileMode(qg.QFileDialog.AnyFile)
         filenames = qc.QStringList()
         if dialog.exec_():
