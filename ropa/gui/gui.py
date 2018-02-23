@@ -27,7 +27,7 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(UI_PATH + '/scene.ui')
 
 
 class App(qg.QMainWindow, Ui_MainWindow):
-    def __init__(self, app_name, args, new_project=None, open_project=None):
+    def __init__(self, app_name, args, filepath=None):
         self.app_name = app_name
 
         self.backend = Backend(self)
@@ -42,10 +42,10 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self._init_buttons()
         self._init_menu_buttons()
 
-        if new_project is not None:
-            self.menu_controller.start_new_project(new_project)
-        if open_project is not None:
-            self.menu_controller.open_project(open_project)
+        try:
+            self.menu_controller.open_project(filepath)
+        except ValueError:
+            self.menu_controller.start_new_project(filepath)
 
     def quit(self):
         sys.exit(self.app.exec_())
