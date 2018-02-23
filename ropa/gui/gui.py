@@ -45,7 +45,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
         try:
             self.menu_controller.open_project(filepath)
         except ValueError:
-            self.menu_controller.start_new_project(filepath
+            self.menu_controller.start_new_project(filepath)
 
     def quit(self):
         sys.exit(self.app.exec_())

@@ -13,4 +13,5 @@ class BadbytesInputController(InputController):
         self.filter_button.filter()
 
     def update(self):
-        self.backend.update_badbytes(self.get_text())
+        if len(self.get_text()) % 2 == 0:
+            self.backend.update_badbytes(self.get_text())
