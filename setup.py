@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 package_name = 'ropa'
-version = '1.1.2'
+version = '1.1.2b'
 
 packages = find_packages()
 
