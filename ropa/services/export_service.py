@@ -2,14 +2,14 @@ import struct
 import subprocess
 import sys
 
-from ropa.gui.controller import DialogController
+from ropa.services import DialogService
 
 
 class ExportService:
     def __init__(self, backend, lwc):
         self.backend = backend
         self.lwc = lwc
-        self.dialog_controller = DialogController()
+        self.dialog_service = DialogService()
 
     def num_bits(self, arch):
         if arch.endswith('64'):
@@ -30,7 +30,7 @@ class ExportService:
             subprocess.call(["open", filepath])
 
     def export_binary(self):
-        filepath = self.dialog_controller.file_dialog('Export')
+        filepath = self.dialog_service.file_dialog('Export')
         chain = []
         for index in range(self.lwc.count()):
             block = str(self.lwc.get_item(index).text())
@@ -57,7 +57,7 @@ class ExportService:
         self.open_exported(filepath)
 
     def export_python_struct(self):
-        filepath = self.dialog_controller.file_dialog('Export')
+        filepath = self.dialog_service.file_dialog('Export')
         chain = []
         for index in range(self.lwc.count()):
             block = str(self.lwc.get_item(index).text())
@@ -91,7 +91,7 @@ class ExportService:
         self.open_exported(filepath)
 
     def export_python_pwntools(self):
-        filepath = self.dialog_controller.file_dialog('Export')
+        filepath = self.dialog_service.file_dialog('Export')
         chain = []
         for index in range(self.lwc.count()):
             block = str(self.lwc.get_item(index).text())

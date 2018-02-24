@@ -1,18 +1,18 @@
 import json
 
-from ropa.gui.controller import DialogController
+from ropa.services import DialogService
 
 
 class ProjectService:
     def __init__(self, backend):
         self.backend = backend
-        self.dialog_controller = DialogController()
+        self.dialog_service = DialogService()
 
     def new_file(self, filepath=None):
         if filepath is None:
-            filepath = self.dialog_controller.file_dialog('New Project')
+            filepath = self.dialog_service.file_dialog('New Project')
 
-        arch = self.dialog_controller.arch_dialog()
+        arch = self.dialog_service.arch_dialog()
 
         self.backend.set_arch(arch)
         self.backend.set_filename(str(filepath))
@@ -23,7 +23,7 @@ class ProjectService:
 
     def open_file(self, filepath=None):
         if filepath is None:
-            filepath = self.dialog_controller.file_dialog('Open Project')
+            filepath = self.dialog_service.file_dialog('Open Project')
 
         save_data = None
         with open(filepath, 'r') as infile:
@@ -38,7 +38,7 @@ class ProjectService:
         # self.favorites = save_data['favorites']
 
     def save_file(self):
-        filepath = self.dialog_controller.file_dialog('Save Project')
+        filepath = self.dialog_service.file_dialog('Save Project')
         with open(filepath, 'w') as outfile:
             save_data = {
                 # doesn't work now, settle on refactoring first
