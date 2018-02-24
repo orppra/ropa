@@ -17,6 +17,8 @@ from controller import (
     MenuController
 )
 
+from ropa.services import ProjectService
+
 try:
     _fromUtf8 = qc.QString.fromUtf8
 except AttributeError:
@@ -42,10 +44,11 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self._init_buttons()
         self._init_menu_buttons()
 
+        project_service = ProjectService(self.backend)
         try:
-            self.menu_controller.open_project(filepath)
+            project_service.new_file(filepath)
         except ValueError:
-            self.menu_controller.start_new_project(filepath)
+            project_service.open_file(filepath)
 
     def quit(self):
         sys.exit(self.app.exec_())

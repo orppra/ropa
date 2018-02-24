@@ -37,7 +37,7 @@ class MenuController(object):
                               self.exporter.export_python_pwntools)
 
     def start_new_project(self, filepath=None):
-        filepath, arch = self.project_service.new_file(filepath)
+        filepath = self.project_service.new_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
                                 os.path.basename(str(filepath)))
         self._on_open_project()
