@@ -12,6 +12,7 @@ class ProjectService:
         if filepath is None:
             filepath = self.dialog_service.file_dialog('New Project')
 
+        self.backend.reset()
         self.backend.set_filename(str(filepath))
         self.backend.activate()
 
@@ -26,6 +27,7 @@ class ProjectService:
         with open(filepath, 'r') as infile:
             save_data = json.load(infile)
 
+        self.backend.reset()
         self.backend.set_filename(save_data['filename'])
         self.backend.activate()
 

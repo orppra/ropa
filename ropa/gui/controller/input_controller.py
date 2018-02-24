@@ -3,6 +3,9 @@ class InputController(object):
         self.widget = widget
         self.backend = backend
 
+    def clear(self):
+        self.widget.clear()
+
     def get_text(self):
         return str(self.widget.text())
 

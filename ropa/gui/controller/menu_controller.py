@@ -49,9 +49,8 @@ class MenuController(object):
         self._on_open_project()
 
     def _on_open_project(self):
-        filter_text = self.app.filter_input.get_text()
-        gadgets = self._get_backend().process_query('instruction',
-                                                    filter_text)
+        self.app.filter_input.clear()
+        gadgets = self._get_backend().process_query('instruction', '')
         self.app.search_list.set_gadgets(gadgets)
 
     def save_project(self):

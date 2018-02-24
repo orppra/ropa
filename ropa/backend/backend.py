@@ -5,9 +5,7 @@ class Backend:
 
     def __init__(self, app):
         self.app = app
-        self.service = self.make_service_instance()
-        self.chain = []
-        self.favorites = []
+        self.reset()
 
     def get_filename(self):
         return self.filename
@@ -22,6 +20,11 @@ class Backend:
 
     def activate(self):
         self.service.loadGadgetsFor()
+
+    def reset(self):
+        self.service = self.make_service_instance()
+        self.chain = []
+        self.favorites = []
 
     #######################################
     # ROPPER INIT FUNCTIONS
