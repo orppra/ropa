@@ -1,6 +1,18 @@
 import argparse
 import sys
-from . import start
+
+from ropa.gui import App
+
+
+def start(args, file=None, load=None):
+    app_name = 'ropa'
+
+    w = App(app_name, args, file)
+    w.resize(1200, 720)
+    w.move(300, 300)
+
+    w.show()
+    w.quit()
 
 
 def main():
