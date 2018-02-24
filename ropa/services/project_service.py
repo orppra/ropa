@@ -12,14 +12,11 @@ class ProjectService:
         if filepath is None:
             filepath = self.dialog_service.file_dialog('New Project')
 
-        arch = self.dialog_service.arch_dialog()
-
-        self.backend.set_arch(arch)
         self.backend.set_filename(str(filepath))
         self.backend.activate()
 
-        print(repr(filepath), arch)
-        return filepath, arch
+        print(repr(filepath))
+        return filepath
 
     def open_file(self, filepath=None):
         if filepath is None:
@@ -30,7 +27,6 @@ class ProjectService:
             save_data = json.load(infile)
 
         self.backend.set_filename(save_data['filename'])
-        self.backend.set_arch(save_data['arch'])
         self.backend.activate()
 
         # doesn't work for now, need to settle on refactoring other stuff first
@@ -44,8 +40,7 @@ class ProjectService:
                 # doesn't work now, settle on refactoring first
                 # 'chain': self.chain,
                 # 'favorites': self.favorites,
-                'filename': self.backend.get_filename(),
-                'arch': self.backend.get_arch()
+                'filename': self.backend.get_filename()
             }
             json.dump(save_data, outfile)
             outfile.close()

@@ -16,11 +16,9 @@ class Backend:
         self.filename = filename
         self.add_file()
 
-    def get_arch(self):
-        return self.arch
-
-    def set_arch(self, arch):
-        self.arch = arch
+    def get_addr_len(self):
+        f = self.service.getFileFor(self.filename)
+        return f.arch.addressLength
 
     def activate(self):
         self.service.loadGadgetsFor()

@@ -11,11 +11,6 @@ class ExportService:
         self.lwc = lwc
         self.dialog_service = DialogService()
 
-    def num_bits(self, arch):
-        if arch.endswith('64'):
-            return 64
-        return 32
-
     def open_exported(self, filepath):
         if sys.platform.startswith('linux'):
             subprocess.call(["xdg-open", filepath])
@@ -46,7 +41,7 @@ class ExportService:
         with open(filepath, 'w') as outfile:
             for block in chain:
                 for gadget in block:
-                    if self.num_bits(self.backend.get_arch()) == 32:
+                    if self.backend.get_arch_len() == 4:
                         outfile.write(struct.pack('<I',
                                       int(gadget['address'], 16)))
                     else:
@@ -74,7 +69,7 @@ class ExportService:
             outfile.write('p = ""\n')
             for block in chain:
                 for gadget in block:
-                    if self.num_bits(self.backend.get_arch()) == 32:
+                    if self.backend.get_arch_len() == 4:
                         outfile.write('p += struct.pack("<I", {})'
                                       .format(gadget['address']))
                     else:
@@ -109,7 +104,7 @@ class ExportService:
             outfile.write('p = ""\n')
             for block in chain:
                 for gadget in block:
-                    if self.num_bits(self.backend.get_arch()) == 32:
+                    if self.backend.get_arch_len() == 4:
                         outfile.write('p += p32({})'
                                       .format(gadget['address']))
                     else:
