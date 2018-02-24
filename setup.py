@@ -24,7 +24,6 @@ setup(
     description='ropa is a Ropper-based GUI that streamlines '
                 'crafting ROP chains.',
     license='GNU General Public License v3.0',
-    url='https://orppra.github.io/ropa/',
     classifiers=[
         'Topic :: Security',
         'Environment :: X11 Applications :: Qt',
