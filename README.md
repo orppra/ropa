@@ -3,15 +3,13 @@
 
 [![Build Status](https://travis-ci.org/orppra/ropa.svg?branch=master)](https://travis-ci.org/orppra/ropa)
 
-ropa is a [Ropper-based](https://github.com/sashs/Ropper) GUI that streamlines crafting [ROP](https://en.wikipedia.org/wiki/Return-oriented_programming) chains. It provides a cleaner interface when using Ropper as compared to the command line. 
-
-It can provide a smoother workflow for crafting the rop chain in the GUI, then exporting the final chain in the desired format. For those used to using CLI, this tool may serve as a cleaner interface to filter out the relevant gadgets.
+ropa is a GUI tool to create ROP chains using the ropper API (i.e. a drag and drop interface to create rop chains).
 
 Features include:
 - Gadget searching with ropper
-- Easy gadget selection
-- Group multiple gadgets
-- Export rop chain as binary file or python scripts (struct/pwntools/custom)
+- Drag and drop to craft ROP chain
+- "Bookmark" gadgets
+- Export rop chain as exploit scripts (struct/pwntools/custom)
 - Project saving
 
 ## Table of Contents
