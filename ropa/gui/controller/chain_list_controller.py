@@ -52,7 +52,7 @@ class ChainListController(ListWidgetController):
                 item = self.widget.takeItem(index)
                 self.widget.insertItem(index + 1, item)
             self.widget.setCurrentRow(index + 1)
-        if e.key() == qc.Qt.Key_Delete:
+        if e.key() == qc.Qt.Key_Delete or e.key() == qc.Qt.Key_Backspace:
             # delete
             self.widget.takeItem(self.widget.selectedIndexes()[0].row())
 
