@@ -26,18 +26,18 @@ class ProjectService:
 
     def new_file(self, filepath=None):
         if filepath is None:
-            filepath = self.dialog_service.file_dialog('New Project')
+            filepath = str(self.dialog_service.file_dialog('New Project'))
 
         self.backend.reset()
         self.backend.set_filename(str(filepath))
         self.backend.activate()
 
-        print(repr(filepath))
+        print(filepath)
         return filepath
 
     def open_file(self, filepath=None):
         if filepath is None:
-            filepath = self.dialog_service.file_dialog('Open Project')
+            filepath = str(self.dialog_service.file_dialog('Open Project'))
 
         save_data = None
         with open(filepath, 'r') as infile:
@@ -47,12 +47,15 @@ class ProjectService:
         self.backend.set_filename(save_data['filename'])
         self.backend.activate()
 
+        print(filepath)
+        return filepath
+
         # doesn't work for now, need to settle on refactoring other stuff first
         # self.chain = save_data['chain']
         # self.favorites = save_data['favorites']
 
     def save_file(self):
-        filepath = self.dialog_service.file_dialog('Save Project')
+        filepath = str(self.dialog_service.file_dialog('Save Project'))
         with open(filepath, 'w') as outfile:
             save_data = {
                 # doesn't work now, settle on refactoring first
@@ -62,3 +65,5 @@ class ProjectService:
             }
             json.dump(save_data, outfile)
             outfile.close()
+
+        return filepath

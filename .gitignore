@@ -3,3 +3,4 @@ z3
 build
 dist
 ropa.egg-info
+ropa/recent_files.json

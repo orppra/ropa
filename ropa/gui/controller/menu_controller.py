@@ -19,7 +19,11 @@ import sys
 
 from PyQt4 import QtGui as qg
 
-from ropa.services import ProjectService, ExportService
+from ropa.services import (
+    ProjectService,
+    ExportService,
+    RecentFilesService
+)
 
 
 class MenuController(object):
@@ -32,6 +36,9 @@ class MenuController(object):
 
         self.exporter = ExportService(app.backend, self.app.chain_list)
         self.init_export_buttons()
+
+        self.recent_files_service = RecentFilesService()
+        self.update_recent_files()
 
     def _get_backend(self):
         return self.app.backend
@@ -70,7 +77,9 @@ class MenuController(object):
         self.app.search_list.set_gadgets(gadgets)
 
     def save_project(self):
-        self.project_service.save_file()
+        filepath = self.project_service.save_file()
+        self.recent_files_service.add_file(filepath)
+        self.update_recent_files()
 
     def quit(self):
         sys.exit(self.app.app.exec_())
@@ -80,3 +89,30 @@ class MenuController(object):
         if shortcut_str:
             button.setShortcut(shortcut_str)
         button.triggered.connect(lambda: func())
+
+    def update_recent_files(self):
+        for i in range(5):
+            recent_file_action = self.app.findChild(qg.QAction,
+                                                    'itemRecent%d' % i)
+            recent_file_action.setVisible(False)
+
+        if len(self.recent_files_service.get_files()) > 0:
+            recent_empty_action = self.app.findChild(qg.QAction,
+                                                     'itemRecentEmpty')
+            recent_empty_action.setVisible(False)
+
+        for i, filepath in enumerate(self.recent_files_service.get_files()):
+            recent_file_action = self.app.findChild(qg.QAction,
+                                                    'itemRecent%d' % i)
+            recent_file_action.setVisible(True)
+            recent_file_action.setText(filepath)
+            recent_file_action.triggered.disconnect()
+            recent_file_action.triggered.connect(self.open_recent(filepath))
+
+    def open_recent(self, filepath):
+        def open():
+            self.open_project(filepath)
+            self.recent_files_service.add_file(filepath)
+            self.update_recent_files()
+
+        return open
