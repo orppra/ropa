@@ -54,4 +54,4 @@ $ python ropa.py
 ```
 
 ## Contribute
-This is still under development, so contributions are very much welcomed. Just fork this repo and pick one of the issues.
+This is still under development, PRs are welcomed.
