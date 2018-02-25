@@ -1,7 +1,18 @@
+import subprocess
+
 from setuptools import setup, find_packages
+from setuptools.command.install import install
+
+
+class PostInstallCommand(install):
+    """Post-installation for installation mode."""
+    def run(self):
+        subprocess.call('scripts/post_install.sh')
+        install.run(self)
+
 
 package_name = 'ropa'
-version = '1.1.2b'
+version = '1.1.3'
 
 packages = find_packages()
 
@@ -18,6 +29,9 @@ setup(
         'gui_scripts': [
             'ropa = ropa.__main__:main'
         ]
+    },
+    cmdclass={
+        'install': PostInstallCommand,
     },
 
     author="Daniel Lim, Jeff Sieu, Owen Leong",

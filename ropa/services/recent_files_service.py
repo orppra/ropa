@@ -21,12 +21,8 @@ from ropa import config
 
 class RecentFilesService:
     def __init__(self):
-        try:
-            with open(config.RECENT_FILES, 'r') as infile:
-                self.files = json.load(infile)
-        except IOError:
-            with open(config.RECENT_FILES, 'w') as outfile:
-                json.dump(self.files, outfile)
+        with open(config.RECENT_FILES, 'r') as infile:
+            self.files = json.load(infile)
 
     def add_file(self, filepath):
         if filepath in self.files:
