@@ -18,8 +18,8 @@ from input_controller import InputController
 
 
 class BadbytesInputController(InputController):
-    def __init__(self, widget, backend, lwc, filter_button):
-        super(BadbytesInputController, self).__init__(widget, backend)
+    def __init__(self, app, widget, lwc, filter_button):
+        super(BadbytesInputController, self).__init__(app, widget)
         self.lwc = lwc
         self.filter_button = filter_button
         self._bind_input_changed(self.update)
@@ -30,4 +30,4 @@ class BadbytesInputController(InputController):
 
     def update(self):
         if len(self.get_text()) % 2 == 0:
-            self.backend.update_badbytes(self.get_text())
+            self.search_service.update_badbytes(self.get_text())

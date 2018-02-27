@@ -22,8 +22,9 @@ from ropa.services import DialogService
 
 
 class ExportService:
-    def __init__(self, backend, lwc):
-        self.backend = backend
+    def __init__(self, app, lwc):
+        self.app = app
+        self.search_service = app.get_search_service()
         self.lwc = lwc
         self.dialog_service = DialogService()
 
@@ -57,7 +58,7 @@ class ExportService:
         with open(filepath, 'w') as outfile:
             for block in chain:
                 for gadget in block:
-                    if self.backend.get_arch_len() == 4:
+                    if self.search_service.get_arch_len() == 4:
                         outfile.write(struct.pack('<I',
                                       int(gadget['address'], 16)))
                     else:
@@ -85,7 +86,7 @@ class ExportService:
             outfile.write('p = ""\n')
             for block in chain:
                 for gadget in block:
-                    if self.backend.get_arch_len() == 4:
+                    if self.search_service.get_arch_len() == 4:
                         outfile.write('p += struct.pack("<I", {})'
                                       .format(gadget['address']))
                     else:
@@ -120,7 +121,7 @@ class ExportService:
             outfile.write('p = ""\n')
             for block in chain:
                 for gadget in block:
-                    if self.backend.get_arch_len() == 4:
+                    if self.search_service.get_arch_len() == 4:
                         outfile.write('p += p32({})'
                                       .format(gadget['address']))
                     else:

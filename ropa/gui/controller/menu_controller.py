@@ -29,19 +29,17 @@ from ropa.services import (
 class MenuController(object):
     def __init__(self, app):
         self.app = app
+        self.search_service = app.get_search_service()
         self.bind_menu_button(self.app, 'actionQuit', quit, 'Ctrl+Q')
 
-        self.project_service = ProjectService(app.backend)
+        self.project_service = ProjectService(app)
         self.init_project_buttons()
 
-        self.exporter = ExportService(app.backend, self.app.chain_list)
+        self.exporter = ExportService(app, self.app.chain_list)
         self.init_export_buttons()
 
         self.recent_files_service = RecentFilesService()
         self.update_recent_files()
-
-    def _get_backend(self):
-        return self.app.backend
 
     def init_project_buttons(self):
         self.bind_menu_button(self.app, 'actionNew',
@@ -68,12 +66,12 @@ class MenuController(object):
     def open_project(self, filepath=None):
         self.project_service.open_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
-                                self._get_backend().get_filename())
+                                self.search_service.get_filename())
         self._on_open_project()
 
     def _on_open_project(self):
         self.app.filter_input.clear()
-        gadgets = self._get_backend().process_query('instruction', '')
+        gadgets = self.search_service.process_query('instruction', '')
         self.app.search_list.set_gadgets(gadgets)
 
     def save_project(self):

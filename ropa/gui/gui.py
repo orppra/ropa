@@ -18,7 +18,6 @@ import sys
 
 from PyQt4 import QtGui as qg, QtCore as qc, uic
 
-from ropa.backend import Backend
 from ropa.gui import UI_PATH
 
 from controller import (
@@ -31,6 +30,10 @@ from controller import (
     FilterInputController,
     BadbytesInputController,
     MenuController
+)
+
+from ropa.services import (
+    SearchService
 )
 
 try:
@@ -46,7 +49,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
     def __init__(self, app_name, args, filepath=None):
         self.app_name = app_name
 
-        self.backend = Backend(self)
+        self.search_service = SearchService(self)
 
         self.app = qg.QApplication(args)
         qg.QMainWindow.__init__(self)
@@ -66,8 +69,8 @@ class App(qg.QMainWindow, Ui_MainWindow):
     def quit(self):
         sys.exit(self.app.exec_())
 
-    def get_backend(self):
-        return self.backend
+    def get_search_service(self):
+        return self.search_service
 
     def get_app_name(self):
         return self.app_name
@@ -87,19 +90,19 @@ class App(qg.QMainWindow, Ui_MainWindow):
     def _init_buttons(self):
         instructions_button_widget = self.findChild(qg.QPushButton,
                                                     'searchInstructions')
-        self.instructions_button = IBController(instructions_button_widget,
-                                                self.backend,
+        self.instructions_button = IBController(self,
+                                                instructions_button_widget,
                                                 self.filter_input,
                                                 self.search_list)
         poppopret_button_widget = self.findChild(qg.QPushButton,
                                                  'searchPopPopRet')
-        self.poppopret_button = PBController(poppopret_button_widget,
-                                             self.backend,
+        self.poppopret_button = PBController(self,
+                                             poppopret_button_widget,
                                              self.search_list)
         semantics_button_widget = self.findChild(qg.QPushButton,
                                                  'searchSemantics')
-        self.semantics_button = SBController(semantics_button_widget,
-                                             self.backend,
+        self.semantics_button = SBController(self,
+                                             semantics_button_widget,
                                              self.filter_input,
                                              self.search_list)
 
@@ -108,11 +111,11 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
         badbytes_input = self.findChild(qg.QLineEdit, 'badbytesInput')
 
-        self.filter_input = FilterInputController(filter_input,
-                                                  self.backend,
+        self.filter_input = FilterInputController(self,
+                                                  filter_input,
                                                   self.search_list)
-        self.badbytes_input = BadbytesInputController(badbytes_input,
-                                                      self.backend,
+        self.badbytes_input = BadbytesInputController(self,
+                                                      badbytes_input,
                                                       self.search_list,
                                                       self.filter_input)
 

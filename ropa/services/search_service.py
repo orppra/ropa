@@ -16,8 +16,13 @@
 
 from ropper import RopperService
 
+from ropa.gadget import (
+    Gadget,
+    Instruction
+)
 
-class Backend:
+
+class SearchService:
 
     def __init__(self, app):
         self.app = app
@@ -78,30 +83,15 @@ class Backend:
         self.service.analyseGadgets(self.service.getFileFor(self.filename))
         gadgets = self.service.semanticSearch(
             search=[filter])
-        print(gadgets)
-        ret = []
-        for gadget in gadgets:
-            block = {'address': hex(gadget[1].address)[:-1],
-                     'instructions': []}
-            for line in gadget[1].lines:
-                block['instructions'].append(line[1])
-        return ret
 
-    def search_instruction(self, filter):
+        return gadgets
+
+    def search_instruction(self, filter_text):
         gadgets = self.service.search(
-            search=filter,
+            search=filter_text,
             name=self.filename)
 
-        ret = []
-        for gadget in gadgets:
-            block = {'address': hex(gadget[1].address)[:-1],
-                     'instructions': []}
-            for line in gadget[1].lines:
-                block['instructions'].append(line[1])
-
-            ret.append(block)
-
-        return ret
+        return gadgets
 
     def search_jmpreg(self, location, offset):
         gadgets = self.service.searchJmpReg(
@@ -114,43 +104,41 @@ class Backend:
         gadgets = self.service.searchPopPopRet(
             name=self.filename)
 
-        ret = []
-        for gadget in gadgets[self.filename]:
-            block = {'address': hex(gadget.address)[:-1],
-                     'instructions': []}
-            for line in gadget.lines:
-                block['instructions'].append(line[1])
-
-            ret.append(block)
-
-        return ret
+        return gadgets
 
     def process_query(self, command, ipt):
         gadgets = None
+        query = ""
 
         if command == 'semantic':
             # semantic search
             gadgets = self.search_semantic(ipt)
-            for i in range(len(gadgets)):
-                gadgets[i]['info'] = ipt
+            query = ipt
 
         if command == 'instruction':
             gadgets = self.search_instruction(ipt)
-            for i in range(len(gadgets)):
-                gadgets[i]['info'] = ipt
+            query = ipt
 
         if command == 'jmp-reg':
             gadgets = self.search_jmpreg(
                 ipt.split(',')[0],
                 ipt.split(',')[1])
             # not supported right now
+            query = command
 
         if command == 'pop-pop-ret':
             gadgets = self.search_poppopret()
-            for i in range(len(gadgets)):
-                gadgets[i]['info'] = 'pop-pop-ret'
+            query = command
 
-        return gadgets
+        ret = []
+        for gadget in gadgets:
+            instructions = []
+            for line in gadget[1].lines:
+                instructions.append(Instruction(line[1]))
+
+            ret.append(Gadget(gadget[1].address, instructions, query))
+
+        return ret
 
 
 def test():

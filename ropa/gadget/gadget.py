@@ -14,18 +14,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from button_controller import ButtonController
 
+class Gadget:
 
-class PoppopretButtonController(ButtonController):
-    def __init__(self, app, widget, lwc):
-        super(PoppopretButtonController, self).__init__(app, widget)
-        self.lwc = lwc
+    def __init__(self, address, instructions, query):
+        self.addr = address
+        self.instructions = instructions
+        self.query = query
 
-        self._bind_clicked(self.filter)
-        self.widget.setToolTip(
-            "Search for gadgets containing <i>POP POP RET</i> sequences")
+    def get_addr(self):
+        return self.addr
 
-    def filter(self):
-        gadgets = self.search_service.process_query('pop-pop-ret', '')
-        self.lwc.set_gadgets(gadgets)
+    def get_instructions(self):
+        return self.instructions
+
+    def get_query(self):
+        return self.query
+
+    def __repr__(self):
+        cell = '<pre>'
+        cell += '<b>%s</b>\n' % hex(self.addr)[:-1]
+        for instruction in self.instructions:
+            cell += '%s\n' % instruction.get_text()
+        cell += '</pre>'
+
+        return cell

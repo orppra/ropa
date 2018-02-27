@@ -16,9 +16,10 @@
 
 
 class InputController(object):
-    def __init__(self, widget, backend):
+    def __init__(self, app, widget):
+        self.app = app
+        self.search_service = app.get_search_service()
         self.widget = widget
-        self.backend = backend
 
     def clear(self):
         self.widget.clear()

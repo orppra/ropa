@@ -18,8 +18,8 @@ from button_controller import ButtonController
 
 
 class InstructionsButtonController(ButtonController):
-    def __init__(self, widget, backend, input_box, lwc):
-        super(InstructionsButtonController, self).__init__(widget, backend)
+    def __init__(self, app, widget, input_box, lwc):
+        super(InstructionsButtonController, self).__init__(app, widget)
         self.input_box = input_box
         self.lwc = lwc
 
@@ -28,6 +28,6 @@ class InstructionsButtonController(ButtonController):
         self._bind_clicked(self.filter)
 
     def filter(self):
-        gadgets = self.backend.process_query('instruction',
-                                             self.input_box.get_text())
+        gadgets = self.search_service.process_query('instruction',
+                                                    self.input_box.get_text())
         self.lwc.set_gadgets(gadgets)

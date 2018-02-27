@@ -36,12 +36,8 @@ class ListWidgetController(object):
     def set_gadgets(self, gadgets):
         self.widget.clear()
         for gadget in gadgets:
-            cell = '<pre>'
-            cell += '<b>%s</b>\n' % gadget['address']
-            for instruction in gadget['instructions']:
-                cell += '%s\n' % instruction
-            cell += '</pre>'
-            cell = qc.QString(cell)
-
-            item = qg.QListWidgetItem(cell, self.widget)
+            item = qg.QListWidgetItem(self.widget)
+            item.setData(qc.Qt.UserRole, gadget)
+            item.setData(qc.Qt.DisplayRole, repr(gadget))
+            item.setData(qc.Qt.ToolTipRole, gadget.get_query())
             self.widget.insertItem(self.widget.count(), item)

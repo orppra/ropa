@@ -20,17 +20,18 @@ from ropa.services import DialogService
 
 
 class ProjectService:
-    def __init__(self, backend):
-        self.backend = backend
+    def __init__(self, app):
+        self.app = app
+        self.search_service = app.get_search_service()
         self.dialog_service = DialogService()
 
     def new_file(self, filepath=None):
         if filepath is None:
             filepath = str(self.dialog_service.file_dialog('New Project'))
 
-        self.backend.reset()
-        self.backend.set_filename(str(filepath))
-        self.backend.activate()
+        self.search_service.reset()
+        self.search_service.set_filename(str(filepath))
+        self.search_service.activate()
 
         print(filepath)
         return filepath
@@ -43,9 +44,9 @@ class ProjectService:
         with open(filepath, 'r') as infile:
             save_data = json.load(infile)
 
-        self.backend.reset()
-        self.backend.set_filename(save_data['filename'])
-        self.backend.activate()
+        self.search_service.reset()
+        self.search_service.set_filename(save_data['filename'])
+        self.search_service.activate()
 
         print(filepath)
         return filepath
@@ -61,7 +62,7 @@ class ProjectService:
                 # doesn't work now, settle on refactoring first
                 # 'chain': self.chain,
                 # 'favorites': self.favorites,
-                'filename': self.backend.get_filename()
+                'filename': self.search_service.get_filename()
             }
             json.dump(save_data, outfile)
             outfile.close()

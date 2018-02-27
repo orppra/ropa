@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from search_service import SearchService  # noqa
 from dialog_service import DialogService  # noqa
 from export_service import ExportService  # noqa
 from recent_files_service import RecentFilesService  # noqa
