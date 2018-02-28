@@ -84,14 +84,32 @@ class SearchService:
         gadgets = self.service.semanticSearch(
             search=[filter])
 
-        return gadgets
+        ret = []
+        for gadget in gadgets:
+            block = {'address': gadget[1].address,
+                     'lines': []}
+            for line in gadget[1].lines:
+                block['lines'].append(line[1])
+
+            ret.append(block)
+
+        return ret
 
     def search_instruction(self, filter_text):
         gadgets = self.service.search(
             search=filter_text,
             name=self.filename)
 
-        return gadgets
+        ret = []
+        for gadget in gadgets:
+            block = {'address': gadget[1].address,
+                     'lines': []}
+            for line in gadget[1].lines:
+                block['lines'].append(line[1])
+
+            ret.append(block)
+
+        return ret
 
     def search_jmpreg(self, location, offset):
         gadgets = self.service.searchJmpReg(
@@ -104,7 +122,16 @@ class SearchService:
         gadgets = self.service.searchPopPopRet(
             name=self.filename)
 
-        return gadgets
+        ret = []
+        for gadget in gadgets[self.filename]:
+            block = {'address': gadget.address,
+                     'lines': []}
+            for line in gadget.lines:
+                block['lines'].append(line[1])
+
+            ret.append(block)
+
+        return ret
 
     def process_query(self, command, ipt):
         gadgets = None
@@ -133,10 +160,10 @@ class SearchService:
         ret = []
         for gadget in gadgets:
             instructions = []
-            for line in gadget[1].lines:
-                instructions.append(Instruction(line[1]))
+            for line in gadget['lines']:
+                instructions.append(Instruction(line))
 
-            ret.append(Gadget(gadget[1].address, instructions, query))
+            ret.append(Gadget(gadget['address'], instructions, query))
 
         return ret
 
