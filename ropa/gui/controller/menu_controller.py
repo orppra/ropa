@@ -50,8 +50,6 @@ class MenuController(object):
                               self.save_project, 'Ctrl+S')
 
     def init_export_buttons(self):
-        self.bind_menu_button(self.app, 'actionBinary',
-                              self.exporter.export_binary)
         self.bind_menu_button(self.app, 'actionStruct',
                               self.exporter.export_python_struct)
         self.bind_menu_button(self.app, 'actionPwntools',

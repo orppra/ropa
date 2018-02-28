@@ -275,7 +275,6 @@
      <property name="title">
       <string>Export as</string>
      </property>
-     <addaction name="actionBinary"/>
      <addaction name="actionStruct"/>
      <addaction name="actionPwntools"/>
     </widget>
@@ -322,11 +321,6 @@
     <string>Save</string>
    </property>
   </action>
-  <action name="actionBinary">
-   <property name="text">
-    <string>Raw binary</string>
-   </property>
-  </action>
   <action name="actionStruct">
    <property name="text">
     <string>Python (struct)</string>
@@ -369,7 +363,7 @@
   </action>
   <action name="itemRecentEmpty">
    <property name="text">
-    <string>                          </string>
+    <string/>
    </property>
   </action>
  </widget>
