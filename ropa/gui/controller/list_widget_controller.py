@@ -38,6 +38,6 @@ class ListWidgetController(object):
         for gadget in gadgets:
             item = qg.QListWidgetItem(self.widget)
             item.setData(qc.Qt.UserRole, gadget)
-            item.setData(qc.Qt.DisplayRole, repr(gadget))
+            item.setData(qc.Qt.DisplayRole, gadget.rich_text())
             item.setData(qc.Qt.ToolTipRole, gadget.get_query())
             self.widget.insertItem(self.widget.count(), item)

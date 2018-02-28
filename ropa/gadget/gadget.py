@@ -31,7 +31,7 @@ class Gadget:
     def get_query(self):
         return self.query
 
-    def __repr__(self):
+    def rich_text(self):
         cell = '<pre>'
         cell += '<b>%s</b>\n' % hex(self.addr)[:-1]
         for instruction in self.instructions:
@@ -39,3 +39,11 @@ class Gadget:
         cell += '</pre>'
 
         return cell
+
+    def __repr__(self):
+        res = ''
+        res += hex(self.addr)[:-1]
+        for i in self.instructions:
+            res += i.get_text()
+        res += '(%s)' % self.query
+        return res
