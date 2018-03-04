@@ -59,18 +59,13 @@ class MenuController(object):
         filepath = self.project_service.new_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
                                 os.path.basename(str(filepath)))
-        self._on_open_project()
+        self.app.reset()
 
     def open_project(self, filepath=None):
         self.project_service.open_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
                                 self.search_service.get_filepath())
-        self._on_open_project()
-
-    def _on_open_project(self):
-        self.app.filter_input.clear()
-        gadgets = self.search_service.process_query('instruction', '')
-        self.app.search_list.set_gadgets(gadgets)
+        self.app.reset()
 
     def save_project(self):
         filepath = self.project_service.save_file()

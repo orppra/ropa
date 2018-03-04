@@ -46,6 +46,7 @@ class SearchService:
         self.service = self.make_service_instance()
         self.chain = []
         self.favorites = []
+        self.update_badbytes('0a0d')
 
     #######################################
     # ROPPER INIT FUNCTIONS

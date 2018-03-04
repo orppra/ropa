@@ -49,6 +49,8 @@ class ProjectService:
         self.search_service.set_filepath(str(filepath))
         self.search_service.activate()
 
+        self.app.reset()
+
         print(filepath)
         return filepath
 
@@ -60,9 +62,11 @@ class ProjectService:
 
         self.search_service.reset()
         self.search_service.set_filepath(save_data.get_filepath())
+        self.search_service.activate()
+
+        self.app.reset()
         self.app.chain_list.set_gadgets(save_data.get_chain())
         self.app.favorites_list.set_gadgets(save_data.get_favourites())
-        self.search_service.activate()
 
         print(filepath)
         return filepath

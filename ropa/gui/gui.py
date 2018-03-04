@@ -66,6 +66,15 @@ class App(qg.QMainWindow, Ui_MainWindow):
         except ValueError:
             self.menu_controller.open_project(filepath)
 
+    def reset(self):
+        self.filter_input.clear()
+        self.badbytes_input.set_text('0a0d')
+
+        gadgets = self.search_service.process_query('instruction', '')
+        self.search_list.set_gadgets(gadgets)
+        self.chain_list.set_gadgets([])
+        self.favorites_list.set_gadgets([])
+
     def quit(self):
         sys.exit(self.app.exec_())
 

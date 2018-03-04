@@ -24,6 +24,9 @@ class InputController(object):
     def clear(self):
         self.widget.clear()
 
+    def set_text(self, text):
+        self.widget.setText(text)
+
     def get_text(self):
         return str(self.widget.text())
 
