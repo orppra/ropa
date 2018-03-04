@@ -41,3 +41,10 @@ class ListWidgetController(object):
             item.setData(qc.Qt.DisplayRole, gadget.rich_text())
             item.setData(qc.Qt.ToolTipRole, gadget.get_query())
             self.widget.insertItem(self.widget.count(), item)
+
+    def get_gadgets(self):
+        items = []
+        for index in range(self.widget.count()):
+            item = self.widget.item(index).data(qc.Qt.UserRole).toPyObject()
+            items.append(item)
+        return items

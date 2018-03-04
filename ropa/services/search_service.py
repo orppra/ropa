@@ -28,15 +28,15 @@ class SearchService:
         self.app = app
         self.reset()
 
-    def get_filename(self):
-        return self.filename
+    def get_filepath(self):
+        return self.filepath
 
-    def set_filename(self, filename):
-        self.filename = filename
+    def set_filepath(self, filepath):
+        self.filepath = filepath
         self.add_file()
 
     def get_addr_len(self):
-        f = self.service.getFileFor(self.filename)
+        f = self.service.getFileFor(self.filepath)
         return f.arch.addressLength
 
     def activate(self):
@@ -65,14 +65,14 @@ class SearchService:
         return rs
 
     def add_file(self):
-        filename = self.filename
-        if filename is None:
+        filepath = self.filepath
+        if filepath is None:
             return 'Error: no file found'
-        self.service.addFile(filename)
+        self.service.addFile(filepath)
         return 'Success'
 
     def close_file(self):
-        self.service.removeFile(self.filename)
+        self.service.removeFile(self.filepath)
 
     #######################################
     # ROPPER SEARCH FUNCTIONS
@@ -80,7 +80,7 @@ class SearchService:
 
     def search_semantic(self, filter):
         # ropper2 --file <afile> --semantic "<any constraint>"
-        self.service.analyseGadgets(self.service.getFileFor(self.filename))
+        self.service.analyseGadgets(self.service.getFileFor(self.filepath))
         gadgets = self.service.semanticSearch(
             search=[filter])
 
@@ -89,20 +89,20 @@ class SearchService:
     def search_instruction(self, filter_text):
         gadgets = self.service.search(
             search=filter_text,
-            name=self.filename)
+            name=self.filepath)
 
         return gadgets
 
     def search_jmpreg(self, location, offset):
         gadgets = self.service.searchJmpReg(
-            name=self.filename,
+            name=self.filepath,
             regs=[location, offset])
 
         return gadgets
 
     def search_poppopret(self):
         gadgets = self.service.searchPopPopRet(
-            name=self.filename)
+            name=self.filepath)
 
         return gadgets
 

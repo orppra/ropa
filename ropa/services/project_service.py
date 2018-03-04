@@ -14,9 +14,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import json
+import pickle
 
 from ropa.services import DialogService
+
+
+class SaveData:
+    def __init__(self, filepath, chain, favourites):
+        self.filepath = filepath
+        self.chain = chain
+        self.favourites = favourites
+
+    def get_filepath(self):
+        return self.filepath
+
+    def get_chain(self):
+        return self.chain
+
+    def get_favourites(self):
+        return self.favourites
 
 
 class ProjectService:
@@ -30,7 +46,7 @@ class ProjectService:
             filepath = str(self.dialog_service.file_dialog('New Project'))
 
         self.search_service.reset()
-        self.search_service.set_filename(str(filepath))
+        self.search_service.set_filepath(str(filepath))
         self.search_service.activate()
 
         print(filepath)
@@ -40,31 +56,22 @@ class ProjectService:
         if filepath is None:
             filepath = str(self.dialog_service.file_dialog('Open Project'))
 
-        save_data = None
-        with open(filepath, 'r') as infile:
-            save_data = json.load(infile)
+        save_data = pickle.loads(open(filepath, 'r').read())
 
         self.search_service.reset()
-        self.search_service.set_filename(save_data['filename'])
+        self.search_service.set_filepath(save_data.get_filepath())
+        self.app.chain_list.set_gadgets(save_data.get_chain())
+        self.app.favorites_list.set_gadgets(save_data.get_favourites())
         self.search_service.activate()
 
         print(filepath)
         return filepath
 
-        # doesn't work for now, need to settle on refactoring other stuff first
-        # self.chain = save_data['chain']
-        # self.favorites = save_data['favorites']
-
     def save_file(self):
         filepath = str(self.dialog_service.file_dialog('Save Project'))
-        with open(filepath, 'w') as outfile:
-            save_data = {
-                # doesn't work now, settle on refactoring first
-                # 'chain': self.chain,
-                # 'favorites': self.favorites,
-                'filename': self.search_service.get_filename()
-            }
-            json.dump(save_data, outfile)
-            outfile.close()
+        save_data = SaveData(self.search_service.get_filepath(),
+                             self.app.chain_list.get_gadgets(),
+                             self.app.favorites_list.get_gadgets())
+        open(filepath, 'w').write(pickle.dumps(save_data))
 
         return filepath

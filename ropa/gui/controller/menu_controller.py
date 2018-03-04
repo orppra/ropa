@@ -64,7 +64,7 @@ class MenuController(object):
     def open_project(self, filepath=None):
         self.project_service.open_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
-                                self.search_service.get_filename())
+                                self.search_service.get_filepath())
         self._on_open_project()
 
     def _on_open_project(self):
