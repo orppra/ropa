@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+from ropper.common.error import NotSupportedError
 from ropper import RopperService
 
 from ropa.gadget import (
@@ -41,6 +42,13 @@ class SearchService:
 
     def activate(self):
         self.service.loadGadgetsFor()
+
+        try:
+            self.search_poppopret()
+        except NotSupportedError:
+            self.app.poppopret_button.set_disabled()
+            self.app.poppopret_button.set_tooltip("Only supported on "
+                                                  "x86 binaries")
 
     def reset(self):
         self.service = self.make_service_instance()

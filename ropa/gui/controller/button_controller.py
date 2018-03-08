@@ -23,3 +23,9 @@ class ButtonController(object):
 
     def _bind_clicked(self, func):
         self.widget.clicked.connect(lambda: func())
+
+    def set_disabled(self):
+        self.widget.setDisabled(True)
+
+    def set_tooltip(self, tooltip):
+        self.widget.setToolTip(tooltip)
