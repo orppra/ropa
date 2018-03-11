@@ -18,15 +18,14 @@ from input_controller import InputController
 
 
 class BadbytesInputController(InputController):
-    def __init__(self, app, widget, lwc, filter_button):
+    def __init__(self, app, widget):
         super(BadbytesInputController, self).__init__(app, widget)
-        self.lwc = lwc
-        self.filter_button = filter_button
         self._bind_input_changed(self.update)
         self._bind_input_return(self.filter)
 
     def filter(self):
-        self.filter_button.filter()
+        filter_button = self.app.instructions_button
+        filter_button.filter()
 
     def update(self):
         if len(self.get_text()) % 2 == 0:

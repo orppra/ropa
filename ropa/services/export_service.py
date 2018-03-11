@@ -44,19 +44,20 @@ class ExportService:
 
     def pre_export(self):
         filepath = self.dialog_service.file_dialog('Export')
-        chain = []
+        gadgets = []
         for index in range(self.lwc.count()):
-            gadget = self.lwc.get_item(index).data(qc.Qt.UserRole).toPyObject()
-            chain.append(gadget)
+            block = self.lwc.get_item(index).data(qc.Qt.UserRole).toPyObject()
+            for gadget in block.get_gadgets():
+                gadgets.append(gadget)
 
-        return filepath, chain
+        return filepath, gadgets
 
     def export_python_struct(self):
-        filepath, chain = self.pre_export()
+        filepath, gadgets = self.pre_export()
 
         with open(filepath, 'w') as outfile:
             outfile.write('p = ""\n')
-            for gadget in chain:
+            for gadget in gadgets:
                 if self.search_service.get_addr_len() == 4:
                     outfile.write('p += struct.pack("<I", {})'
                                   .format(hex(gadget.get_addr())[:-1]))
@@ -74,11 +75,11 @@ class ExportService:
         self.open_exported(filepath)
 
     def export_python_pwntools(self):
-        filepath, chain = self.pre_export()
+        filepath, gadgets = self.pre_export()
 
         with open(filepath, 'w') as outfile:
             outfile.write('p = ""\n')
-            for gadget in chain:
+            for gadget in gadgets:
                 if self.search_service.get_addr_len() == 4:
                     outfile.write('p += p32({})'
                                   .format(hex(gadget.get_addr())[:-1]))

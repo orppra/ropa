@@ -18,6 +18,7 @@ from ropper.common.error import NotSupportedError
 from ropper import RopperService
 
 from ropa.gadget import (
+    Block,
     Gadget,
     Instruction
 )
@@ -53,7 +54,7 @@ class SearchService:
     def reset(self):
         self.service = self.make_service_instance()
         self.chain = []
-        self.favorites = []
+        self.favourites = []
         self.update_badbytes('0a0d')
 
     #######################################
@@ -172,7 +173,8 @@ class SearchService:
             for line in gadget['lines']:
                 instructions.append(Instruction(line))
 
-            ret.append(Gadget(gadget['address'], instructions, query))
+            gadget = Gadget(gadget['address'], instructions, query)
+            ret.append(Block([gadget]))
 
         return ret
 

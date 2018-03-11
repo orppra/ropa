@@ -24,16 +24,16 @@
     <item>
      <layout class="QHBoxLayout" name="mainLayout" stretch="2,4,3">
       <item>
-       <layout class="QVBoxLayout" name="favoritesPane">
+       <layout class="QVBoxLayout" name="favouritesPane">
         <item>
-         <layout class="QHBoxLayout" name="favoritesPadding">
+         <layout class="QHBoxLayout" name="favouritesPadding">
           <property name="bottomMargin">
            <number>10</number>
           </property>
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="favoritesLabel">
+         <widget class="QLabel" name="favouritesLabel">
           <property name="text">
            <string>Favourites</string>
           </property>
@@ -43,7 +43,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="favoritesList"/>
+         <widget class="QListWidget" name="favouritesList"/>
         </item>
        </layout>
       </item>

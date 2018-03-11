@@ -59,13 +59,11 @@ class MenuController(object):
         filepath = self.project_service.new_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
                                 os.path.basename(str(filepath)))
-        self.app.reset()
 
     def open_project(self, filepath=None):
         self.project_service.open_file(filepath)
         self.app.setWindowTitle(self.app.app_name + ' - ' +
                                 self.search_service.get_filepath())
-        self.app.reset()
 
     def save_project(self):
         filepath = self.project_service.save_file()

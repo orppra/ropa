@@ -18,16 +18,16 @@ from button_controller import ButtonController
 
 
 class SemanticsButtonController(ButtonController):
-    def __init__(self, app, widget, input_box, lwc):
+    def __init__(self, app, widget):
         super(SemanticsButtonController, self).__init__(app, widget)
-        self.input_box = input_box
-        self.lwc = lwc
 
         self._bind_clicked(self.filter)
         self.widget.setToolTip(
             "Search for gadgets using Ropper's semantic searching function")
 
     def filter(self):
-        gadgets = self.search_service.process_query('semantic',
-                                                    self.input_box.get_text())
-        self.lwc.set_gadgets(gadgets)
+        input_box = self.app.filter_input
+        lwc = self.app.search_list
+        blocks = self.search_service.process_query('semantic',
+                                                   input_box.get_text())
+        lwc.set_blocks(blocks)
