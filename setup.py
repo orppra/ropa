@@ -35,8 +35,7 @@ setup(
     },
 
     author="Daniel Lim, Jeff Sieu, Owen Leong",
-    description='ropa is a Ropper-based GUI that streamlines '
-                'crafting ROP chains.',
+    description='GUI tool to create ROP chains using the ropper API',
     license='GNU General Public License v3.0',
     classifiers=[
         'Topic :: Security',
