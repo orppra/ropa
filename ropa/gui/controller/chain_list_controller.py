@@ -55,6 +55,21 @@ class ChainListController(ListWidgetController):
         if e.key() == qc.Qt.Key_Delete or e.key() == qc.Qt.Key_Backspace:
             # delete
             self.widget.takeItem(self.widget.selectedIndexes()[0].row())
+        if e.key() == qc.Qt.Key_C:
+            # delete
+            for i in self.widget.selectedIndexes():
+                item = self.get_item(i.row())
+                gadget = item.data(qc.Qt.UserRole).toPyObject()
+
+                # need to manually set the comments because it only changes on
+                # the surface
+                if gadget.is_showing_comments():
+                    comments = str(item.data(qc.Qt.DisplayRole).toPyObject())
+                    gadget.set_comments(comments)
+
+                item.setData(qc.Qt.UserRole, gadget)
+                item.setData(qc.Qt.DisplayRole, gadget.content())
+                item.setFlags(item.flags() ^ qc.Qt.ItemIsEditable)
 
     def key_release_event(self, e):
         if e.key() == qc.Qt.Key_Control:

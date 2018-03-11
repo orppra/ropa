@@ -21,6 +21,8 @@ class Gadget:
         self.addr = address
         self.instructions = instructions
         self.query = query
+        self.comments = "aaaaaa"
+        self.show_comments = False
 
     def get_addr(self):
         return self.addr
@@ -31,12 +33,26 @@ class Gadget:
     def get_query(self):
         return self.query
 
-    def rich_text(self):
-        cell = '<pre>'
-        cell += '<b>%s</b>\n' % hex(self.addr)[:-1]
-        for instruction in self.instructions:
-            cell += '%s\n' % instruction.get_text()
-        cell += '</pre>'
+    def get_comments(self):
+        return self.comments
+
+    def set_comments(self, comments):
+        self.comments = comments
+
+    def is_showing_comments(self):
+        return not self.show_comments
+
+    def content(self):
+        if not self.show_comments:
+            cell = '<pre>'
+            cell += '<b>%s</b>\n' % hex(self.addr)[:-1]
+            for instruction in self.instructions:
+                cell += '%s\n' % instruction.get_text()
+            cell += '</pre>'
+        else:
+            cell = self.comments
+
+        self.show_comments = not self.show_comments
 
         return cell
 
@@ -46,4 +62,5 @@ class Gadget:
         for i in self.instructions:
             res += i.get_text()
         res += '(%s)' % self.query
+
         return res
