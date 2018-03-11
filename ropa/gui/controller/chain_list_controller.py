@@ -53,24 +53,28 @@ class ChainListController(ListWidgetController):
                 self.widget.insertItem(index + 1, item)
             self.widget.setCurrentRow(index + 1)
         if e.key() == qc.Qt.Key_Delete or e.key() == qc.Qt.Key_Backspace:
-            # delete
-            self.widget.takeItem(self.widget.selectedIndexes()[0].row())
+            self.delete_item()
         if e.key() == qc.Qt.Key_C:
-            # delete
-            for i in self.widget.selectedIndexes():
-                item = self.get_item(i.row())
-                gadget = item.data(qc.Qt.UserRole).toPyObject()
-
-                # need to manually set the comments because it only changes on
-                # the surface
-                if gadget.is_showing_comments():
-                    comments = str(item.data(qc.Qt.DisplayRole).toPyObject())
-                    gadget.set_comments(comments)
-
-                item.setData(qc.Qt.UserRole, gadget)
-                item.setData(qc.Qt.DisplayRole, gadget.content())
-                item.setFlags(item.flags() ^ qc.Qt.ItemIsEditable)
+            self.toggle_comments()
 
     def key_release_event(self, e):
         if e.key() == qc.Qt.Key_Control:
             self.control = False
+
+    def delete_item(self):
+        self.widget.takeItem(self.widget.selectedIndexes()[0].row())
+
+    def toggle_comments(self):
+        for i in self.widget.selectedIndexes():
+            item = self.get_item(i.row())
+            gadget = item.data(qc.Qt.UserRole).toPyObject()
+
+            # need to manually set the comments because it only changes on
+            # the surface
+            if gadget.is_showing_comments():
+                comments = str(item.data(qc.Qt.DisplayRole).toPyObject())
+                gadget.set_comments(comments)
+
+            item.setData(qc.Qt.UserRole, gadget)
+            item.setData(qc.Qt.DisplayRole, gadget.content())
+            item.setFlags(item.flags() ^ qc.Qt.ItemIsEditable)
