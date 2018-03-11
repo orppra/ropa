@@ -23,7 +23,6 @@ from ropa.gui import UI_PATH
 from controller import (
     SearchListController,
     ChainListController,
-    FavoritesListController,
     InstructionsButtonController as IBController,
     SemanticsButtonController as SBController,
     PoppopretButtonController as PBController,
@@ -94,7 +93,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
         favorites_list_widget = self.findChild(qg.QListWidget,
                                                'favoritesList')
-        self.favorites_list = FavoritesListController(favorites_list_widget)
+        self.favorites_list = ChainListController(favorites_list_widget)
 
     def _init_buttons(self):
         instructions_button_widget = self.findChild(qg.QPushButton,

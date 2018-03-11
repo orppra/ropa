@@ -20,7 +20,6 @@ from list_widget_controller import ListWidgetController  # noqa
 from menu_controller import MenuController  # noqa
 from search_list_controller import SearchListController  # noqa
 from chain_list_controller import ChainListController  # noqa
-from favorites_list_controller import FavoritesListController  # noqa
 from instructions_button_controller import InstructionsButtonController  # noqa
 from semantics_button_controller import SemanticsButtonController  # noqa
 from poppopret_button_controller import PoppopretButtonController  # noqa
