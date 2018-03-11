@@ -18,16 +18,16 @@ from button_controller import ButtonController
 
 
 class InstructionsButtonController(ButtonController):
-    def __init__(self, app, widget, input_box, lwc):
+    def __init__(self, app, widget):
         super(InstructionsButtonController, self).__init__(app, widget)
-        self.input_box = input_box
-        self.lwc = lwc
 
         self.widget.setToolTip(
             "Search for instruction gadgets")
         self._bind_clicked(self.filter)
 
     def filter(self):
-        gadgets = self.search_service.process_query('instruction',
-                                                    self.input_box.get_text())
-        self.lwc.set_gadgets(gadgets)
+        input_box = self.app.filter_input
+        lwc = self.app.search_list
+        blocks = self.search_service.process_query('instruction',
+                                                   input_box.get_text())
+        lwc.set_blocks(blocks)

@@ -65,8 +65,14 @@ class ProjectService:
         self.search_service.activate()
 
         self.app.reset()
-        self.app.chain_list.set_gadgets(save_data.get_chain())
-        self.app.favorites_list.set_gadgets(save_data.get_favourites())
+
+        for block in save_data.get_chain():
+            block.toggle_show_comments()
+        for block in save_data.get_favourites():
+            block.toggle_show_comments()
+
+        self.app.chain_list.set_blocks(save_data.get_chain())
+        self.app.favourites_list.set_blocks(save_data.get_favourites())
 
         print(filepath)
         return filepath
@@ -74,8 +80,8 @@ class ProjectService:
     def save_file(self):
         filepath = str(self.dialog_service.file_dialog('Save Project'))
         save_data = SaveData(self.search_service.get_filepath(),
-                             self.app.chain_list.get_gadgets(),
-                             self.app.favorites_list.get_gadgets())
+                             self.app.chain_list.get_blocks(),
+                             self.app.favourites_list.get_blocks())
         open(filepath, 'w').write(pickle.dumps(save_data))
 
         return filepath

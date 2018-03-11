@@ -18,12 +18,12 @@ from input_controller import InputController
 
 
 class FilterInputController(InputController):
-    def __init__(self, app, widget, lwc):
+    def __init__(self, app, widget):
         super(FilterInputController, self).__init__(app, widget)
-        self.lwc = lwc
         self._bind_input_return(self.filter)
 
     def filter(self):
-        gadgets = self.search_service.process_query('instruction',
-                                                    self.get_text())
-        self.lwc.set_gadgets(gadgets)
+        lwc = self.app.search_list
+        blocks = self.search_service.process_query('instruction',
+                                                   self.get_text())
+        lwc.set_blocks(blocks)

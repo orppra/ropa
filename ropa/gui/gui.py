@@ -56,8 +56,8 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self._init_list_widgets()
-        self._init_text_inputs()
         self._init_buttons()
+        self._init_text_inputs()
         self._init_menu_buttons()
 
         try:
@@ -69,10 +69,10 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.filter_input.clear()
         self.badbytes_input.set_text('0a0d')
 
-        gadgets = self.search_service.process_query('instruction', '')
-        self.search_list.set_gadgets(gadgets)
-        self.chain_list.set_gadgets([])
-        self.favorites_list.set_gadgets([])
+        blocks = self.search_service.process_query('instruction', '')
+        self.search_list.set_blocks(blocks)
+        self.chain_list.set_blocks([])
+        self.favourites_list.set_blocks([])
 
     def quit(self):
         sys.exit(self.app.exec_())
@@ -91,28 +91,23 @@ class App(qg.QMainWindow, Ui_MainWindow):
         chain_list_widget = self.findChild(qg.QListWidget, 'chainList')
         self.chain_list = ChainListController(chain_list_widget)
 
-        favorites_list_widget = self.findChild(qg.QListWidget,
-                                               'favoritesList')
-        self.favorites_list = ChainListController(favorites_list_widget)
+        favourites_list_widget = self.findChild(qg.QListWidget,
+                                                'favouritesList')
+        self.favourites_list = ChainListController(favourites_list_widget)
 
     def _init_buttons(self):
         instructions_button_widget = self.findChild(qg.QPushButton,
                                                     'searchInstructions')
         self.instructions_button = IBController(self,
-                                                instructions_button_widget,
-                                                self.filter_input,
-                                                self.search_list)
+                                                instructions_button_widget)
         poppopret_button_widget = self.findChild(qg.QPushButton,
                                                  'searchPopPopRet')
         self.poppopret_button = PBController(self,
-                                             poppopret_button_widget,
-                                             self.search_list)
+                                             poppopret_button_widget)
         semantics_button_widget = self.findChild(qg.QPushButton,
                                                  'searchSemantics')
         self.semantics_button = SBController(self,
-                                             semantics_button_widget,
-                                             self.filter_input,
-                                             self.search_list)
+                                             semantics_button_widget)
 
     def _init_text_inputs(self):
         filter_input = self.findChild(qg.QLineEdit, 'searchBar')
@@ -120,12 +115,9 @@ class App(qg.QMainWindow, Ui_MainWindow):
         badbytes_input = self.findChild(qg.QLineEdit, 'badbytesInput')
 
         self.filter_input = FilterInputController(self,
-                                                  filter_input,
-                                                  self.search_list)
+                                                  filter_input)
         self.badbytes_input = BadbytesInputController(self,
-                                                      badbytes_input,
-                                                      self.search_list,
-                                                      self.filter_input)
+                                                      badbytes_input)
 
     def _init_menu_buttons(self):
         self.menu_controller = MenuController(self)

@@ -18,14 +18,14 @@ from button_controller import ButtonController
 
 
 class PoppopretButtonController(ButtonController):
-    def __init__(self, app, widget, lwc):
+    def __init__(self, app, widget):
         super(PoppopretButtonController, self).__init__(app, widget)
-        self.lwc = lwc
 
         self._bind_clicked(self.filter)
         self.widget.setToolTip(
             "Search for gadgets containing <i>POP POP RET</i> sequences")
 
     def filter(self):
-        gadgets = self.search_service.process_query('pop-pop-ret', '')
-        self.lwc.set_gadgets(gadgets)
+        lwc = self.app.search_list
+        blocks = self.search_service.process_query('pop-pop-ret', '')
+        lwc.set_blocks(blocks)
