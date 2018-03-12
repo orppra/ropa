@@ -51,7 +51,7 @@ class MenuController(object):
 
     def init_export_buttons(self):
         self.bind_menu_button(self.app, 'actionExport',
-                              self.exporter.export)
+                              self.exporter.export, 'Ctrl+K')
 
     def start_new_project(self, filepath=None):
         filepath = self.project_service.new_file(filepath)
