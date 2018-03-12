@@ -43,7 +43,7 @@ class Block:
         self.show_comments = not self.show_comments
 
     def is_showing_comments(self):
-        return not self.show_comments
+        return self.show_comments
 
     def content(self):
         cell = ''
@@ -58,9 +58,7 @@ class Block:
 
             cell += '</pre>'
         else:
-            cell = self.comments
-
-        self.toggle_show_comments()
+            cell += self.comments
 
         return cell
 

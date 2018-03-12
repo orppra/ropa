@@ -66,11 +66,6 @@ class ProjectService:
 
         self.app.reset()
 
-        for block in save_data.get_chain():
-            block.toggle_show_comments()
-        for block in save_data.get_favourites():
-            block.toggle_show_comments()
-
         self.app.chain_list.set_blocks(save_data.get_chain())
         self.app.favourites_list.set_blocks(save_data.get_favourites())
 

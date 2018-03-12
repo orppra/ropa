@@ -147,7 +147,10 @@ class ChainListController(ListWidgetController):
         item = self.get_item(index)
         block = self.retrieve_block(item)
 
-        self.save_comments(index)
+        if block.is_showing_comments():
+            self.save_comments(index)
+
+        block.toggle_show_comments()
 
         item.setData(qc.Qt.UserRole, block)
         item.setData(qc.Qt.DisplayRole, block.content())
