@@ -14,16 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import pyperclip
+
 from PyQt4 import QtCore as qc
 
 from list_widget_controller import ListWidgetController
 from ropa.gadget import Block
+from ropa.services import ExportService
 from ropa.ui import HTMLDelegate
 
 
 class ChainListController(ListWidgetController):
-    def __init__(self, widget):
-        super(ChainListController, self).__init__(widget)
+    def __init__(self, app, widget):
+        super(ChainListController, self).__init__(app, widget)
         self.widget.setDragEnabled(True)
         self.widget.setAcceptDrops(True)
         self.widget.setDropIndicatorShown(True)
@@ -35,16 +38,33 @@ class ChainListController(ListWidgetController):
         self.widget.keyReleaseEvent = self.key_release_event
 
     def key_press_event(self, e):
+        if e.key() == qc.Qt.Key_Control:
+            self.control = True
+
+        index = self.widget.selectedIndexes()[0].row()
+
         self.navigation_key_events(e)
+
         if e.key() == qc.Qt.Key_Delete or e.key() == qc.Qt.Key_Backspace:
-            self.delete_item(self.widget.selectedIndexes()[0].row())
+            self.delete_item(index)
+
         if e.key() == qc.Qt.Key_C:
-            self.toggle_comments(self.widget.selectedIndexes()[0].row())
+            if not self.control:
+                self.toggle_comments(index)
+            else:
+                self.copy_item(index)
+
         self.merge_key_events(e)
 
     def key_release_event(self, e):
         if e.key() == qc.Qt.Key_Control:
             self.control = False
+
+    def copy_item(self, index):
+        exporter = ExportService(self.app)
+        item = self.get_item(index)
+        block = self.retrieve_block(item)
+        pyperclip.copy(exporter.export_block(block))
 
     def delete_item(self, index):
         self.widget.takeItem(index)
@@ -100,8 +120,6 @@ class ChainListController(ListWidgetController):
         self.merge(index - 1, block_above, block)
 
     def navigation_key_events(self, e):
-        if e.key() == qc.Qt.Key_Control:
-            self.control = True
         if e.key() == qc.Qt.Key_Up or e.key() == qc.Qt.Key_K:
             index = self.widget.currentRow()
             if index == 0:

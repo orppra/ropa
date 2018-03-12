@@ -86,14 +86,15 @@ class App(qg.QMainWindow, Ui_MainWindow):
     def _init_list_widgets(self):
         search_list_widget = self.findChild(qg.QListWidget,
                                             'searchList')
-        self.search_list = SearchListController(search_list_widget)
+        self.search_list = SearchListController(self, search_list_widget)
 
         chain_list_widget = self.findChild(qg.QListWidget, 'chainList')
-        self.chain_list = ChainListController(chain_list_widget)
+        self.chain_list = ChainListController(self, chain_list_widget)
 
         favourites_list_widget = self.findChild(qg.QListWidget,
                                                 'favouritesList')
-        self.favourites_list = ChainListController(favourites_list_widget)
+        self.favourites_list = ChainListController(self,
+                                                   favourites_list_widget)
 
     def _init_buttons(self):
         instructions_button_widget = self.findChild(qg.QPushButton,

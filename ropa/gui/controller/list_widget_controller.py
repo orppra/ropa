@@ -24,7 +24,8 @@ except AttributeError:
 
 
 class ListWidgetController(object):
-    def __init__(self, widget):
+    def __init__(self, app, widget):
+        self.app = app
         self.widget = widget
 
     def count(self):

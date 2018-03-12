@@ -39,6 +39,31 @@ class ExportService:
         elif sys.platform.startswith('darwin'):  # mac
             subprocess.call(["open", filepath])
 
+    def export_block(self, block):
+        res = ''
+        if len(block.get_comments()) > 0:
+            res += '\n'
+            for line in block.get_comments().split('\n'):
+                res += '# {}\n'.format(line)
+
+        for gadget in block.get_gadgets():
+            addr = hex(gadget.get_addr())[:-1]
+            if self.search_service.get_addr_len() == 4:
+                res += 'p += p32({})'.format(addr)
+            else:
+                res += 'p += p64({})'.format(addr)
+
+            res += '  # '
+            for instruction in gadget.get_instructions():
+                res += '{}; '.format(instruction.get_text())
+
+            res += '\n'
+
+        if len(block.get_comments()) > 0:
+            res += '\n'
+
+        return res
+
     def export(self):
         filepath = self.dialog_service.file_dialog('Export')
         lwc = self.app.chain_list
@@ -47,24 +72,7 @@ class ExportService:
             outfile.write('p = ""\n')
 
             for block in lwc.get_blocks():
-                if len(block.get_comments()) > 0:
-                    outfile.write('\n')
-                    for line in block.get_comments().split('\n'):
-                        outfile.write('# {}\n'.format(line))
-
-                for gadget in block.get_gadgets():
-                    if self.search_service.get_addr_len() == 4:
-                        outfile.write('p += p32({})'
-                                      .format(hex(gadget.get_addr())[:-1]))
-                    else:
-                        outfile.write('p += p64({})'
-                                      .format(hex(gadget.get_addr())[:-1]))
-
-                    outfile.write('  # ')
-                    for instruction in gadget.get_instructions():
-                        outfile.write('{}; '.format(instruction.get_text()))
-
-                    outfile.write('\n')
+                outfile.write(self.export_block(block))
 
             outfile.close()
 

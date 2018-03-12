@@ -20,8 +20,8 @@ from PyQt4 import QtGui as qg
 
 
 class SearchListController(ListWidgetController):
-    def __init__(self, widget):
-        super(SearchListController, self).__init__(widget)
+    def __init__(self, app, widget):
+        super(SearchListController, self).__init__(app, widget)
         self.widget.setDragEnabled(True)
         self.widget.setAcceptDrops(False)
         self.widget.setDropIndicatorShown(False)
