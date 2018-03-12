@@ -271,13 +271,6 @@
     <property name="title">
      <string>File</string>
     </property>
-    <widget class="QMenu" name="menuExport_as">
-     <property name="title">
-      <string>Export as</string>
-     </property>
-     <addaction name="actionStruct"/>
-     <addaction name="actionPwntools"/>
-    </widget>
     <widget class="QMenu" name="menuRecent">
      <property name="title">
       <string>Open Recent</string>
@@ -294,7 +287,7 @@
     <addaction name="menuRecent"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
-    <addaction name="menuExport_as"/>
+    <addaction name="actionExport"/>
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -364,6 +357,11 @@
   <action name="itemRecentEmpty">
    <property name="text">
     <string/>
+   </property>
+  </action>
+  <action name="actionExport">
+   <property name="text">
+    <string>Export</string>
    </property>
   </action>
  </widget>

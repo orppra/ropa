@@ -35,7 +35,7 @@ class MenuController(object):
         self.project_service = ProjectService(app)
         self.init_project_buttons()
 
-        self.exporter = ExportService(app, self.app.chain_list)
+        self.exporter = ExportService(app)
         self.init_export_buttons()
 
         self.recent_files_service = RecentFilesService()
@@ -50,10 +50,8 @@ class MenuController(object):
                               self.save_project, 'Ctrl+S')
 
     def init_export_buttons(self):
-        self.bind_menu_button(self.app, 'actionStruct',
-                              self.exporter.export_python_struct)
-        self.bind_menu_button(self.app, 'actionPwntools',
-                              self.exporter.export_python_pwntools)
+        self.bind_menu_button(self.app, 'actionExport',
+                              self.exporter.export)
 
     def start_new_project(self, filepath=None):
         filepath = self.project_service.new_file(filepath)

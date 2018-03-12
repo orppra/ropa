@@ -32,7 +32,7 @@ class Block:
         return self.comments
 
     def merge(self, rhs):
-        block = Block(self.gadgets, self.comments + " " + rhs.comments)
+        block = Block(self.gadgets, self.comments + "\n" + rhs.comments)
         block.add_gadgets(rhs.get_gadgets())
         return block
 

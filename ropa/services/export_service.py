@@ -17,16 +17,13 @@
 import subprocess
 import sys
 
-from PyQt4 import QtCore as qc
-
 from ropa.services import DialogService
 
 
 class ExportService:
-    def __init__(self, app, lwc):
+    def __init__(self, app):
         self.app = app
         self.search_service = app.get_search_service()
-        self.lwc = lwc
         self.dialog_service = DialogService()
 
     def open_exported(self, filepath):
@@ -42,56 +39,33 @@ class ExportService:
         elif sys.platform.startswith('darwin'):  # mac
             subprocess.call(["open", filepath])
 
-    def pre_export(self):
+    def export(self):
         filepath = self.dialog_service.file_dialog('Export')
-        gadgets = []
-        for index in range(self.lwc.count()):
-            block = self.lwc.get_item(index).data(qc.Qt.UserRole).toPyObject()
-            for gadget in block.get_gadgets():
-                gadgets.append(gadget)
-
-        return filepath, gadgets
-
-    def export_python_struct(self):
-        filepath, gadgets = self.pre_export()
+        lwc = self.app.chain_list
 
         with open(filepath, 'w') as outfile:
             outfile.write('p = ""\n')
-            for gadget in gadgets:
-                if self.search_service.get_addr_len() == 4:
-                    outfile.write('p += struct.pack("<I", {})'
-                                  .format(hex(gadget.get_addr())[:-1]))
-                else:
-                    outfile.write('p += struct.pack("<Q", {})'
-                                  .format(hex(gadget.get_addr())[:-1]))
 
-                outfile.write('  # ')
-                for instruction in gadget.get_instructions():
-                    outfile.write('{}; '.format(instruction.get_text()))
+            for block in lwc.get_blocks():
+                if len(block.get_comments()) > 0:
+                    outfile.write('\n')
+                    for line in block.get_comments().split('\n'):
+                        outfile.write('# {}\n'.format(line))
 
-                outfile.write('\n')
-            outfile.close()
+                for gadget in block.get_gadgets():
+                    if self.search_service.get_addr_len() == 4:
+                        outfile.write('p += p32({})'
+                                      .format(hex(gadget.get_addr())[:-1]))
+                    else:
+                        outfile.write('p += p64({})'
+                                      .format(hex(gadget.get_addr())[:-1]))
 
-        self.open_exported(filepath)
+                    outfile.write('  # ')
+                    for instruction in gadget.get_instructions():
+                        outfile.write('{}; '.format(instruction.get_text()))
 
-    def export_python_pwntools(self):
-        filepath, gadgets = self.pre_export()
+                    outfile.write('\n')
 
-        with open(filepath, 'w') as outfile:
-            outfile.write('p = ""\n')
-            for gadget in gadgets:
-                if self.search_service.get_addr_len() == 4:
-                    outfile.write('p += p32({})'
-                                  .format(hex(gadget.get_addr())[:-1]))
-                else:
-                    outfile.write('p += p64({})'
-                                  .format(hex(gadget.get_addr())[:-1]))
-
-                outfile.write('  # ')
-                for instruction in gadget.get_instructions():
-                    outfile.write('{}; '.format(instruction.get_text()))
-
-                outfile.write('\n')
             outfile.close()
 
         self.open_exported(filepath)
