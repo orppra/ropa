@@ -18,7 +18,7 @@ packages = find_packages()
 
 install_requires = ['filebytes>=0.9.12', 'capstone==3.0.5rc2',
                     'keystone-engine', 'ropper==1.11.2', 'pyvex',
-                    'pyperclip>=1.6.0']
+                    'pyperclip>=1.6.0', 'pwntools>=3.0.1']
 
 setup(
     name=package_name,
