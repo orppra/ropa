@@ -18,7 +18,7 @@ from ropper.common.error import NotSupportedError
 from ropper import RopperService
 
 from ropa.gadget import (
-    Block,
+    GadgetBlock,
     Gadget,
     Instruction
 )
@@ -174,7 +174,7 @@ class SearchService:
                 instructions.append(Instruction(line))
 
             gadget = Gadget(gadget['address'], instructions, query)
-            ret.append(Block([gadget]))
+            ret.append(GadgetBlock([gadget]))
 
         return ret
 

@@ -19,7 +19,10 @@ import pyperclip
 from PyQt4 import QtCore as qc
 
 from list_widget_controller import ListWidgetController
-from ropa.gadget import Block
+from ropa.gadget import (
+    GadgetBlock,
+    ScriptBlock
+)
 from ropa.services import ExportService
 from ropa.ui import HTMLDelegate
 
@@ -34,12 +37,16 @@ class ChainListController(ListWidgetController):
             HTMLDelegate(self.widget))
 
         self.control = False
+        self.shift = False
         self.widget.keyPressEvent = self.key_press_event
         self.widget.keyReleaseEvent = self.key_release_event
 
     def key_press_event(self, e):
         if e.key() == qc.Qt.Key_Control:
             self.control = True
+
+        if e.key() == qc.Qt.Key_Shift:
+            self.shift = True
 
         index = self.widget.selectedIndexes()[0].row()
 
@@ -54,13 +61,20 @@ class ChainListController(ListWidgetController):
             else:
                 self.copy_item(index)
 
+        if e.key() == qc.Qt.Key_O:
+            self.insert_script_block(index)
+
         self.merge_key_events(e)
 
     def key_release_event(self, e):
         if e.key() == qc.Qt.Key_Control:
             self.control = False
 
+        if e.key() == qc.Qt.Key_Shift:
+            self.shift = False
+
     def copy_item(self, index):
+        self.save_block(index)
         exporter = ExportService(self.app)
         item = self.get_item(index)
         block = self.retrieve_block(item)
@@ -69,10 +83,33 @@ class ChainListController(ListWidgetController):
     def delete_item(self, index):
         self.widget.takeItem(index)
 
+    def get_blocks(self):
+        blocks = []
+        for index in range(self.widget.count()):
+            self.save_block(index)
+            item = self.widget.item(index)
+            block = self.retrieve_block(item)
+            blocks.append(block)
+        return blocks
+
     def insert_item(self, index, item):
         self.widget.insertItem(index, item)
 
+    def insert_script_block(self, index):
+        block = ScriptBlock('# TODO: INSERT CODE')
+        item = self.create_script_item(block)
+        if self.shift:
+            self.insert_item(index, item)
+        else:
+            self.insert_item(index + 1, item)
+
     def merge(self, index, b1, b2):
+        if b1.get_name() != 'GadgetBlock':
+            return
+
+        if b2.get_name() != 'GadgetBlock':
+            return
+
         block = b1.merge(b2)
         item_merged = self.create_item(block)
 
@@ -85,8 +122,8 @@ class ChainListController(ListWidgetController):
         if index == self.widget.count() - 1:
             return
 
-        self.save_comments(index)
-        self.save_comments(index + 1)
+        self.save_block(index)
+        self.save_block(index + 1)
 
         item = self.get_item(index)
         item_below = self.get_item(index + 1)
@@ -108,8 +145,8 @@ class ChainListController(ListWidgetController):
         if index == 0:
             return
 
-        self.save_comments(index)
-        self.save_comments(index - 1)
+        self.save_block(index)
+        self.save_block(index - 1)
 
         item = self.get_item(index)
         item_above = self.get_item(index - 1)
@@ -137,26 +174,34 @@ class ChainListController(ListWidgetController):
                 self.widget.insertItem(index + 1, item)
             self.widget.setCurrentRow(index + 1)
 
-    def save_comments(self, index):
+    def save_block(self, index):
         item = self.get_item(index)
         block = self.retrieve_block(item)
 
-        # need to manually set the comments because it only changes on
+        # need to manually set because it only changes on
         # the surface
-        if block.is_showing_comments():
-            comments = str(item.data(qc.Qt.DisplayRole).toPyObject())
-            block.set_comments(comments)
+        text = str(item.data(qc.Qt.DisplayRole).toPyObject())
+        if block.get_name() == 'GadgetBlock':
+            if block.is_showing_comments():
+                block.set_comments(text)
+        else:
+            block.set_text(text)
 
     def split(self, index):
         item = self.get_item(index)
         block = item.data(qc.Qt.UserRole).toPyObject()
+
+        if block.get_name() != 'GadgetBlock':
+            return
+
         gadgets = block.get_gadgets()
 
         self.delete_item(index)
 
         for i in range(len(gadgets) - 1, -1, -1):
             gadget = gadgets[i]
-            item = self.create_item(Block([gadget], block.get_comments()))
+            item = self.create_item(GadgetBlock([gadget],
+                                                block.get_comments()))
             self.insert_item(index, item)
 
         self.widget.setCurrentRow(index)
@@ -165,8 +210,11 @@ class ChainListController(ListWidgetController):
         item = self.get_item(index)
         block = self.retrieve_block(item)
 
+        if block.get_name() != 'GadgetBlock':
+            return
+
         if block.is_showing_comments():
-            self.save_comments(index)
+            self.save_block(index)
 
         block.toggle_show_comments()
 

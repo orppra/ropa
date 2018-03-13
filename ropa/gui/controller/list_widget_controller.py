@@ -35,6 +35,12 @@ class ListWidgetController(object):
         return self.widget.item(index)
 
     def create_item(self, block):
+        if block.get_name() == 'GadgetBlock':
+            return self.create_gadget_item(block)
+        else:
+            return self.create_script_item(block)
+
+    def create_gadget_item(self, block):
         item = qg.QListWidgetItem()
         item.setData(qc.Qt.UserRole, block)
         item.setData(qc.Qt.DisplayRole, block.content())
@@ -46,6 +52,13 @@ class ListWidgetController(object):
 
         return item
 
+    def create_script_item(self, block):
+        item = qg.QListWidgetItem()
+        item.setData(qc.Qt.UserRole, block)
+        item.setData(qc.Qt.DisplayRole, block.content())
+        item.setFlags(item.flags() | qc.Qt.ItemIsEditable)
+        return item
+
     def retrieve_block(self, item):
         return item.data(qc.Qt.UserRole).toPyObject()
 
@@ -53,19 +66,4 @@ class ListWidgetController(object):
         self.widget.clear()
         for block in blocks:
             item = self.create_item(block)
-
-            if block.is_showing_comments():
-                item.setFlags(item.flags() | qc.Qt.ItemIsEditable)
-
             self.widget.insertItem(self.widget.count(), item)
-
-    def get_blocks(self):
-        blocks = []
-        for index in range(self.widget.count()):
-            item = self.widget.item(index)
-            block = self.retrieve_block(item)
-            if block.is_showing_comments():
-                comments = str(item.data(qc.Qt.DisplayRole).toPyObject())
-                block.set_comments(comments)
-            blocks.append(block)
-        return blocks

@@ -40,6 +40,9 @@ class ExportService:
             subprocess.call(["open", filepath])
 
     def export_block(self, block):
+        if block.get_name() == 'ScriptBlock':
+            return '\n{}\n\n'.format(block.content())
+
         res = ''
         if len(block.get_comments()) > 0:
             res += '\n'

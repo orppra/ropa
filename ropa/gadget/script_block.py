@@ -14,8 +14,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-from block import Block  # noqa
-from gadget import Gadget  # noqa
-from gadget_block import GadgetBlock  # noqa
-from instruction import Instruction  # noqa
-from script_block import ScriptBlock  # noqa
+from block import Block
+
+
+class ScriptBlock(Block):
+
+    def __init__(self, text):
+        super(ScriptBlock, self).__init__('ScriptBlock')
+        self.text = text
+
+    def content(self):
+        return self.text
+
+    def is_editable(self):
+        return False
+
+    def set_text(self, text):
+        self.text = text
+
+    def get_text(self, text):
+        return self.text
+
+    def __repr__(self):
+        res = ""
+
+        for gadget in self.gadgets:
+            res += repr(gadget)
+            res += "\n"
+
+        return res
