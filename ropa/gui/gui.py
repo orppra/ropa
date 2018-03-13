@@ -24,7 +24,6 @@ from controller import (
     SearchListController,
     ChainListController,
     InstructionsButtonController as IBController,
-    SemanticsButtonController as SBController,
     PoppopretButtonController as PBController,
     FilterInputController,
     BadbytesInputController,
