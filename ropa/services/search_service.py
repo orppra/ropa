@@ -133,7 +133,7 @@ class SearchService:
             name=self.filepath)
 
         ret = []
-        for gadget in gadgets[self.filename]:
+        for gadget in gadgets[self.filepath]:
             block = {'address': gadget.address,
                      'lines': []}
             for line in gadget.lines:
