@@ -171,14 +171,14 @@
         <item>
          <layout class="QHBoxLayout" name="searchButtons">
           <item>
-           <widget class="QPushButton" name="searchInstructions">
+           <widget class="QPushButton" name="search">
             <property name="font">
              <font>
               <pointsize>9</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>Instructions</string>
+             <string>Search</string>
             </property>
             <property name="checked">
              <bool>false</bool>
@@ -197,21 +197,6 @@
             </property>
             <property name="text">
              <string>PopPopRet</string>
-            </property>
-            <property name="autoRepeat">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="searchSemantics">
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Semantics</string>
             </property>
             <property name="autoRepeat">
              <bool>false</bool>

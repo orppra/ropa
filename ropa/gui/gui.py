@@ -98,17 +98,13 @@ class App(qg.QMainWindow, Ui_MainWindow):
 
     def _init_buttons(self):
         instructions_button_widget = self.findChild(qg.QPushButton,
-                                                    'searchInstructions')
+                                                    'search')
         self.instructions_button = IBController(self,
                                                 instructions_button_widget)
         poppopret_button_widget = self.findChild(qg.QPushButton,
                                                  'searchPopPopRet')
         self.poppopret_button = PBController(self,
                                              poppopret_button_widget)
-        semantics_button_widget = self.findChild(qg.QPushButton,
-                                                 'searchSemantics')
-        self.semantics_button = SBController(self,
-                                             semantics_button_widget)
 
     def _init_text_inputs(self):
         filter_input = self.findChild(qg.QLineEdit, 'searchBar')
