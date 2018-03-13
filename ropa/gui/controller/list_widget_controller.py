@@ -39,6 +39,11 @@ class ListWidgetController(object):
         item.setData(qc.Qt.UserRole, block)
         item.setData(qc.Qt.DisplayRole, block.content())
         item.setData(qc.Qt.ToolTipRole, block.get_query())
+        if block.is_editable():
+            item.setFlags(item.flags() | qc.Qt.ItemIsEditable)
+        else:
+            item.setFlags(item.flags() | ~qc.Qt.ItemIsEditable)
+
         return item
 
     def retrieve_block(self, item):

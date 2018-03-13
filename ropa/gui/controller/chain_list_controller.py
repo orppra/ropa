@@ -170,6 +170,6 @@ class ChainListController(ListWidgetController):
 
         block.toggle_show_comments()
 
-        item.setData(qc.Qt.UserRole, block)
-        item.setData(qc.Qt.DisplayRole, block.content())
-        item.setFlags(item.flags() ^ qc.Qt.ItemIsEditable)
+        self.delete_item(index)
+        self.insert_item(index, self.create_item(block))
+        self.widget.setCurrentRow(index)

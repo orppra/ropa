@@ -42,6 +42,9 @@ class Block:
     def toggle_show_comments(self):
         self.show_comments = not self.show_comments
 
+    def is_editable(self):
+        return self.is_showing_comments()
+
     def is_showing_comments(self):
         return self.show_comments
 
