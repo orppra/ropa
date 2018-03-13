@@ -40,30 +40,39 @@ class ExportService:
             subprocess.call(["open", filepath])
 
     def export_block(self, block):
-        if block.get_name() == 'ScriptBlock':
-            return '\n{}\n\n'.format(block.content())
-
         res = ''
-        if len(block.get_comments()) > 0:
-            res += '\n'
-            for line in block.get_comments().split('\n'):
-                res += '# {}\n'.format(line)
 
-        for gadget in block.get_gadgets():
-            addr = hex(gadget.get_addr())[:-1]
-            if self.search_service.get_addr_len() == 4:
-                res += 'p += p32({})'.format(addr)
-            else:
-                res += 'p += p64({})'.format(addr)
+        if block.get_name() == 'ScriptBlock':
+            if not self.alreadynewline:
+                res += '\n'
+            res += '{}\n\n'.format(block.content())
+            self.alreadynewline = True
 
-            res += '  # '
-            for instruction in gadget.get_instructions():
-                res += '{}; '.format(instruction.get_text())
+        else:
+            if len(block.get_comments()) > 0:
+                if not self.alreadynewline:
+                    res += '\n'
 
-            res += '\n'
+                for line in block.get_comments().split('\n'):
+                    res += '# {}\n'.format(line)
 
-        if len(block.get_comments()) > 0:
-            res += '\n'
+            for gadget in block.get_gadgets():
+                addr = hex(gadget.get_addr())[:-1]
+                if self.search_service.get_addr_len() == 4:
+                    res += 'p += p32({})'.format(addr)
+                else:
+                    res += 'p += p64({})'.format(addr)
+
+                res += '  # '
+                for instruction in gadget.get_instructions():
+                    res += '{}; '.format(instruction.get_text())
+
+                res += '\n'
+
+            self.alreadynewline = False
+            if len(block.get_comments()) > 0:
+                res += '\n'
+                self.alreadynewline = True
 
         return res
 
