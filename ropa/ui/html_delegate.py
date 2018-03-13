@@ -29,7 +29,10 @@ class HTMLDelegate(qg.QStyledItemDelegate):
         options = qg.QStyleOptionViewItemV4(option)
         self.initStyleOption(options, index)
 
-        self.doc.setHtml(options.text)
+        text = str(options.text.toUtf8())
+        text = text.replace('\xe2\x80\xa8', '<br/>')
+
+        self.doc.setHtml(text)
         options.text = ""
 
         style = qg.QApplication.style() if options.widget is None \
@@ -49,3 +52,24 @@ class HTMLDelegate(qg.QStyledItemDelegate):
         self.doc.documentLayout().draw(painter, ctx)
 
         painter.restore()
+
+    def createEditor(self, parent, option, index):
+        editor = GrowingTextEdit(parent)
+        return editor
+
+    def setModelData(self, editor, model, index):
+        model.setData(index, editor.toPlainText())
+
+
+class GrowingTextEdit(qg.QTextEdit):
+    def __init__(self, *args, **kwargs):
+        super(GrowingTextEdit, self).__init__(*args, **kwargs)
+        self.document().contentsChanged.connect(self.sizeChange)
+
+        self.heightMin = 0
+        self.heightMax = 65000
+
+    def sizeChange(self):
+        docHeight = self.document().size().height()
+        if self.heightMin <= docHeight <= self.heightMax:
+            self.setMinimumHeight(docHeight)
