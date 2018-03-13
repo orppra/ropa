@@ -68,7 +68,7 @@ class App(qg.QMainWindow, Ui_MainWindow):
         self.filter_input.clear()
         self.badbytes_input.set_text('0a0d')
 
-        blocks = self.search_service.process_query('instruction', '')
+        blocks = self.search_service.process_query('search', '')
         self.search_list.set_blocks(blocks)
         self.chain_list.set_blocks([])
         self.favourites_list.set_blocks([])

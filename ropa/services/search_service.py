@@ -147,13 +147,12 @@ class SearchService:
         gadgets = None
         query = ""
 
-        if command == 'semantic':
-            # semantic search
-            gadgets = self.search_semantic(ipt)
-            query = ipt
-
-        if command == 'instruction':
+        if command == 'search':
             gadgets = self.search_instruction(ipt)
+            try:
+                gadgets.append(self.search_semantic(ipt))
+            except Exception:
+                pass
             query = ipt
 
         if command == 'jmp-reg':

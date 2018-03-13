@@ -28,6 +28,6 @@ class InstructionsButtonController(ButtonController):
     def filter(self):
         input_box = self.app.filter_input
         lwc = self.app.search_list
-        blocks = self.search_service.process_query('instruction',
+        blocks = self.search_service.process_query('search',
                                                    input_box.get_text())
         lwc.set_blocks(blocks)

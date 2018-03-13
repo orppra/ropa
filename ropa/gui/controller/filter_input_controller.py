@@ -24,6 +24,6 @@ class FilterInputController(InputController):
 
     def filter(self):
         lwc = self.app.search_list
-        blocks = self.search_service.process_query('instruction',
+        blocks = self.search_service.process_query('search',
                                                    self.get_text())
         lwc.set_blocks(blocks)
