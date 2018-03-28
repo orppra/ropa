@@ -26,6 +26,8 @@ class ExportService:
         self.search_service = app.get_search_service()
         self.dialog_service = DialogService()
 
+        self.alreadynewline = False
+
     def open_exported(self, filepath):
         if sys.platform.startswith('linux'):
             subprocess.call(["xdg-open", filepath])

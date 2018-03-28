@@ -47,7 +47,6 @@ class ProjectService:
 
         self.search_service.reset()
         self.search_service.set_filepath(str(filepath))
-        self.search_service.activate()
 
         self.app.reset()
 
@@ -62,7 +61,6 @@ class ProjectService:
 
         self.search_service.reset()
         self.search_service.set_filepath(save_data.get_filepath())
-        self.search_service.activate()
 
         self.app.reset()
 
