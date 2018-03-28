@@ -5,6 +5,9 @@ services: [docker]
 
 language: bash
 
+install:
+    - pip install --user codecov
+
 cache:
   directories:
     - $TRAVIS_BUILD_DIR/cache
@@ -13,3 +16,6 @@ jobs:
   include:
     - stage: static
       script: travis/prep_tests.sh static
+
+after_sucess:
+    - codecov
