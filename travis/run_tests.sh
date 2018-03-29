@@ -14,7 +14,7 @@ if [ "$test" = "static" ]; then
     sudo python3 -m pip install -r requirements-devel.txt
 elif [ "$test" = "unit" ]; then
     travis/build_dependencies.sh
-    sudo apt install -y python3-pip
+    sudo apt install -y python-pip
     sudo python3 -m pip install -r requirements-devel.txt -r requirements.txt
 else
     echo "Unknown test suite: $test"
