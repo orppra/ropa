@@ -36,7 +36,7 @@ run_unit_tests(){
         python3 -m coverage erase
         python3 -m coverage run --branch --source ropa -m pytest "tests"
     else
-        python -m pytest "$1"
+        python3 -m pytest "$1"
     fi
     python3 -m codecov 1>/dev/null 2>&1
 }
