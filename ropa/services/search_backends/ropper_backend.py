@@ -26,8 +26,8 @@ from ropa.gadget import (
 
 
 class RopperBackend(Backend):
-    def __init__(self):
-        super(RopperBackend, self).__init__('RopperBackend')
+    def __init__(self, app):
+        super(RopperBackend, self).__init__(app, 'RopperBackend')
 
     def reset(self):
         self.service = self.make_service_instance()

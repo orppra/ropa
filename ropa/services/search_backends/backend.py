@@ -18,7 +18,8 @@ from abc import abstractmethod
 
 
 class Backend(object):
-    def __init__(self, name):
+    def __init__(self, app, name):
+        self.app = app
         self.name = name
 
     @abstractmethod

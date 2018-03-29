@@ -24,7 +24,7 @@ class SearchService:
         self.app = app
 
         self.backends = [
-            RopperBackend()
+            RopperBackend(app)
         ]
 
         self.reset()
