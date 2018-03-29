@@ -55,9 +55,8 @@ class ExportService:
                 if not self.alreadynewline:
                     res += '\n'
 
-                for line in block.get_comments().split('\n'):
-                    if line.strip() != '':
-                        res += '# {}\n'.format(line)
+                for line in block.get_comments().strip().split('\n'):
+                    res += '# {}\n'.format(line) if line.strip() != '' else ''
 
             for gadget in block.get_gadgets():
                 addr = hex(gadget.get_addr())[:-1]

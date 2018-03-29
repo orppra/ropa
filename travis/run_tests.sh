@@ -14,7 +14,8 @@ if [ "$test" = "static" ]; then
     sudo python -m pip install -r requirements-devel.txt
 elif [ "$test" = "unit" ]; then
     travis/build_dependencies.sh
-    sudo apt install -y python-pip cmake
+    sudo apt install -y python-pip cmake python-qt4
+    sudo python -m pip install -U setuptools
     sudo python -m pip install -r requirements-devel.txt -r requirements.txt
 else
     echo "Unknown test suite: $test"
