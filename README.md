@@ -2,6 +2,7 @@
 ![screenshot](https://github.com/orppra/ropa/raw/master/screenshots/ropa_screenshot.png)
 
 [![Build Status](https://travis-ci.org/orppra/ropa.svg?branch=master)](https://travis-ci.org/orppra/ropa)
+[![codecov.io](https://codecov.io/github/orppra/ropa/coverage.svg?branch=master)](https://codecov.io/github/orppra/ropa?branch=master)
 
 ropa is a GUI tool to create ROP chains using the ropper API (i.e. a drag and drop interface to create rop chains).
 
