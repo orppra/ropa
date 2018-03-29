@@ -6,3 +6,4 @@ ropa.egg-info
 ropa/recent_files.json
 .coverage
 coverage.xml
+.pytest_cache/

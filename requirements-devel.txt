@@ -3,3 +3,4 @@ pyflakes>=1.6.0
 coverage>=4.1
 radon>=2.1.1
 codecov>=2.0.15
+pytest-qt>=2.7.0
