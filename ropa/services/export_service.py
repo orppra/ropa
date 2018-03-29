@@ -56,7 +56,8 @@ class ExportService:
                     res += '\n'
 
                 for line in block.get_comments().split('\n'):
-                    res += '# {}\n'.format(line)
+                    if line.strip() != '':
+                        res += '# {}\n'.format(line)
 
             for gadget in block.get_gadgets():
                 addr = hex(gadget.get_addr())[:-1]
