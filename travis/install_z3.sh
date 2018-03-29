@@ -3,6 +3,6 @@ cd z3
 python scripts/mk_make.py --python
 cd build
 make
-make install
+sudo make install
 cd ../..
 
