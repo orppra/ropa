@@ -24,21 +24,21 @@ parseargs(){
     fi
 }
 
-python3 -m coverage 1>/dev/null 2>&1 && coverage="true"
+python -m coverage 1>/dev/null 2>&1 && coverage="true"
 
 run_static_tests(){
     SRC_PATHS="ropa"
-    python3 -m flake8 --max-complexity=10 $SRC_PATHS
+    python -m flake8 --max-complexity=10 $SRC_PATHS
 }
 
 run_unit_tests(){
     if [[ ! -z "$coverage" ]] && [[ "$1" == "unit" ]]; then
-        python3 -m coverage erase
+        python -m coverage erase
         python -m coverage run --branch --source ropa -m pytest "tests"
     else
         python -m pytest "$1"
     fi
-    python3 -m codecov 1>/dev/null 2>&1
+    python -m codecov 1>/dev/null 2>&1
 }
 
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
