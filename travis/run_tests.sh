@@ -14,7 +14,7 @@ if [ "$test" = "static" ]; then
     sudo python3 -m pip install -r requirements-devel.txt
 elif [ "$test" = "unit" ]; then
     travis/build_dependencies.sh
-    sudo apt install -y python3-pip cmake
+    sudo apt install -y python3-pip cmake python-qt4
     sudo python3 -m pip install -U setuptools
     sudo python3 -m pip install -r requirements-devel.txt -r requirements.txt
 else
